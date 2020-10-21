@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
 </head>
 <!-- body start -->
 
@@ -47,21 +46,15 @@
 </body>
 <!-- body end -->
 
-<!-- import jquery JavaScript -->
-<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
-<!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
-<!-- import amazon_scripts_page JavaScript -->
-<script src="../scripts/amazon_scripts_page.js"></script>
+<script src="../scripts/amazon_navigation.js"></script>
 
 <script id="initialize">
     var vue_debug = true;
     if (vue_debug) {
         response = {};
     } else {
-        response = {};
+        response = `${response}`;
     }
     var vue = new Vue({
         el: '#vue',

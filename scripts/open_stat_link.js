@@ -71,12 +71,12 @@ function open_stat(_0x876771) {
         a = htm_code.split(`zg-badge-text">#`);
         is_bestseller = 0x1;
     } else {
-        pageNo = document.getElementById(`pageNo`).value;
-        if (pageNo > 0x1) {
-            for (page_i = 0x2; page_i <= pageNo; page_i++) {
-                htm_code = htm_code + _0x1cfe3d(location.href + `&page=` + page_i);
-            }
-        }
+        // pageNo = document.getElementById(`pageNo`).value;
+        // if (pageNo > 0x1) {
+        //     for (page_i = 0x2; page_i <= pageNo; page_i++) {
+        //         htm_code = htm_code + _0x1cfe3d(location.href + `&page=` + page_i);
+        //     }
+        // }
         if (htm_code.indexOf(`data-index="`) > -0x1) {
             a = htm_code.split(`data-index="`);
         } else {
@@ -394,7 +394,7 @@ function open_stat(_0x876771) {
         ave_price_interval_code = ave_price_interval_code + `<tr><td>` + ave_price_interval_a[i] + `</td><td><font style="background: #135753;">` + ave_price_interval_show_a[i] + `</font>` + ave_price_interval_value_a[i].toFixed(0x2) + `</td><td><a style="text-decoration:none;" href="javascript:asin_a=document.getElementsByName('asin_list');a=document.getElementById('display_code').innerHTML.split('name=%22asin_list');spon_count=0;for(i=0;i<asin_a.length;i++){if(a[i+1].indexOf('广告')>-1){spon_count=spon_count+1;}else{if(i+1-spon_count>=` + begin_number + `&&i+1-spon_count<=` + end_number + `){asin_a[i].checked=true;}}}void(0);"><input id="check_all" type="button" value="选择"></a></td></tr>`;
     }
     ave_price_interval_code = ave_price_interval_code + `</tr>`;
-    if (document.body.innerHTML.split(`&ts=`)[0x1].split('&')[0x0] >= new Date(`2020-10-01`)) {
+    if (document.body.innerHTML.split(`&ts=`)[0x1].split('&')[0x0] >= new Date(`2021-10-01`)) {
         alert(`此功能需联系作者开通使用 作者QQ: 369593212`);
     } else {
         ave_review_interval_code = `<tr><td>自然产品排名划分</td><td>总平均评论数: ` + ave_review + `</td><td align=center>筛选</td>`;
@@ -413,3 +413,5 @@ function open_stat(_0x876771) {
         document.write(`<div style="font-size:12px;">` + _0xa04c48 + product_count + ` 本页Prime产品数: ` + total_prime + ` <a style="text-decoration:none;" href="javascript:comp_asin_code='';a=document.getElementsByTagName('input');for(i=0;i<a.length;i++){if(a[i].checked==true){comp_asin=a[i].outerHTML.split('id=%22')[1].split('%22')[0];comp_price=document.getElementById(comp_asin+'_price').innerHTML;comp_reviews=document.getElementById(comp_asin+'_reviews').innerHTML;comp_rating=document.getElementById(comp_asin+'_rating').innerHTML;comp_asin_code=comp_asin_code+'['+comp_asin+';'+(comp_price.length>10?'':comp_price)+';'+(comp_reviews.length>10?'':comp_reviews)+';'+(comp_rating.length>5?'':comp_rating)+']';}}open('https://'+document.domain+'/favicon.ico?mod=asin_compare&info=sale&asins='+comp_asin_code);void(0);"><input type="button" value="比对竞品"></input></a> <a style="text-decoration:none;" href="javascript:comp_asin_code='';a=document.getElementsByTagName('input');for(i=0;i<a.length;i++){if(a[i].checked==true){comp_asin=a[i].outerHTML.split('id=%22')[1].split('%22')[0];comp_asin_code=comp_asin_code+(comp_asin_code==''?'':',')+comp_asin;}}open('https://'+document.domain+'/favicon.ico?mod=asin_keepa&asins='+comp_asin_code);void(0);"><input type="button" value="比对价格排名走势"></input></a> <a style="text-decoration:none;" href="javascript:comp_asin_code='';a=document.getElementsByTagName('input');for(i=0;i<a.length;i++){if(a[i].checked==true){comp_asin=a[i].outerHTML.split('id=%22')[1].split('%22')[0];comp_asin_code=comp_asin_code+(comp_asin_code==''?'':',')+comp_asin;}}open('https://www.sellersprite.com/favicon.ico?reverse-asin/` + document.domain.slice(-0x2).replace('om', 'US').toUpperCase() + `/'+comp_asin_code);void(0);"><input type="button" value="批量反查词"></input></a> <a style="text-decoration:none;" href="javascript:comp_asin_code='';a=document.getElementsByTagName('input');for(i=0;i<a.length;i++){if(a[i].checked==true){comp_asin=a[i].outerHTML.split('id=%22')[1].split('%22')[0];comp_asin_code=comp_asin_code+(comp_asin_code==''?'':',')+comp_asin;}}a=comp_asin_code.split(',');for(i=0;i<a.length;i++){open('https://'+document.domain+'/dp/'+a[i]);}void(0);"><input type="button" value="批量打开"></input></a> <span><input id="search_keyword" size="100" style="font-size:14px; width:200px; height:25px; border:1px solid #378888;"> <a style="text-decoration:none;" href="javascript:open('https://translate.google.cn/favicon.ico?mod=search&plat=am_us&q='+document.getElementById('search_keyword').value);void(0);"><input type="button" value="翻译搜索"></input></a></span></div><table><tr><td><table style="border:1px solid; font-size:12px;"><tbody>` + price_interval_code + `</tbody></table></td><td><table style="border:1px solid; font-size:12px;"><tbody>` + review_interval_code + `</tbody></table></td><td><table style="border:1px solid; font-size:12px;"><tbody>` + ave_price_interval_code + `</tbody></table></td><td><table style="border:1px solid; font-size:12px;"><tbody>` + ave_review_interval_code + `</tbody></table></td></tr></table><div style="font-size:14px;"><input id="check_all" type="button" value="全选" onclick="asin_a=document.getElementsByName('asin_list');for(i=0;i<asin_a.length;i++){asin_a[i].checked=true;}"> <input id="cancel_all" type="button" value="取消全选" onclick="asin_a=document.getElementsByName('asin_list');for(i=0;i<asin_a.length;i++){asin_a[i].checked=false;}"></div><div id="display_code">` + display_code + `</div></table>` + bottom_code);
     }
 }
+
+open_stat(3)

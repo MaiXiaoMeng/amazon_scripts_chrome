@@ -1,75 +1,101 @@
-﻿// 获取亚马逊站点的配置信息 
+﻿/* jshint esversion: 6 */
+
+// 获取亚马逊站点的配置信息 
 function get_amazon_conifg(url) {
-    json_data = {}
     switch (true) {
         case url.indexOf('amazon.com/') > 0:
-            json_data['marketplaceID'] = 'ATVPDKIKX0DER'
-            json_data['keepa_market_id'] = '1'
-            json_data['post_code'] = '10002'
-            json_data['site_code'] = 'US'
-            break
+            json_data = {
+                'marketplaceID': 'ATVPDKIKX0DER',
+                'keepa_market_id': '1',
+                'post_code': '10002',
+                'site_code': 'US',
+            };
+            break;
         case url.indexOf('amazon.ca') > 0:
-            json_data['marketplaceID'] = 'A2EUQ1WTGCTBG2'
-            json_data['keepa_market_id'] = '6'
-            json_data['post_code'] = 'A1B 2C3'
-            json_data['site_code'] = 'CA'
-            break
+            json_data = {
+                'marketplaceID': 'A2EUQ1WTGCTBG2',
+                'keepa_market_id': '6',
+                'post_code': 'A1B 2C3',
+                'site_code': 'CA',
+            };
+            break;
         case url.indexOf('amazon.com.mx') > 0:
-            json_data['marketplaceID'] = 'A1AM78C64UM0Y8'
-            json_data['keepa_market_id'] = '11'
-            json_data['post_code'] = '77580'
-            json_data['site_code'] = 'MX'
-            break
+            json_data = {
+                'marketplaceID': 'A1AM78C64UM0Y8',
+                'keepa_market_id': '11',
+                'post_code': '77580',
+                'site_code': 'MX',
+            };
+            break;
         case url.indexOf('amazon.co.uk') > 0:
-            json_data['marketplaceID'] = 'A1F83G8C2ARO7P'
-            json_data['keepa_market_id'] = '2'
-            json_data['post_code'] = 'SW17%209NT'
-            json_data['site_code'] = 'UK'
-            break
+            json_data = {
+                'marketplaceID': 'A1F83G8C2ARO7P',
+                'keepa_market_id': '2',
+                'post_code': 'SW17%209NT',
+                'site_code': 'UK',
+            };
+            break;
+
         case url.indexOf('amazon.de') > 0:
-            json_data['marketplaceID'] = 'A1PA6795UKMFR9'
-            json_data['keepa_market_id'] = '3'
-            json_data['post_code'] = '89233'
-            json_data['site_code'] = 'DE'
-            break
+            json_data = {
+                'marketplaceID': 'A1PA6795UKMFR9',
+                'keepa_market_id': '3',
+                'post_code': '89233',
+                'site_code': 'DE',
+            };
+            break;
         case url.indexOf('amazon.es') > 0:
-            json_data['marketplaceID'] = 'A1RKKUPIHCS9HS'
-            json_data['keepa_market_id'] = '9'
-            json_data['post_code'] = '30560'
-            json_data['site_code'] = 'ES'
-            break
+            json_data = {
+                'marketplaceID': 'A1RKKUPIHCS9HS',
+                'keepa_market_id': '9',
+                'post_code': '30560',
+                'site_code': 'ES',
+            };
+            break;
+
         case url.indexOf('amazon.fr') > 0:
-            json_data['marketplaceID'] = 'A13V1IB3VIYZZH'
-            json_data['keepa_market_id'] = '4'
-            json_data['post_code'] = '30560'
-            json_data['site_code'] = 'FR'
-            break
+            json_data = {
+                'marketplaceID': 'A13V1IB3VIYZZH',
+                'keepa_market_id': '4',
+                'post_code': '30560',
+                'site_code': 'FR',
+            };
+            break;
+
         case url.indexOf('amazon.it') > 0:
-            json_data['marketplaceID'] = 'APJ6JRA9NG5V4'
-            json_data['keepa_market_id'] = '8'
-            json_data['post_code'] = '55049'
-            json_data['site_code'] = 'IT'
-            break
+            json_data = {
+                'marketplaceID': 'APJ6JRA9NG5V4',
+                'keepa_market_id': '8',
+                'post_code': '55049',
+                'site_code': 'IT',
+            };
+            break;
         case url.indexOf('amazon.co.jp') > 0:
-            json_data['marketplaceID'] = 'A1VC38T7YXB528'
-            json_data['keepa_market_id'] = '5'
-            json_data['post_code'] = '197-0408'
-            json_data['site_code'] = 'JP'
-            break
+            json_data = {
+                'marketplaceID': 'A1VC38T7YXB528',
+                'keepa_market_id': '5',
+                'post_code': '197-0408',
+                'site_code': 'JP',
+            };
+            break;
         case url.indexOf('amazon.com.au') > 0:
-            json_data['marketplaceID'] = 'A39IBJ37TRP1C6'
-            json_data['keepa_market_id'] = '13'
-            json_data['post_code'] = 'ATVPDKIKX0DER'
-            json_data['site_code'] = 'AU'
-            break
+            json_data = {
+                'marketplaceID': 'A39IBJ37TRP1C6',
+                'keepa_market_id': '13',
+                'post_code': '0200-0299',
+                'site_code': 'AU',
+            };
+            break;
         default:
-            json_data['marketplaceID'] = 'null'
-            json_data['keepa_market_id'] = 'null'
-            json_data['post_code'] = 'null'
-            json_data['site_code'] = 'null'
-            break
+            json_data = {
+                'marketplaceID': 'null',
+                'keepa_market_id': 'null',
+                'post_code': 'null',
+                'site_code': 'null',
+            };
+            break;
     }
-    return json_data
+    return json_data;
 }
 // 设置 亚马逊的 区号
 function set_amazon_postcode() {
@@ -78,13 +104,14 @@ function set_amazon_postcode() {
         htm_code = get_content(`https://${document.domain}/gp/delivery/ajax/address-change.html?actionSource=glow&deviceType=web&locationType=LOCATION_INPUT&pageType=Gateway&storeContext=generic&zipCode=${post_code}`);
     }
 }
+
 // 发送网络请求
 function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
     console.log(`-> get_content data:${data}`);
     xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.open(mode, url, false);
-    if (type = 'json') {
+    if (type == 'json') {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     } else {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -94,17 +121,25 @@ function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log('-> get_content -> 获取数据成功');
     return xmlHttpRequest.responseText;
 }
+
+//代替eval方法计算表达式的值
+function evil(fn) {
+    var Fn = Function; //一个变量指向Function，防止有些前端编译工具报错
+    return new Fn('return ' + fn)();
+}
+
 // 获取 HTML 模板
 function get_template_html(url, mode = '') {
     chrome_url = chrome.extension.getURL(url);
-    template_html = get_content(chrome_url, type = 'html')
-    template_html = template_html.replace("var vue_debug = true;", "var vue_debug = false;")
-    template_html = template_html.replace("response = `${response}`", "response = ${response}")
-    template_html = eval('`' + template_html + '`');
+    template_html = get_content(chrome_url, type = 'html');
+    response = typeof response == 'undefined' ? JSON.stringify({}) : response;
+    template_html = template_html.replace("var vue_debug = true;", "var vue_debug = false;");
+    template_html = template_html.replace("response = `${response}`", "response = ${response}");
+    template_html = evil('`' + template_html + '`');
     if (mode === 'body') {
         body_html = /<body>([\s\S]*?)<\/body>/.exec(template_html)[0];
-        script_htm = /<script id="initialize">([\s\S]*?)<\/script>/.exec(template_html)[0];
-        template_html = body_html + script_htm
+        script_html = /<script id="initialize">([\s\S]*?)<\/script>/.exec(template_html)[0];
+        template_html = body_html + script_html;
     }
     return template_html;
 }
@@ -136,9 +171,9 @@ function get_date(fmt, date) {
     for (let k in opt) {
         ret = new RegExp("(" + k + ")").exec(fmt);
         if (ret) {
-            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-        };
-    };
+            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")));
+        }
+    }
     return fmt;
 }
 // 获取 列表里面的字典最大的数
@@ -151,6 +186,14 @@ function get_list_max(array) {
     }
     return max;
 }
+
+function add_element_div(id, html) {
+    var div = document.createElement("div");
+    div.setAttribute("id", id);
+    div.innerHTML = html;
+    return div;
+}
+
 // 解析 helium10 的 JSON 数据
 function get_helium10_json(asin, marketplaceId) {
     console.log(`-> get_helium10_json( ${asin} , ${marketplaceId} )`);
@@ -195,18 +238,18 @@ function get_helium10_json(asin, marketplaceId) {
         }
 
         // 解析大类类目名称和排名
-        if (htm_json.product.SalesRankings.SalesRank.length > 0) {
+        if (htm_json.product.SalesRankings.length > 0) {
             big_cat = htm_json.product.SalesRankings.SalesRank[0].ProductCategoryId.split('_')[0];
             big_bsr = htm_json.product.SalesRankings.SalesRank[0].Rank;
             console.log(`-> big_cat:${big_cat} big_bsr:${big_bsr}`);
         }
 
         // 解析小类类目名称和排名
-        small_cat = ''
-        small_bsr = ''
+        small_cat = '';
+        small_bsr = '';
         for (var i in htm_json.bsrList) {
-            small_cat += i + '\n'
-            small_bsr += htm_json.bsrList[i] + '\n'
+            small_cat += i + '\n';
+            small_bsr += htm_json.bsrList[i] + '\n';
         }
         console.log(`-> small_cat:${small_cat}-> small_bsr:${small_bsr}`);
 
@@ -217,49 +260,49 @@ function get_helium10_json(asin, marketplaceId) {
                 // 解析亚马逊的运费费用
                 fba_fee = list.amount;
                 console.log(`-> fba_fee:${fba_fee}`);
-            };
-        };
+            }
+        }
 
         // ASIN 的信息
         information = [{
                 "key": "ASIN:",
-                "value": asin == undefined ? 'null' : asin,
+                "value": typeof asin == 'undefined' ? 'null' : asin,
             },
             {
                 "key": "品牌名:",
-                "value": brand_name == undefined ? 'null' : brand_name,
+                "value": typeof brand_name == 'undefined' ? 'null' : brand_name,
             },
             {
                 "key": "大类:",
-                "value": big_cat == undefined ? 'null' : big_cat,
+                "value": typeof big_cat == 'undefined' ? 'null' : big_cat,
             },
             {
                 "key": "大类BSR:",
-                "value": big_bsr == undefined ? 'null' : big_bsr,
+                "value": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
             },
             {
                 "key": "小类:",
-                "value": small_bsr == undefined ? 'null' : small_bsr,
+                "value": typeof small_cat == 'undefined' ? 'null' : small_cat,
             },
 
             {
                 "key": "小类BSR:",
-                "value": small_bsr == undefined ? 'null' : small_bsr,
+                "value": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
             },
             {
                 "key": "包装尺寸(inch):",
-                "value": package_dim == undefined ? item_dim == undefined ? 'null' : item_dim : package_dim,
+                "value": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
             },
             {
                 "key": "重量(lbs):",
-                "value": package_weight == undefined ? item_weight == undefined ? 'null' : item_weight : package_weight,
+                "value": typeof package_weight == 'undefined' ? item_weight == typeof 'undefined' ? 'null' : item_weight : package_weight,
             },
             {
                 "key": "FBA费用:",
-                "value": fba_fee == undefined ? 'null' : fba_fee,
+                "value": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
             },
 
-        ]
+        ];
 
         // 解析销量
         htm_code = get_content(`https://members.helium10.com/black-box/sales-chart?days=0&asin=${asin}&marketplace=${marketplaceId}`, type = 'html');
@@ -277,39 +320,39 @@ function get_helium10_json(asin, marketplaceId) {
             w3_sale = 0;
             w4_sale = 0;
             h24_sale = Number(htm_json.sales[htm_json.sales.length - 1].y);
-            for (var i in htm_json.sales) {
-                monthly = get_date("YYYY-mm", new Date(htm_json.sales[i].x));
-                day_1 = get_date("YYYY-mm-dd", new Date(htm_json.sales[i].x));
+            for (var sales_index in htm_json.sales) {
+                monthly = get_date("YYYY-mm", new Date(htm_json.sales[sales_index].x));
+                day_1 = get_date("YYYY-mm-dd", new Date(htm_json.sales[sales_index].x));
                 day_2 = get_date("YYYY-mm-dd", new Date());
-                sales = htm_json.sales[i].y;
+                sales = htm_json.sales[sales_index].y;
                 monthly_sales[monthly] == undefined ? monthly_sales[monthly] = sales : monthly_sales[monthly] += sales;
                 day_sales[day_1] = sales;
 
-                d1 = new Date().setTime(Number(htm_json.sales[i].x));
+                d1 = new Date().setTime(Number(htm_json.sales[sales_index].x));
                 d2 = new Date(new Date().getFullYear() + '-' + Number(new Date().getMonth() + 1) + '-' + new Date().getDate()).getTime();
                 day_s = Number((d2 - d1) / 1000 / 60 / 60 / 24).toFixed(2);
                 switch (true) {
                     case day_s < 6.5:
-                        w1_sale += Number(htm_json.sales[i].y);
+                        w1_sale += Number(htm_json.sales[sales_index].y);
                         continue;
                     case day_s < 13.5:
-                        w2_sale += Number(htm_json.sales[i].y);
+                        w2_sale += Number(htm_json.sales[sales_index].y);
                         continue;
                     case day_s < 20.5:
-                        w3_sale += Number(htm_json.sales[i].y);
+                        w3_sale += Number(htm_json.sales[sales_index].y);
                         continue;
                     case day_s < 27.5:
-                        w4_sale += Number(htm_json.sales[i].y);
+                        w4_sale += Number(htm_json.sales[sales_index].y);
                         continue;
                 }
             }
-            h24_sale = w1_sale == 0 ? 0 : h24_sale
+            h24_sale = w1_sale == 0 ? 0 : h24_sale;
             sales_days = (new Date().setTime(Number(htm_json.sales[htm_json.sales.length - 1].x) - new Date().setTime(Number(htm_json.sales[0].x))) / 1000 / 60 / 60 / 24);
 
             monthly_sales_length = Object.keys(monthly_sales).length;
-            monthly_sales_value = Object.keys(monthly_sales).map(key => monthly_sales[key])
+            monthly_sales_value = Object.keys(monthly_sales).map(key => monthly_sales[key]);
             day_sales_length = Object.keys(day_sales).length;
-            day_sales_value = Object.keys(day_sales).map(key => day_sales[key])
+            day_sales_value = Object.keys(day_sales).map(key => day_sales[key]);
             if (monthly_sales_length > 30) {
                 monthly_sales_max = Math.max.apply(null, monthly_sales_value.slice(monthly_sales_length - 30));
             } else {
@@ -323,33 +366,32 @@ function get_helium10_json(asin, marketplaceId) {
         }
 
         json_data = {
-            'asin': asin == undefined ? 'null' : asin,
-            'marketplaceId': marketplaceId == undefined ? 'null' : marketplaceId,
-            'image': image == undefined ? 'null' : image,
-            'title': title == undefined ? 'null' : title,
-            'brand_name': brand_name == undefined ? 'null' : brand_name,
-            "big_cat": big_cat == undefined ? 'null' : big_cat,
-            "big_bsr": big_bsr == undefined ? 'null' : big_bsr,
-            "small_cat": small_cat == undefined ? 'null' : small_cat,
-            "small_bsr": small_bsr == undefined ? 'null' : small_bsr,
-            "dim": package_dim == undefined ? item_dim == undefined ? 'null' : item_dim : package_dim,
-            "weight": package_weight == undefined ? item_weight == undefined ? 'null' : item_weight : package_weight,
-            "fba_fee": fba_fee == undefined ? 'null' : fba_fee,
-            "h24_sale": h24_sale == undefined ? 'null' : h24_sale.toFixed(1),
-            "w1_sale": w1_sale == undefined ? 'null' : w1_sale.toFixed(1),
-            "w2_sale": w2_sale == undefined ? 'null' : w2_sale.toFixed(1),
-            "w3_sale": w3_sale == undefined ? 'null' : w3_sale.toFixed(1),
-            "w4_sale": w4_sale == undefined ? 'null' : w4_sale.toFixed(1),
+            'asin': typeof asin == 'undefined' ? 'null' : asin,
+            'marketplaceId': typeof marketplaceId == 'undefined' ? 'null' : marketplaceId,
+            'image': typeof image == 'undefined' ? 'null' : image,
+            'title': typeof title == 'undefined' ? 'null' : title,
+            'brand_name': typeof brand_name == 'undefined' ? 'null' : brand_name,
+            "big_cat": typeof big_cat == 'undefined' ? 'null' : big_cat,
+            "big_bsr": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
+            "small_cat": typeof small_cat == 'undefined' ? 'null' : small_cat,
+            "small_bsr": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
+            "dim": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
+            "weight": typeof package_weight == 'undefined' ? typeof item_weight == 'undefined' ? 'null' : item_weight : package_weight,
+            "fba_fee": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
+            "h24_sale": typeof h24_sale == 'undefined' ? 'null' : h24_sale.toFixed(1),
+            "w1_sale": typeof w1_sale == 'undefined' ? 'null' : w1_sale.toFixed(1),
+            "w2_sale": typeof w2_sale == 'undefined' ? 'null' : w2_sale.toFixed(1),
+            "w3_sale": typeof w3_sale == 'undefined' ? 'null' : w3_sale.toFixed(1),
+            "w4_sale": typeof w4_sale == 'undefined' ? 'null' : w4_sale.toFixed(1),
             "w4eek_sum_sale": Number(w1_sale + w2_sale + w3_sale + w4_sale).toFixed(1),
-            "sales_days": sales_days == undefined ? 'null' : sales_days.toFixed(1),
-            "sales_days": sales_days == undefined ? 'null' : sales_days.toFixed(1),
-            "monthly_sales": monthly_sales == undefined ? 'null' : monthly_sales,
-            "monthly_sales_length": monthly_sales_length == undefined ? 'null' : monthly_sales_length,
-            "monthly_sales_max": monthly_sales_max == undefined ? 'null' : monthly_sales_max,
-            "day_sales": monthly_sales == undefined ? 'null' : day_sales,
-            "day_sales_length": day_sales_length == undefined ? 'null' : day_sales_length,
-            "day_sales_max": day_sales_max == undefined ? 'null' : day_sales_max,
-            "information": information == undefined ? 'null' : information
+            "sales_days": typeof sales_days == 'undefined' ? 'null' : sales_days.toFixed(1),
+            "monthly_sales": typeof monthly_sales == 'undefined' ? 'null' : monthly_sales,
+            "monthly_sales_length": typeof monthly_sales_length == 'undefined' ? 'null' : monthly_sales_length,
+            "monthly_sales_max": typeof monthly_sales_max == 'undefined' ? 'null' : monthly_sales_max,
+            "day_sales": typeof monthly_sales == 'undefined' ? 'null' : day_sales,
+            "day_sales_length": typeof day_sales_length == 'undefined' ? 'null' : day_sales_length,
+            "day_sales_max": typeof day_sales_max == 'undefined' ? 'null' : day_sales_max,
+            "information": typeof information == 'undefined' ? 'null' : information
         };
     }
     console.log(json_data);
@@ -411,150 +453,141 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 }
 
                 // 使用授权日期信息
-                exd = `2020-11-01`
-                update_info = `此功能需联系作者开通使用 作者QQ: 369593212`
+                exd = `2020-11-01`;
+                update_info = `此功能需联系作者开通使用 作者QQ: 369593212`;
+
+                sc_code = '';
 
                 // 获取 Amazon 站点的 marketplaceId
-                marketplaceId = get_amazon_conifg(location.href).marketplaceID
-                keepa_market_id = get_amazon_conifg(location.href).keepa_market_id
-                console.log('marketplaceId -> ' + marketplaceId)
+                marketplaceId = get_amazon_conifg(location.href).marketplaceID;
+                keepa_market_id = get_amazon_conifg(location.href).keepa_market_id;
+                console.log('marketplaceId -> ' + marketplaceId);
                 switch (location.href.indexOf(`www.amazon`) > -1) {
                     case get_query_variable('mod') == 'check_index':
-                        document.title = `亚马逊关键词首页收录查询`
-                        document.body.outerHTML = get_template_html('template/amazon_check_rank_index.html', mode = 'body')
-                        break
+                        document.title = `亚马逊关键词首页收录查询`;
+                        document.body.outerHTML = get_template_html('template/amazon_check_rank_index.html', mode = 'body');
+                        break;
                     case get_query_variable('mod') == 'check_rank':
-                        document.title = `亚马逊关键词首页排名查询`
-                        document.body.outerHTML = get_template_html('template/amazon_check_rank_index.html', mode = 'body')
-                        break
+                        document.title = `亚马逊关键词首页排名查询`;
+                        document.body.outerHTML = get_template_html('template/amazon_check_rank_index.html', mode = 'body');
+                        break;
                     case get_query_variable('mod') == 'rank_index':
-                        document.title = `亚马逊首页排名收录查询页面`
-                        document.body.outerHTML = get_template_html('template/amazon_rank_index.html', mode = 'body')
-                        break
+                        document.title = `亚马逊首页排名收录查询页面`;
+                        document.body.outerHTML = get_template_html('template/amazon_rank_index.html', mode = 'body');
+                        break;
                     case get_query_variable('mod') == 'keyword_rank':
-                        document.title = `亚马逊关键词排名查询页面`
-                        document.body.outerHTML = get_template_html('template/amazon_keyword_rank.html', mode = 'body')
-                        break
+                        document.title = `亚马逊关键词排名查询页面`;
+                        document.body.outerHTML = get_template_html('template/amazon_keyword_rank.html', mode = 'body');
+                        break;
                     case get_query_variable('mod') == 'check_keyword_rank':
-                        document.title = `亚马逊关键词排名查询`
-                        document.body.outerHTML = get_template_html('template/amazon_check_keyword_rank.html', mode = 'body')
-                        break
+                        document.title = `亚马逊关键词排名查询`;
+                        document.body.outerHTML = get_template_html('template/amazon_check_keyword_rank.html', mode = 'body');
+                        break;
                     case get_query_variable('mod') == 'asin_sale':
-                        document.title = `亚马逊ASIN预估销量`
-                        asin = get_query_variable('asin')
-                        response = JSON.stringify(get_helium10_json(asin, marketplaceId))
+                        document.title = `亚马逊ASIN预估销量`;
+                        asin = get_query_variable('asin');
+                        response = JSON.stringify(get_helium10_json(asin, marketplaceId));
                         document.body.outerHTML = get_template_html('template/amazom_asin_sale.html', mode = 'body');
-                        break
+                        break;
                     default:
-                        break
+                        break;
                 }
 
-
-
                 // 判断是不是在亚马逊的Listing页面
-                if (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1)) {
-                    if (new Date().getTime() >= new Date(exd)) {} else {
-
-                        // 用红色字体显示评星评级
-                        if (document.body.innerHTML.indexOf(`id="acrPopover"`) > -1) {
-                            document.getElementById(`acrPopover`).insertAdjacentHTML(`afterend`, `<font color="red">` + document.getElementById(`acrPopover`).title + `</font>`);
-                        }
-
-                        // 获取当前页面的 Asin
-                        if (document.body.innerHTML.indexOf(`id="ASIN"`) > -1) {
-                            asin = document.getElementById(`ASIN`).value;
-                        } else {
-                            asin = document.body.innerHTML.split(`data-asin="`)[1].split('"')[0];
-                        }
+                if (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/s?`) > -0x1 || location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1)) {
+                    document.getElementById('a-page').insertAdjacentHTML('afterBegin', get_template_html('template/amazon_page_menu.html', mode = 'body'));
 
 
-                        // 在当前页面的五行生成销量表格
-                        json_data = get_helium10_json(asin, marketplaceId)
-                        display_code = get_template_html('template/prodDetails.html');
-                        document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
-
-
-
-                        open_stat_link = encodeURI('');
-                        trans_postcode_link = 'javascript:' + encodeURI('');
-                        export_var_link = 'javascript:' + encodeURI('');
-                        title_desc_trans_link = 'javascript:' + encodeURI('');
-                        open_stat_link_7 = `javascript:` + open_stat_link + `open_stat(7)`;
-                        open_stat_link_30 = `javascript:` + open_stat_link + `open_stat(30)`;
-                        open_stat_link_90 = `javascript:` + open_stat_link + `open_stat(90)`;
-                        open_stat_link_180 = `javascript:` + open_stat_link + `open_stat(180)`;
-                        open_stat_link_365 = `javascript:` + open_stat_link + `open_stat(365)`;
-                        manu_nav_code = `
-                        <td>
-                            <a href="https://` + document.domain + `/favicon.ico?mod=keyword_rank" style="text-decoration:none;" target="_blank">关键词排名查询</a>
-                        </td>
-                        <td>
-                            <a href="https://` + document.domain + `/favicon.ico?mod=rank_index" style="text-decoration:none;" target="_blank">首页排名收录查询</a>
-                        </td>
-                        <td>
-                            <a href="https://` + document.domain + `/favicon.ico?mod=asin_compare" style="text-decoration:none;" target="_blank">竞品比对监控</a>
-                        </td>
-                        <td>
-                            <a href="https://` + document.domain + `/favicon.ico?mod=comp_rank" style="text-decoration:none;" target="_blank">ASIN定位广告排名查询</a>
-                        </td>
-                        <td>
-                            <a href="https://` + document.domain + `/favicon.ico?mod=keyword_search" style="text-decoration:none;" target="_blank">关键词搜索量趋势调研</a>
-                        </td>
-                        </tr>`;
-                        plat = document.domain == `www.amazon.com` ? `am_us` : document.domain == `www.amazon.ca` ? `am_ca` : document.domain == `www.amazon.com.mx` ? `am_mx` : document.domain == `www.amazon.co.uk` ? `am_uk` : document.domain == `www.amazon.de` ? `am_de` : document.domain == `www.amazon.es` ? `am_es` : document.domain == `www.amazon.fr` ? `am_fr` : document.domain == `www.amazon.it` ? `am_it` : document.domain == `www.amazon.co.jp` ? `am_jp` : document.domain == `www.amazon.com.au` ? `am_au` : '';
-                        query_link = `javascript:open('https://translate.google.cn/favicon.ico?mod=search&plat=` + plat + `&q='+document.getElementById('search_keyword').value);void(0);`;
-                        manu_nav_code = `<tr><td><input id="search_keyword" size=100 style="font-size:14px; width:200px; height:25px; border:1px solid #378888;"> <a style="text-decoration:none;" href="` + query_link + `"><input type="button" value="翻译搜索" style="font-size:14px; width:70px; height:25px; border:1px solid #00FFFF; vertical-align: middle;"></a></td>` + manu_nav_code;
-                        if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/dp/`) > -0x1 || location.href.indexOf(`/gp/product/`) > -0x1)) {
-                            if (new Date().getTime() >= new Date(exd)) {} else {
-                                asin = (location.href.indexOf(`/dp/`) > -0x1 ? location.href.split(`/dp/`)[0x1].split('/')[0x0].split('#')[0x0].split('?')[0x0] : location.href.split(`/gp/product/`)[0x1].split('/')[0x0]).split('#')[0x0].split('?')[0x0];
-                                reverse_asin_link = `https://www.sellersprite.com/favicon.ico?reverse-asin/` + document.domain.slice(-0x2).replace('om', 'US').toUpperCase() + '/' + asin + `" target="_blank`;
-                                asin_sale_link = `https://` + document.domain + `/favicon.ico?mod=asin_sale&asin=` + asin + `" target="_blank`;
-                                open_helium10_link = `https://` + document.domain + `/favicon.ico?mod=asin_keepa&asins=` + asin + `" target="_blank`;
-                                open_keepa_link = `https://keepa.com/iframe_addon.html#` + keepa_market_id + `-0-` + asin + `" target="_blank`;
-                                source_1688_link = `https://kj.1688.com/pdt_tongkuan.html?productUrl=https%3A%2F%2F` + document.domain + `%2Fdp%2F` + asin + `" target="_blank`;
-                                positive_link = `https://translate.google.cn/favicon.ico?mod=trans_positive&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
-                                negative_link = `https://translate.google.cn/favicon.ico?mod=trans_negative&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
-                                function_name_a = [`切换当地邮编`, `主流量词`, `预估销量`, `Helium10价格排名走势`, `打开Keepa`, `导出变体`, `标题描述翻译`, `前6页差评翻译`, `前6页好评翻译`];
-                                function_a = [trans_postcode_link, reverse_asin_link, asin_sale_link, open_helium10_link, open_keepa_link, export_var_link, title_desc_trans_link, negative_link, positive_link];
-                                anchor_name_a = [`Back to top`, `关联广告`, `A+描述`, `详细描述`, `重要信息`, `排名信息`, `比较相似产品`, 'QA', '评论'];
-                                anchor_a = ['dp', `sp_detail-none`, `aplus`, `productDescription`, `importantInformation`, `prodDetails`, `HLCXComparisonWidget_feature_div`, `Ask`, `customerReviews`];
-                                nav_code = '';
-                                for (i = 0x0; i < anchor_a.length; i++) {
-                                    if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
-                                        nav_code = nav_code + `<td><a href="javascript:void(0);" onclick="document.getElementById('` + (anchor_a[i] + `_nav`).replace(`dp_nav`, `nav-top`) + `').scrollIntoView();" style="text-decoration:none;">` + anchor_name_a[i] + `</a></td>`;
-                                    }
-                                }
-                                nav_code = nav_code + `</tr><tr>`;
-                                for (i = 0x0; i < function_a.length; i++) {
-                                    nav_code = nav_code + `<td><a href="` + function_a[i] + `" style="text-decoration:none;">` + function_name_a[i] + `</a></td>`;
-                                }
-                                for (i = 0x0; i < anchor_a.length; i++) {
-                                    if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
-                                        change_id = anchor_name_a[i] != `排名信息` ? anchor_a[i] : document.body.innerHTML.indexOf(`id="prodDetails"`) > -0x1 ? `prodDetails` : document.body.innerHTML.indexOf(`id="detailBullets_feature_div"`) > -0x1 ? `detailBullets_feature_div` : document.body.innerHTML.indexOf(`id="productDetails"`) > -0x1 ? `productDetails` : `detail-bullets`;
-                                        document.getElementById(change_id).insertAdjacentHTML(`beforebegin`, `<div><table id="` + anchor_a[i] + `_nav" style="font-size:14px; background:#FAEBD7;"><tr>` + nav_code + `</tr>` + (i == 0x0 ? manu_nav_code : '') + `</table></div>`);
-                                    }
-                                }
-                                document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                            }
-                        } else {
-                            if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/s?`) > -0x1 || location.href.indexOf(`gp/bestsellers`) > -0x1 || location.href.indexOf(`/zgbs/`) > -0x1 || location.href.indexOf(`/new-releases/`) > -0x1 || location.href.indexOf(`/movers-and-shakers/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1)) {
-                                if (new Date().getTime() >= new Date(exd)) {} else {
-                                    if (location.href.indexOf(`/s?`) > -0x1) {
-                                        nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a> <select id="pageNo"><option value ="1">1</option><option value ="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select>页</td>`;
-                                        document.getElementById(`search`).outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById(`search`).outerHTML;
-                                        document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                                    } else {
-                                        nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a></td>`;
-                                        document.getElementById('zg').outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById('zg').outerHTML;
-                                        document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                                    }
-                                }
-                            }
-                        }
-
-
-
-                    }
+                    // if (new Date().getTime() >= new Date(exd)) {} else {
+                    //         open_stat_link = encodeURI('');
+                    //         trans_postcode_link = 'javascript';
+                    //         export_var_link = 'javascript';
+                    //         title_desc_trans_link = 'javascript';
+                    //         open_stat_link_7 = `javascript:` + open_stat_link + `open_stat(7)`;
+                    //         open_stat_link_30 = `javascript:` + open_stat_link + `open_stat(30)`;
+                    //         open_stat_link_90 = `javascript:` + open_stat_link + `open_stat(90)`;
+                    //         open_stat_link_180 = `javascript:` + open_stat_link + `open_stat(180)`;
+                    //         open_stat_link_365 = `javascript:` + open_stat_link + `open_stat(365)`;
+                    //         manu_nav_code = `
+                    //     <td>
+                    //         <a href="https://` + document.domain + `/favicon.ico?mod=keyword_rank" style="text-decoration:none;" target="_blank">关键词排名查询</a>
+                    //     </td>
+                    //     <td>
+                    //         <a href="https://` + document.domain + `/favicon.ico?mod=rank_index" style="text-decoration:none;" target="_blank">首页排名收录查询</a>
+                    //     </td>
+                    //     <td>
+                    //         <a href="https://` + document.domain + `/favicon.ico?mod=asin_compare" style="text-decoration:none;" target="_blank">竞品比对监控</a>
+                    //     </td>
+                    //     <td>
+                    //         <a href="https://` + document.domain + `/favicon.ico?mod=comp_rank" style="text-decoration:none;" target="_blank">ASIN定位广告排名查询</a>
+                    //     </td>
+                    //     <td>
+                    //         <a href="https://` + document.domain + `/favicon.ico?mod=keyword_search" style="text-decoration:none;" target="_blank">关键词搜索量趋势调研</a>
+                    //     </td>
+                    //     </tr>`;
+                    //         plat = document.domain == `www.amazon.com` ? `am_us` : document.domain == `www.amazon.ca` ? `am_ca` : document.domain == `www.amazon.com.mx` ? `am_mx` : document.domain == `www.amazon.co.uk` ? `am_uk` : document.domain == `www.amazon.de` ? `am_de` : document.domain == `www.amazon.es` ? `am_es` : document.domain == `www.amazon.fr` ? `am_fr` : document.domain == `www.amazon.it` ? `am_it` : document.domain == `www.amazon.co.jp` ? `am_jp` : document.domain == `www.amazon.com.au` ? `am_au` : '';
+                    //         query_link = `javascript:open('https://translate.google.cn/favicon.ico?mod=search&plat=` + plat + `&q='+document.getElementById('search_keyword').value);void(0);`;
+                    //         manu_nav_code = `<tr><td><input id="search_keyword" size=100 style="font-size:14px; width:200px; height:25px; border:1px solid #378888;"> <a style="text-decoration:none;" href="` + query_link + `"><input type="button" value="翻译搜索" style="font-size:14px; width:70px; height:25px; border:1px solid #00FFFF; vertical-align: middle;"></a></td>` + manu_nav_code;
+                    //         if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/dp/`) > -0x1 || location.href.indexOf(`/gp/product/`) > -0x1)) {
+                    //             if (new Date().getTime() >= new Date(exd)) {} else {
+                    //                 asin = (location.href.indexOf(`/dp/`) > -0x1 ? location.href.split(`/dp/`)[0x1].split('/')[0x0].split('#')[0x0].split('?')[0x0] : location.href.split(`/gp/product/`)[0x1].split('/')[0x0]).split('#')[0x0].split('?')[0x0];
+                    //                 reverse_asin_link = `https://www.sellersprite.com/favicon.ico?reverse-asin/` + document.domain.slice(-0x2).replace('om', 'US').toUpperCase() + '/' + asin + `" target="_blank`;
+                    //                 asin_sale_link = `https://` + document.domain + `/favicon.ico?mod=asin_sale&asin=` + asin + `" target="_blank`;
+                    //                 open_helium10_link = `https://` + document.domain + `/favicon.ico?mod=asin_keepa&asins=` + asin + `" target="_blank`;
+                    //                 open_keepa_link = `https://keepa.com/iframe_addon.html#` + keepa_market_id + `-0-` + asin + `" target="_blank`;
+                    //                 source_1688_link = `https://kj.1688.com/pdt_tongkuan.html?productUrl=https%3A%2F%2F` + document.domain + `%2Fdp%2F` + asin + `" target="_blank`;
+                    //                 positive_link = `https://translate.google.cn/favicon.ico?mod=trans_positive&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
+                    //                 negative_link = `https://translate.google.cn/favicon.ico?mod=trans_negative&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
+                    //                 function_name_a = [`切换当地邮编`, `主流量词`, `预估销量`, `Helium10价格排名走势`, `打开Keepa`, `导出变体`, `标题描述翻译`, `前6页差评翻译`, `前6页好评翻译`];
+                    //                 function_a = [trans_postcode_link, reverse_asin_link, asin_sale_link, open_helium10_link, open_keepa_link, export_var_link, title_desc_trans_link, negative_link, positive_link];
+                    //                 anchor_name_a = [`Back to top`, `关联广告`, `A+描述`, `详细描述`, `重要信息`, `排名信息`, `比较相似产品`, 'QA', '评论'];
+                    //                 anchor_a = ['dp', `sp_detail-none`, `aplus`, `productDescription`, `importantInformation`, `prodDetails`, `HLCXComparisonWidget_feature_div`, `Ask`, `customerReviews`];
+                    //                 nav_code = '';
+                    //                 for (i = 0x0; i < anchor_a.length; i++) {
+                    //                     if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
+                    //                         nav_code = nav_code + `<td><a href="javascript:void(0);" onclick="document.getElementById('` + (anchor_a[i] + `_nav`).replace(`dp_nav`, `nav-top`) + `').scrollIntoView();" style="text-decoration:none;">` + anchor_name_a[i] + `</a></td>`;
+                    //                     }
+                    //                 }
+                    //                 nav_code = nav_code + `</tr><tr>`;
+                    //                 for (i = 0x0; i < function_a.length; i++) {
+                    //                     nav_code = nav_code + `<td><a href="` + function_a[i] + `" style="text-decoration:none;">` + function_name_a[i] + `</a></td>`;
+                    //                 }
+                    //                 for (i = 0x0; i < anchor_a.length; i++) {
+                    //                     if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
+                    //                         change_id = anchor_name_a[i] != `排名信息` ? anchor_a[i] : document.body.innerHTML.indexOf(`id="prodDetails"`) > -0x1 ? `prodDetails` : document.body.innerHTML.indexOf(`id="detailBullets_feature_div"`) > -0x1 ? `detailBullets_feature_div` : document.body.innerHTML.indexOf(`id="productDetails"`) > -0x1 ? `productDetails` : `detail-bullets`;
+                    //                         document.getElementById(change_id).insertAdjacentHTML(`beforebegin`, `<div><table id="` + anchor_a[i] + `_nav" style="font-size:14px; background:#FAEBD7;"><tr>` + nav_code + `</tr>` + (i == 0x0 ? manu_nav_code : '') + `</table></div>`);
+                    //                     }
+                    //                 }
+                    //                 document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
+                    //             }
+                    //         } else {
+                    //             if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/s?`) > -0x1 || location.href.indexOf(`gp/bestsellers`) > -0x1 || location.href.indexOf(`/zgbs/`) > -0x1 || location.href.indexOf(`/new-releases/`) > -0x1 || location.href.indexOf(`/movers-and-shakers/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1)) {
+                    //                 if (location.href.indexOf(`/s?`) > -0x1) {
+                    //                     nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a> <select id="pageNo"><option value ="1">1</option><option value ="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select>页</td>`;
+                    //                     document.getElementById(`search`).outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById(`search`).outerHTML;
+                    //                     document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
+                    //                 } else {
+                    //                     nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a></td>`;
+                    //                     document.getElementById('zg').outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById('zg').outerHTML;
+                    //                     document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
+                    //                 }
+                    //             }
+                    //         }
+                    //         // 用红色字体显示评星评级
+                    //         if (document.body.innerHTML.indexOf(`id="acrPopover"`) > -1) {
+                    //             document.getElementById(`acrPopover`).insertAdjacentHTML(`afterend`, `<font color="red">` + document.getElementById(`acrPopover`).title + `</font>`);
+                    //         }
+                    //         // 获取当前页面的 Asin
+                    //         if (document.body.innerHTML.indexOf(`id="ASIN"`) > -1) {
+                    //             asin = document.getElementById(`ASIN`).value;
+                    //         } else {
+                    //             asin = document.body.innerHTML.split(`data-asin="`)[1].split('"')[0];
+                    //         }
+                    //         // 在当前页面的五行生成销量表格
+                    //         json_data = get_helium10_json(asin, marketplaceId);
+                    //         display_code = get_template_html('template/prodDetails.html');
+                    //         document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
+                    // }
                 }
 
                 // 判断是不是在亚马逊的反查流量词页面

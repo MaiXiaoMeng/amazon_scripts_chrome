@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
 </head>
 
 <!-- body start -->
@@ -31,7 +30,6 @@
                 </div>
             </a-col>
             <a-col :span="8" style="font-size: 15px;">
-
                 <div>
                     <a-row style="text-align: center;">
                         <a-col :span="8" style="width: 5em;">
@@ -109,15 +107,13 @@
 </body>
 <!-- body end -->
 
-<!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
 <!-- import JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
+<script src="../scripts/amazon_navigation.js"></script>
 
 <script id="initialize">
     var vue_debug = true;
     if (vue_debug) {
-        response = {}
+        response = {};
     } else {
         response = `${response}`;
     }
@@ -138,7 +134,6 @@
         mounted() {},
         methods: {
             getProgressColor(successPercent) {
-                let color = ''
                 if (successPercent < 30) {
                     color = {
                         '0%': '#C23D3D',

@@ -68,6 +68,7 @@
     "template/amazon_check_keyword_rank.html",
     "template/amazon_rank_index.html",
     "template/amazon_check_rank_index.html",
+    "template/amazon_page_menu.html",
     "template/prodDetails.html",
     "scripts/amazon_scripts_page.js",
     "style/amazon_scripts.css"

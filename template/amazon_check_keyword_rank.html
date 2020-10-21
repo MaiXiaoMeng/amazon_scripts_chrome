@@ -4,49 +4,153 @@
 <head>
     <meta charset="UTF-8">
     <!-- import CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
 </head>
-<!-- body start -->
 
+<!-- body start -->
 <body>
     <div id="vue">
         <a-row>
             <a-col :span="24">
-                <a-table rowKey="key" ref="table" :data-source="data" :pagination="false" size="small">
-                    <a-table-column title="ASIN" data-index="ASIN">
+                <a-table ref="table" rowKey="key" :loading="loading" :pagination="false" size="small"
+                    :data-source="table_code_rink_list_data" bordered>
+                    <a-table-column title="日期" data-index="date" align='center'>
                         <template slot-scope="text, record">
-                            <span onclick="get_amazon_keyword_ranking()">{{text}}</span>
+                            <span>{{text}}</span>
                         </template>
                     </a-table-column>
-                    <a-table-column title="关键词" data-index="关键词">
+                    <a-table-column title="站点" data-index="site_code" align='center'>
                         <template slot-scope="text, record">
-                            <span onclick="get_amazon_keyword_ranking()">{{text}}</span>
+                            <span>{{text}}</span>
                         </template>
                     </a-table-column>
-                    <a-table-column title="自然排名">
+                    <a-table-column title="ASIN" data-index="asin_current" align='center'>
                         <template slot-scope="text, record">
-                            <span :id="record.关键词+'_nt_rank'"></span>
+                            <span onclick="get_amazon_keyword_ranking(false)">{{text}}</span>
                         </template>
                     </a-table-column>
-                    <a-table-column title="广告排名">
+                    <a-table-column title="关键词" data-index="keyword" align='center'>
                         <template slot-scope="text, record">
-                            <span :id="record.关键词+'_ad_rank'"></span>
+                            <span onclick="get_amazon_keyword_ranking(true)">{{text}}</span>
                         </template>
                     </a-table-column>
-                    <a-table-column title="单独自然排名">
+                    <a-table-column title="自然排名" data-index="asin_a_nt_total" align='center'>
                         <template slot-scope="text, record">
-                            <span :id="record.关键词+'_nt_independent_rank'"></span>
+                            <span>{{text}}</span>
                         </template>
                     </a-table-column>
-                    <a-table-column title="单独广告排名">
+                    <a-table-column title="广告排名" data-index="asin_a_ad_total" align='center'>
                         <template slot-scope="text, record">
-                            <span :id="record.关键词+'_ad_independent_rank'"></span>
+                            <span>{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独自然排名" data-index="asin_a_nt_independent_total" align='center'>
+                        <template slot-scope="text, record">
+                            <span>{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独广告排名" data-index="asin_a_ad_independent_total" align='center'>
+                        <template slot-scope="text, record">
+                            <span>{{text}}</span>
                         </template>
                     </a-table-column>
                 </a-table>
             </a-col>
         </a-row>
-        <div>
+
+        <a-row>
+            <a-col :span="24">
+                <a-table ref="table_code_list" :loading="loading" :pagination="false" size="small"
+                    :data-source="table_code_list_data" bordered>
+                    <a-table-column title="ASIN" data-index="asin"  align='center'>
+                        <template slot-scope="text, record">
+                            <span onclick="get_amazon_keyword_ranking()">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="主图" data-index="image" align='center'>
+                        <template slot-scope="text, record">
+                            <img height=50 width=50 :src="text" :title="text">
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="标题" data-index="title" width="30%" align='center'>
+                        <template slot-scope="text, record">
+                            <div v-html='text'></div>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="价格" data-index="price" align='center'>
+                        <template slot-scope="text, record">
+                            <div v-html='text'></div>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="是否FBA" data-index="prime_code" align='center'>
+                        <template slot-scope="text, record">
+                            <font style="color: #009ED6;"><b>{{text}}</b></font>
+                            <!-- <div v-html='text'></div> -->
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="评论数" data-index="reviews" align='center'>
+                        <template slot-scope="text, record">
+                            <div v-html='text'></div>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="评分" data-index="rating" align='center'>
+                        <template slot-scope="text, record">
+                            <div v-html='text'></div>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="页码" data-index="current_page" align='center'>
+                        <template slot-scope="text, record">
+                            <span :id=" record.asin + '_' + record.rank_sign +'_P' ">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="页面排名" data-index="product_count" align='center'>
+                        <template slot-scope="text, record">
+                            <span :id=" record.asin + '_' + record.rank_sign +'_R' ">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="总排名" data-index="total_product_count" align='center'>
+                        <template slot-scope="text, record">
+                            <span :id=" record.asin + '_Total'">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="是否广告" data-index="spon_code" align='center'>
+                        <template slot-scope="text, record">
+                            <font color=red><b>{{text}}</b></font>
+                            <!-- <div v-html='text'></div> -->
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独页面排名" align='center'>
+                        <template slot-scope="text, record">
+                            <span v-if="record.rank_sign =='NT'"
+                                :id="record.asin + '_' + record.rank_sign + '_independent_R'">{{record.nt_product_count}}</span>
+                            <span v-if="record.rank_sign =='AD'"
+                                :id="record.asin + '_' + record.rank_sign + '_independent_R'">{{record.ad_product_count}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独总排名" align='center'>
+                        <template slot-scope="text, record">
+                            <span v-if="record.rank_sign =='NT'"
+                                :id="record.asin + '_independent_Total'">{{record.total_nt_product_count}}</span>
+                            <span v-if="record.rank_sign =='AD'"
+                                :id="record.asin + '_independent_Total'">{{record.total_ad_product_count}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="Bestseller" data-index="bsr_code" align='center'>
+                        <template slot-scope="text, record">
+                            <font style="background: #DAA520; color:white;">{{text}}</font>
+                            <!-- <div v-html='text'></div> -->
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="Amazon's Choice" data-index="choice_code" align='center'>
+                        <template slot-scope="text, record">
+                            <font style="background: #135753; color:white;">{{text}}</font>
+                            <!-- <div v-html='text'></div> -->
+                        </template>
+                    </a-table-column>
+                </a-table>
+            </a-col>
+        </a-row>
+
+        <div id="iframe_list">
             <template v-for="index in Number(page)">
                 <span>第{{index}}页</span>
                 <a href="javascript:scroll(0,-9999);">Back to Top</a><br>
@@ -58,21 +162,17 @@
 </body>
 <!-- body end -->
 
-<!-- import jquery JavaScript -->
-<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
-<!-- import Vue before Element -->
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
 <!-- import JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
-<!-- import amazon_scripts_page JavaScript -->
-<script src="../scripts/amazon_scripts_page.js"></script>
+<script src="../scripts/amazon_navigation.js"></script>
 
 <script id="initialize">
     var vue_debug = true;
     if (vue_debug) {
         response = {};
     } else {
-        response = {};
+        response = `${response}`;
     }
     mod = get_query_variable('mod');
     page = get_query_variable('page');
@@ -82,8 +182,8 @@
     for (let index = 0; index < asins.length; index++) {
         data.push({
             "key": index,
-            "ASIN": asins[index],
-            "关键词": keyword
+            "asin_current": asins[index],
+            "keyword": keyword
         })
     }
     var vue = new Vue({
@@ -92,8 +192,11 @@
         props: [],
         data() {
             return {
+                table_code_list_data: [],
+                table_code_rink_list_data: data,
                 domain: document.domain,
                 keyword: keyword,
+                loading: false,
                 data: data,
                 page: page,
                 mod: mod

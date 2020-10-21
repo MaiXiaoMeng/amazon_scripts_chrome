@@ -2,7 +2,7 @@
     padding-left: 20%;
     padding-right: 20%;
     padding-top: 10%;
-    
+
 }
 
 .el-main div h1 {
@@ -11,4 +11,12 @@
 
 .el-button {
     width: 100%;
+}
+
+.ant-card-small>.ant-card-body {
+    padding: 0px
+}
+
+p {
+    margin-bottom: 0
 }

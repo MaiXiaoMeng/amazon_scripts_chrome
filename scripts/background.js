@@ -1,27 +1,5 @@
-﻿// var url = 'http://www.geekpark.net/ajax/load_seeds/?order=undefined&type=img&tag_id=160388&start=36&num=12&tt=1366382330986&t=';
-
-// function test() {
-//     var xhr = new XMLHttpRequest();
-//     xhr.open('GET', url, true);
-//     xhr.onreadystatechange = function() {
-//       if (xhr.readyState === 4) {
-//         if (xhr.status === 200) {
-//             var seeds = JSON.parse(xhr.responseText).data.seeds;
-//             for (var i in seeds) {
-//                 console.log(' - ' + seeds[i].title)
-//             }
-//         }
-//       }
-//     }
-//     xhr.send();
-// }
-
-// setInterval(test, 3000);
-
-
-
-chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    chrome.tabs.sendMessage(sender.tab['id'], {
+﻿chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    chrome.tabs.sendMessage(sender.tab.id, {
         'ecomtool_response': !![],
         'ust': 2
     });

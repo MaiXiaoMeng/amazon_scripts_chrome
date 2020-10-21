@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+</head>
+<!-- body start -->
+
+<body>
+    <div id="vue">
+        <template>
+            <div style="text-align: center;">
+                <a-menu mode="horizontal">
+                    <a-sub-menu>
+                        <template v-slot:title>打开页面统计</template>
+                        <a-menu-item>
+                            <a @click="get_amazon_search_page_keepa()">统计当前页面</a>
+                        </a-menu-item>
+                    </a-sub-menu>
+                </a-menu>
+            </div>
+        </template>
+        <template>
+            <a-drawer title="亚马逊页面统计Keepa" width="100%" placement="right" :visible="visible" @close="on_close">
+                <div id="display_code">
+                    <a-row>
+                        <template v-for="item in table_code_data">
+                            <a-col :span="3">
+                                <div>
+                                    <template>
+                                        <a-col>
+                                            <div>
+                                                <a-checkbox :value="item.asin">
+                                                    1. <a
+                                                        :href="'https://' + domain + '/dp/' + item.asin">{{item.asin}}</a>
+                                                </a-checkbox>
+                                                <font color="red"><b>{{item.spon_code}}</b></font>
+                                            </div>
+                                        </a-col>
+                                        <a-card style="text-align: center;" size="small" hoverable>
+                                            <template v-slot:cover>
+                                                <img width="300" height="240" :src="item.image">
+                                            </template>
+                                            <p style="white-space: nowrap;overflow:hidden;text-overflow:ellipsis;">
+                                                <a :href="'https://' + domain + '/dp/' + item.asin">{{item.title}}</a>
+                                            </p>
+                                            <p>
+                                                <span>
+                                                    Reviews:
+                                                </span>
+                                                <span>
+                                                    <a :href="'https://' + domain + '/product-reviews/' + item.asin">
+                                                        <span :id="item.asin + '_reviews'">{{item.reviews}}</span>
+                                                    </a>
+                                                </span>
+                                                <span>
+                                                    (<span :id="item.asin + '_rating'">{{item.rating}}</span>)
+                                                </span>
+                                                <span>
+                                                    price:
+                                                </span>
+                                                <font color="red">
+                                                    <b>
+                                                        <span :id="item.asin + '_price'">{{item.price}}</span>
+                                                    </b>
+                                                </font>
+                                            </p>
+                                            <p>
+                                                <a
+                                                    :href="'https://www.sellersprite.com/favicon.ico?reverse-asin/US/' + item.asin">
+                                                    主流量词
+                                                </a>
+                                                |
+                                                <a
+                                                    :href="'https://' + domain + '/favicon.ico?mod=asin_sale&asin=' + item.asin">
+                                                    查看销量
+                                                </a>
+                                                |
+                                                <a :href="'https://keepa.com/iframe_addon.html#1-0-' + item.asin">
+                                                    打开Keepa
+                                                </a>
+                                            </p>
+                                            <div style="overflow:hidden;">
+                                                <p style="margin-left:-20px;">
+                                                    <iframe frameborder="no" scrolling="no" width="240" height="150"
+                                                        :src="'https://graph.keepa.com/pricehistory.png?domain=com&width=1&height=1&range=3&salesrank=1&asin=' + item.asin"></iframe>
+                                                </p>
+                                            </div>
+                                        </a-card>
+                                    </template>
+                                </div>
+                            </a-col>
+                        </template>
+                    </a-row>
+                </div>
+            </a-drawer>
+        </template>
+
+
+    </div>
+</body>
+<!-- body end -->
+
+<!-- import JavaScript -->
+<script src="../scripts/amazon_navigation.js"></script>
+
+<script id="initialize">
+    var vue_debug = true;
+    if (vue_debug) {
+        response = {};
+    } else {
+        response = `${response}`;
+    }
+    var vue = new Vue({
+        el: '#vue',
+        components: {},
+        props: [],
+        data() {
+            return {
+                visible: false,
+                table_code_data: [],
+                pathname: location.pathname,
+                domain: document.domain,
+            }
+        },
+        computed: {},
+        watch: {},
+        created() {},
+        mounted() {},
+        methods: {
+            get_amazon_search_page_keepa(current_page) {
+                this.visible = true;
+                get_amazon_search_page_keepa(current_page)
+            },
+            on_close() {
+                this.visible = false;
+            }
+        }
+    });
+</script>
+
+</html>

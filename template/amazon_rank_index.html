@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
+</head>
+<!-- body start -->
+
+<body>
+    <div id="vue">
+        <div style="padding-top: 10%;padding-left: 20%;padding-right: 20%;">
+            <a-row>
+                <div style="text-align: center;">
+                    <h1>亚马逊关键词排名查询工具</h1>
+                </div>
+                <a-form-model ref="form" :rules="rules" :model="form" :label-col="{span:4}" :wrapper-col="{span:16}">
+                    <a-form-model-item label="邮编:" prop="postcode">
+                        <a-input v-model:value="form.postcode">
+                    </a-form-model-item>
+                    <a-form-model-item label="ASIN:" prop="asin">
+                        <a-input v-model:value="form.asin" placeholder="输入需要查询排名的ASIN" />
+                    </a-form-model-item>
+                    <a-form-model-item label="关键词:" prop="keywords">
+                        <a-input :rows="10" v-model:value="form.keywords" type="textarea"
+                            placeholder="输入关键词(最多10个,换行或逗号分隔)" />
+                    </a-form-model-item>
+                    <a-form-model-item :wrapper-col="{span:14, offset: 5}">
+                        <a-row>
+                            <a-col :span="12">
+                                <a-button style="width: 95%;" type="primary" shape="round" @click="check_rank('form')">
+                                    首页排名查询
+                                </a-button>
+                            </a-col>
+                            <a-col :span="12">
+                                <a-button style="width: 95%;" type="primary" shape="round" @click="check_index('form')">
+                                    收录查询
+                                </a-button>
+                            </a-col>
+                        </a-row>
+                    </a-form-model-item>
+                </a-form-model>
+            </a-row>
+        </div>
+    </div>
+</body>
+<!-- body end -->
+
+
+<!-- import jquery JavaScript -->
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
+<!-- import amazon_scripts_page JavaScript -->
+<script src="../scripts/amazon_scripts_page.js"></script>
+
+<script id="initialize">
+    var vue_debug = true;
+    if (vue_debug) {
+        response = {};
+    } else {
+        response = {};
+    }
+    var vue = new Vue({
+        el: '#vue',
+        components: {},
+        props: [],
+        data() {
+            return {
+                form: {
+                    postcode: get_amazon_conifg(location.href).post_code
+                },
+                rules: {
+                    postcode: [{
+                        required: true,
+                        message: 'Please input postcode',
+                        trigger: 'blur'
+                    }],
+                    asin: [{
+                        required: true,
+                        message: 'Please input asin',
+                        trigger: 'blur'
+                    }],
+                    keywords: [{
+                        required: true,
+                        message: 'Please input keywords',
+                        trigger: 'blur'
+                    }],
+
+                }
+            }
+        },
+        computed: {},
+        watch: {},
+        created() {},
+        mounted() {},
+        methods: {
+            check_rank(form_name) {
+                this.$refs[form_name]
+                    .validate()
+                    .then(() => {
+                        url = location.pathname + '?mod=check_rank&' +
+                            parseParam(JSON.parse(JSON.stringify(this.$refs[form_name].model)));
+                        console.log(url);
+                        window.open(url);
+                    })
+                    .catch(error => {
+                        console.log('error', error);
+                    });
+            },
+            check_index(form_name) {
+                this.$refs[form_name]
+                    .validate()
+                    .then(() => {
+                        url = location.pathname + '?mod=check_index&' +
+                            parseParam(JSON.parse(JSON.stringify(this.$refs[form_name].model)));
+                        window.open(url);
+                    })
+                    .catch(error => {
+                        console.log('error', error);
+                    });
+            }
+
+        }
+    });
+</script>
+
+</html>

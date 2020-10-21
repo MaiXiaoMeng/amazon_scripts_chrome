@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
+</head>
+
+<!-- body start -->
+
+<body>
+    <div id="vue">
+        <a-row>
+            <a-col :span="8">
+                <div>
+
+                    <div style="text-align: center;">
+                        <img style="width:450;height:450px;" class="image" :src="asin_data.image">
+                    </div>
+
+                    <div style="text-align: center;">
+                        <span>{{asin_data.title}}</span>
+                    </div>
+
+                    <div v-for="item in asin_data.information">
+                        <a-col :span="12">
+                            <span>{{item.key}}</span>
+                            <span>{{item.value}}</span>
+                        </a-col>
+                    </div>
+
+                </div>
+            </a-col>
+            <a-col :span="8" style="font-size: 15px;">
+
+                <div>
+                    <a-row style="text-align: center;">
+                        <a-col :span="8" style="width: 5em;">
+                            <span>月份</span>
+                        </a-col>
+                        <a-col :span="8" style="width: 5em;">
+                            <span>每月总销量</span>
+                        </a-col>
+                        <a-col :span="17">
+                            <span>所占比例</span>
+                        </a-col>
+                    </a-row>
+
+                    <div v-for="(value, name, index) in asin_data.monthly_sales"
+                        v-if="asin_data.monthly_sales_length<30 || asin_data.monthly_sales_length > 30  && index > asin_data.monthly_sales_length-30">
+                        <a-row style="text-align: center;">
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{ name }}</span>
+                            </a-col>
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{ value.toFixed(2) }}</span>
+                            </a-col>
+                            <a-col :span="17">
+                                <a-progress :percent=Number(((value/asin_data.monthly_sales_max)*100).toFixed(0))
+                                    status="active" :show-info="false" />
+                            </a-col>
+                        </a-row>
+                    </div>
+                </div>
+            </a-col>
+            <a-col :span="8" style="font-size: 14px;">
+                <div>
+                    <a-row style="text-align: center;">
+                        <a-col :span="8" style="width: 6em;">
+                            <span>日期</span>
+                        </a-col>
+                        <a-col :span="8" style="width: 5em;">
+                            <span>日销量</span>
+                        </a-col>
+                        <a-col :span="16">
+                            <span>所占比例</span>
+                        </a-col>
+                    </a-row>
+                    <div v-for="(value, name, index) in asin_data.day_sales"
+                        v-if="asin_data.day_sales_length < 30 || asin_data.day_sales_length > 30  && index > asin_data.day_sales_length-30">
+                        <a-row style="text-align: center;">
+                            <a-col :span="8" style="width: 6em;">
+                                <span>{{name}}</span>
+                            </a-col>
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{value}}</span>
+                            </a-col>
+                            <a-col :span="16">
+                                <a-progress :percent=Number(((value/asin_data.day_sales_max)*100).toFixed(0))
+                                    status="active" :show-info="false" />
+                            </a-col>
+                        </a-row>
+                    </div>
+                </div>
+            </a-col>
+        </a-row>
+        <a-row>
+            <a-col :span="12">
+                <iframe scrolling="no" width="100%" height="315"
+                    :src='"https://members.helium10.com/chart/index?asin=" + asin_data.asin + "&amp;marketplace=" +asin_data.marketplace + "&amp;range=90"'></iframe>
+            </a-col>
+            <a-col :span="12">
+                <iframe scrolling="no" width="100%" height="315"
+                    :src='"https://members.helium10.com/black-box/review-chart?asin=" + asin_data.asin + "&marketplace=" +asin_data.marketplace + "&days=90"'></iframe>
+            </a-col>
+        </a-row>
+    </div>
+</body>
+<!-- body end -->
+<style>
+    .a-card {
+        min-width: 100%;
+        height: 100%;
+    }
+
+    .a-card>div:nth-child(n+3) {
+        text-indent: 50%;
+    }
+</style>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
+
+<script id="initialize">
+    var debug = true;
+    if (debug) {
+        asin_data = {
+            "asin": "B08D6D4DP9",
+            "marketplace": "A1AM78C64UM0Y8",
+            "title": "top4cus Nano Mist Spray, Nano Difusor Portátil de 20ml, Mini Spray Portátil para la Piel, Nano Difusor Portátil Recargable USB de 450mAh, Herramienta de Belleza en Spray Facial",
+            "image": "https://m.media-amazon.com/images/I/31eALeOuiwL.jpg",
+            "monthly_sales": {
+                "2020-08": 34.980000000000004,
+                "2020-09": 55.89999999999999
+            },
+            "monthly_sales_length": 2,
+            "monthly_sales_max": 55.89999999999999,
+            "day_sales": {
+                "2020-08-24": 3.89,
+                "2020-08-25": 1.03,
+                "2020-08-26": 1.03,
+                "2020-08-27": 1.03,
+                "2020-08-28": 6.03,
+                "2020-08-29": 6.03,
+                "2020-08-30": 8.93,
+                "2020-08-31": 7.01,
+                "2020-09-01": 3.02,
+                "2020-09-02": 2.14,
+                "2020-09-03": 6.5,
+                "2020-09-04": 6.13,
+                "2020-09-05": 3.84,
+                "2020-09-06": 2.21,
+                "2020-09-07": 1.19,
+                "2020-09-08": 0.84,
+                "2020-09-09": 0.72,
+                "2020-09-10": 0.62,
+                "2020-09-11": 1.03,
+                "2020-09-12": 2.36,
+                "2020-09-13": 2.77,
+                "2020-09-14": 3.3,
+                "2020-09-15": 3.21,
+                "2020-09-16": 5.16,
+                "2020-09-17": 2.12,
+                "2020-09-18": 1.6,
+                "2020-09-19": 1.28,
+                "2020-09-20": 0.94,
+                "2020-09-21": 0.65,
+                "2020-09-22": 1.01,
+                "2020-09-23": 0.66,
+                "2020-09-24": 0.54,
+                "2020-09-25": 0.91,
+                "2020-09-26": 0.62,
+                "2020-09-27": 0.53
+            },
+            "day_sales_length": 35,
+            "day_sales_max": 8.93,
+            "information": [{
+                "key": "ASIN:",
+                "value": "B08D6D4DP9"
+            }, {
+                "key": "品牌名:",
+                "value": "top4cus"
+            }, {
+                "key": "大类:",
+                "value": "home"
+            }, {
+                "key": "大类BSR:",
+                "value": "6076"
+            }, {
+                "key": "小类:",
+                "value": "32\n"
+            }, {
+                "key": "小类BSR:",
+                "value": "32\n"
+            }, {
+                "key": "包装尺寸(inch):",
+                "value": "1.3*6.0*1.3"
+            }, {
+                "key": "重量(lbs):",
+                "value": "0.1"
+            }, {
+                "key": "FBA费用:",
+                "value": "57.09"
+            }]
+        }
+
+
+
+    } else {
+        asin_data = `${asin_data}`;
+    }
+    var vue = new Vue({
+        el: '#vue',
+        components: {},
+        props: [],
+        data() {
+            return {
+                currentDate: new Date(),
+                visible: false,
+                asin_data: asin_data
+            }
+        },
+        computed: {},
+        watch: {},
+        created() {},
+        mounted() {},
+        methods: {
+            getProgressColor(successPercent) {
+                let color = ''
+                if (successPercent < 50) {
+                    color = '#f50'
+                } else if (successPercent >= 50 && successPercent < 90) {
+                    color = '#FF9900'
+                } else if (successPercent >= 90) {
+                    color = '#87d068'
+                }
+                return color
+            }
+        }
+    });
+</script>
+
+</html>

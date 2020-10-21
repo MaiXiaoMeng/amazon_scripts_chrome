@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
+</head>
+<!-- body start -->
+
+<body>
+    <div id="vue">
+        <a-row>
+            <a-col :span="24">
+                <a-table rowKey="key" ref="table" :data-source="data" :pagination="false" size="small">
+                    <a-table-column title="ASIN" data-index="ASIN">
+                        <template slot-scope="text, record">
+                            <span onclick="get_amazon_keyword_ranking()">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="关键词" data-index="关键词">
+                        <template slot-scope="text, record">
+                            <span onclick="get_amazon_keyword_ranking()">{{text}}</span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="自然排名">
+                        <template slot-scope="text, record">
+                            <span :id="record.关键词+'_nt_rank'"></span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="广告排名">
+                        <template slot-scope="text, record">
+                            <span :id="record.关键词+'_ad_rank'"></span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独自然排名">
+                        <template slot-scope="text, record">
+                            <span :id="record.关键词+'_nt_independent_rank'"></span>
+                        </template>
+                    </a-table-column>
+                    <a-table-column title="单独广告排名">
+                        <template slot-scope="text, record">
+                            <span :id="record.关键词+'_ad_independent_rank'"></span>
+                        </template>
+                    </a-table-column>
+                </a-table>
+            </a-col>
+        </a-row>
+        <div>
+            <template v-for="index in Number(page)">
+                <span>第{{index}}页</span>
+                <a href="javascript:scroll(0,-9999);">Back to Top</a><br>
+                <iframe style="border:1px solid;" height="300" width="100%"
+                    :src="'https://' + domain + '/s?k=' + keyword + '&page=' + index"></iframe>
+            </template>
+        </div>
+    </div>
+</body>
+<!-- body end -->
+
+<!-- import jquery JavaScript -->
+<script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
+<!-- import amazon_scripts_page JavaScript -->
+<script src="../scripts/amazon_scripts_page.js"></script>
+
+<script id="initialize">
+    var vue_debug = true;
+    if (vue_debug) {
+        response = {};
+    } else {
+        response = {};
+    }
+    mod = get_query_variable('mod');
+    page = get_query_variable('page');
+    asins = get_query_variable('asins').split(',');
+    keyword = get_query_variable('keyword');
+    data = [];
+    for (let index = 0; index < asins.length; index++) {
+        data.push({
+            "key": index,
+            "ASIN": asins[index],
+            "关键词": keyword
+        })
+    }
+    var vue = new Vue({
+        el: '#vue',
+        components: {},
+        props: [],
+        data() {
+            return {
+                domain: document.domain,
+                keyword: keyword,
+                data: data,
+                page: page,
+                mod: mod
+            }
+        },
+        computed: {},
+        watch: {},
+        created() {},
+        mounted() {},
+        methods: {}
+    });
+</script>
+
+</html>

@@ -1,0 +1,48 @@
+<table border="1" bgcolor="#FAEBD7">
+    <tr>
+        <td align=center>大类</td>
+        <td align=center>大类排名</td>
+        <td align=center>小类</td>
+        <td align=center>小类排名</td>
+        <td align=center>包装尺寸(inch)</td>
+        <td align=center>包装重量(lbs)</td>
+        <td align=center>FBA运费</td>
+    </tr>
+    <tr>
+        <td id="${json_data.asin}_big_cat" align=center>
+            <a onclick="document.getElementById('prodDetails_nav').scrollIntoView();">${json_data.big_cat}</a>
+        </td>
+        <td id="${json_data.asin}_big_bsr" align=center>${json_data.big_bsr}</td>
+        <td id="${json_data.asin}_small_cat" align=center>
+            <a onclick="document.getElementById('prodDetails_nav').scrollIntoView();">${json_data.small_cat}</a>
+        </td>
+        <td id="${json_data.asin}_small_bsr" align=center>${json_data.small_bsr}</td>
+        <td id="${json_data.asin}_dim" align=center>${json_data.dim}</td>
+        <td id="${json_data.asin}_weight" align=center>${json_data.weight}</td>
+        <td id="${json_data.asin}_fba_fee" align=center>${json_data.fba_fee}</td>
+    </tr>
+    <tr>
+        <td align=center>
+            <font color=red>24小时订单数</font>
+        </td>
+        <td align=center>最近第1周订单数</td>
+        <td align=center>最近第2周订单数</td>
+        <td align=center>最近第3周订单数</td>
+        <td align=center>最近第4周订单数</td>
+        <td align=center>最近4周总订单数</td>
+        <td align=center>上架日期</td>
+    </tr>
+    <tr>
+        <td id="${json_data.asin}_h24_sale" align=center>
+            <font color=red>${json_data.h24_sale}</font>
+        </td>
+        <td id="${json_data.asin}_w1_sale" align=center>${json_data.w1_sale}</td>
+        <td id="${json_data.asin}_w2_sale" align=center>${json_data.w2_sale}</td>
+        <td id="${json_data.asin}_w3_sale" align=center>${json_data.w3_sale}</td>
+        <td id="${json_data.asin}_w4_sale" align=center>${json_data.w4_sale}</td>
+        <td id="${json_data.asin}_4week_sale" align=center>${json_data.w4eek_sum_sale}</td>
+        <td id="${json_data.asin}_sales_days" align=center>
+            <a onclick="document.getElementById('prodDetails_nav').scrollIntoView();">查看</a>
+        </td>
+    </tr>
+</table>

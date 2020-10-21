@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- import CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.css">
+</head>
+
+<!-- body start -->
+
+<body>
+    <div id="vue">
+        <a-row>
+            <a-col :span="8">
+                <div>
+                    <div style="text-align: center">
+                        <img style="width:450;height:450px;" class="image" :src="response.image">
+                    </div>
+
+                    <div style="text-align: center;padding-top: 2px;">
+                        <span>{{response.title}}</span>
+                    </div>
+
+                    <div v-for="item in response.information">
+                        <a-col :span="12" style="padding:2px;padding-left: 5em;">
+                            <span>{{item.key}}</span>
+                            <span>{{item.value}}</span>
+                        </a-col>
+                    </div>
+                </div>
+            </a-col>
+            <a-col :span="8" style="font-size: 15px;">
+
+                <div>
+                    <a-row style="text-align: center;">
+                        <a-col :span="8" style="width: 5em;">
+                            <span>月份</span>
+                        </a-col>
+                        <a-col :span="8" style="width: 5em;">
+                            <span>每月总销量</span>
+                        </a-col>
+                        <a-col :span="17">
+                            <span>所占比例</span>
+                        </a-col>
+                    </a-row>
+
+                    <div v-for="(value, name, index) in response.monthly_sales"
+                        v-if="response.monthly_sales_length<30 || response.monthly_sales_length > 30  && index > response.monthly_sales_length-30">
+                        <a-row style="text-align: center;">
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{ name }}</span>
+                            </a-col>
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{ value.toFixed(2) }}</span>
+                            </a-col>
+                            <a-col :span="17" style="padding-top: 1%;">
+                                <a-progress :percent=Number(((value/response.monthly_sales_max)*100).toFixed(0))
+                                    :stroke-color="getProgressColor(Number(((value/response.monthly_sales_max)*100).toFixed(0)))"
+                                    :show-info="false" status="active" />
+                            </a-col>
+                        </a-row>
+                    </div>
+                </div>
+            </a-col>
+            <a-col :span="8" style="font-size: 14px;">
+                <div>
+                    <a-row style="text-align: center;">
+                        <a-col :span="8" style="width: 6em;">
+                            <span>日期</span>
+                        </a-col>
+                        <a-col :span="8" style="width: 5em;">
+                            <span>日销量</span>
+                        </a-col>
+                        <a-col :span="16">
+                            <span>所占比例</span>
+                        </a-col>
+                    </a-row>
+                    <div v-for="(value, name, index) in response.day_sales"
+                        v-if="response.day_sales_length < 30 || response.day_sales_length > 30  && index > response.day_sales_length-30">
+                        <a-row style="text-align: center;">
+                            <a-col :span="8" style="width: 6em;">
+                                <span>{{name}}</span>
+                            </a-col>
+                            <a-col :span="8" style="width: 5em;">
+                                <span>{{value}}</span>
+                            </a-col>
+                            <a-col :span="16" style="padding-top: 1%;">
+                                <a-progress :percent=Number(((value/response.day_sales_max)*100).toFixed(0))
+                                    :stroke-color="getProgressColor(Number(((value/response.day_sales_max)*100).toFixed(0)))"
+                                    :show-info="false" status="active" />
+                            </a-col>
+                        </a-row>
+                    </div>
+                </div>
+            </a-col>
+        </a-row>
+        <a-row>
+            <a-col :span="12">
+                <iframe frameborder="no" scrolling="no" width="100%" height="315"
+                    :src='"https://members.helium10.com/chart/index?asin=" + response.asin + "&amp;marketplace=" +response.marketplaceId + "&amp;range=90"'></iframe>
+            </a-col>
+            <a-col :span="12">
+                <iframe frameborder="no" scrolling="no" width="100%" height="315"
+                    :src='"https://members.helium10.com/black-box/review-chart?asin=" + response.asin + "&marketplace=" +response.marketplaceId + "&days=90"'></iframe>
+            </a-col>
+        </a-row>
+    </div>
+</body>
+<!-- body end -->
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+<!-- import JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js"></script>
+
+<script id="initialize">
+    var vue_debug = true;
+    if (vue_debug) {
+        response = {}
+    } else {
+        response = `${response}`;
+    }
+    var vue = new Vue({
+        el: '#vue',
+        components: {},
+        props: [],
+        data() {
+            return {
+                currentDate: new Date(),
+                visible: false,
+                response: response
+            }
+        },
+        computed: {},
+        watch: {},
+        created() {},
+        mounted() {},
+        methods: {
+            getProgressColor(successPercent) {
+                let color = ''
+                if (successPercent < 30) {
+                    color = {
+                        '0%': '#C23D3D',
+                        '100%': '#C23D3D'
+                    };
+                } else if (successPercent >= 30 && successPercent < 60) {
+                    color = {
+                        '0%': '#C2803D',
+                        '100%': '#C2803D'
+                    };
+                } else if (successPercent >= 60 && successPercent < 80) {
+                    color = {
+                        '0%': '#C2C23D',
+                        '100%': '#C2C23D'
+                    };
+                } else if (successPercent >= 80 && successPercent < 90) {
+                    color = {
+                        '0%': '#80C23D',
+                        '100%': '#80C23D'
+                    };
+                } else if (successPercent >= 90) {
+                    color = {
+                        '0%': '#3DC23D',
+                        '100%': '#3DC23D'
+                    };
+                }
+                return color
+            }
+        }
+    });
+</script>
+
+</html>

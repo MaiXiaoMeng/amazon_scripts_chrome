@@ -50,7 +50,7 @@
 1. 点击本项目中的 `Releases`
 2. 选择最新的 `Releases` 版本（如：`Releases-v0.0.1`）
 3. 下载最新的版本（如：`amazon_scripts_chrome.crx`）
-4. 下载 Chrome 组策略管理模板  [chrome.adm](https://)
+4. 下载 Chrome 组策略管理模板  [chrome.adm](https://https://github.com/MaiXiaoMeng/amazon_scripts_chrome/raw/dev/tutorials/chrome.adm)
 5. Win+R 打开运行，输入 `gpedit.msc` 然后按下回车
 6. 依次展开 本地计算机策略 > 计算机配置 > 管理模板，在“`管理模板`”上右击，选择“`添加/删除模板`”
 7. 点击添加，找到第 4 步下载的“`chrome.adm`”，打开，关闭“`添加/删除模板`”窗口

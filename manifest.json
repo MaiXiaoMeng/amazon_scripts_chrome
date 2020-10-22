@@ -4,15 +4,17 @@
   // 插件的名称
   "name": "Amazon Scripts",
   // 插件的版本
-  "version": "2020.10.01",
+  "version": "0.0.1",
   // 插件描述
   "description": "Amazon Scripts",
+  // 最低浏览器版本 
+  "minimum_chrome_version": "1.0.0",
   // 图标，一般偷懒全部用一个尺寸的也没问题
   "icons": {
     "48": "icons/amazon_scripts_chrome_48.png"
   },
   // 插件主页，这个很重要，不要浪费了这个免费广告位
-  "homepage_url": "https://www.baidu.com",
+  "homepage_url": "https://github.com/MaiXiaoMeng/amazon_scripts_chrome",
   // 会一直常驻的后台JS或后台页面
   "background": {
     // 2种指定方式，如果指定JS，那么会自动生成一个背景页
@@ -25,7 +27,7 @@
     // 图标悬停时的标题，可选
     "default_title": "Amazon Scripts",
     // 浏览器右上角默认的页面
-    "default_popup": "popup.html",
+    // "default_popup": "popup.html",
     // 浏览器右上角默认的图标
     "default_icon": "icons/amazon_scripts_chrome_48.png"
   },
@@ -63,15 +65,9 @@
   ],
   // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [
-    "template/amazom_asin_sale.html",
-    "template/amazon_keyword_rank.html",
-    "template/amazon_check_keyword_rank.html",
-    "template/amazon_rank_index.html",
-    "template/amazon_check_rank_index.html",
-    "template/amazon_page_menu.html",
-    "template/prodDetails.html",
-    "scripts/amazon_scripts_page.js",
-    "style/amazon_scripts.css"
+    "template/*",
+    "scripts/*",
+    "style/*"
   ],
   // 需要直接注入页面的JS
   "content_scripts": [

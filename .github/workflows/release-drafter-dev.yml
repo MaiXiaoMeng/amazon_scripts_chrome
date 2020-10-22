@@ -1,0 +1,87 @@
+# # https://banyudu.com/posts/auto_publish_npm_and_generate_github_changelog.882513
+name: create-release
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Generate changelog
+        id: changelog
+        uses: metcalfc/changelog-generator@v0.4.4
+        with:
+          myToken: ${{ secrets.GITHUB_TOKEN }}
+          # head-ref: 'v0.0.2'
+          # base-ref: 'v0.0.1'
+
+      - name: Install npm package
+        run: |
+          cd ..
+          echo "${{secrets.GOOGLE_EXTEND_PEM}}" > amazon_scripts_chrome.pem
+          npm install crx3
+          npm install uglify-es
+          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_navigation.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_navigation.js
+          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_scripts_page.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_scripts_page.js
+          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_scripts.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_scripts.js
+
+      - name: Get latest release
+        uses: actions/github-script@v3.0.0
+        id: get-latest-release
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: string
+          script: |
+            try {
+                var latestRelease = await github.repos.getLatestRelease({ owner: context.repo.owner, repo: context.repo.repo });
+                return latestRelease.data.tag_name;
+            } catch (error) {
+                if (error.message === 'Not Found') {
+                    return '0.0.0';
+                } else {
+                    core.setFailed(error.message)
+                }
+            }
+
+      - name: Run pack zip&&crx
+        run: |
+          cd .. && npx crx3 amazon_scripts_chrome --zip amazon_scripts_chrome.zip  --crx amazon_scripts_chrome.crx --key amazon_scripts_chrome.pem
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Upload ZIP
+        if: steps.create_release.outcome == 'success'
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./../amazon_scripts_chrome.zip
+          asset_name: amazon_scripts_chrome.zip
+          asset_content_type: application/x-zip-compressed
+
+      - name: Upload CRX
+        if: steps.create_release.outcome == 'success'
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./../amazon_scripts_chrome.crx
+          asset_name: amazon_scripts_chrome.crx
+          asset_content_type: application/x-zip-compressed

@@ -25,7 +25,7 @@
 
 #### 离线安装
 
-如果您不能在线安装，您可以从 [Releases ](https://github.com/MaiXiaoMeng/amazon_scripts_chrome/releases/latest) 页面进行离线安装。
+如果您不能在线安装，您可以从 [Releases ](https://github.com/MaiXiaoMeng/amazon_scripts_chrome/releases) 页面进行离线安装。
 
 但是离线安装的话，之后的版本更新需要下载新版本来手动更新。
 
@@ -34,7 +34,7 @@
 
 ##### 下载ZIP包安装（需要打开 Chromium 内核浏览器的开发者模式）
 
-1. 点击本项目中的 `Releases` 或者 [点击这里下载](https://codeload.github.com/MaiXiaoMeng/amazon_scripts_chrome)
+1. 点击本项目中的 `Releases` 或者 [点击这里下载](https://github.com/MaiXiaoMeng/amazon_scripts_chrome/releases)
 2. 选择最新的 `Releases` 版本（如：`Releases-v0.0.1`），下载本程序的 zip 压缩包。
 3. 排在第一位的就是最新版本，点击红框处下载最新的版本（如：`amazon_scripts_chrome.zip`）
 4. 把下载好的 `amazon_scripts_chrome.zip` 解压缩到电脑的`任意目录`

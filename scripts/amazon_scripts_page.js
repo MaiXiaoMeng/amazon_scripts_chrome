@@ -580,3 +580,12 @@ function get_amazon_search_page_keepa() {
     vue.table_code_data = table_code_data;
     console.log(table_code_data);
 }
+
+function get_amazon_page_type(type) {
+    switch (true) {
+        case type == 'search':
+            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/s?`) > -0x1))
+        case type == 'listing':
+            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1))
+    }
+}

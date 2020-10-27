@@ -13,7 +13,7 @@
             <div style="text-align: center;">
                 <a-menu mode="horizontal">
                     <a-sub-menu>
-                        <template v-slot:title>打开页面统计</template>
+                        <template v-if="get_amazon_page_type('search')" v-slot:title>打开页面统计</template>
                         <a-menu-item>
                             <a @click="get_amazon_search_page_keepa()">统计当前页面</a>
                         </a-menu-item>
@@ -132,6 +132,9 @@
             get_amazon_search_page_keepa(current_page) {
                 this.visible = true;
                 get_amazon_search_page_keepa(current_page)
+            },
+            get_amazon_page_type(type) {
+                return get_amazon_page_type(type)
             },
             on_close() {
                 this.visible = false;

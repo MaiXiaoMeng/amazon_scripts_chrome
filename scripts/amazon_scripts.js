@@ -9,6 +9,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '1',
                 'post_code': '10002',
                 'site_code': 'US',
+                'site_plat':'am_us',
+                'site_to_lang':'en'
             };
             break;
         case url.indexOf('amazon.ca') > 0:
@@ -17,6 +19,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '6',
                 'post_code': 'A1B 2C3',
                 'site_code': 'CA',
+                'site_plat':'am_ca',
+                'site_to_lang':'en'
             };
             break;
         case url.indexOf('amazon.com.mx') > 0:
@@ -25,6 +29,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '11',
                 'post_code': '77580',
                 'site_code': 'MX',
+                'site_plat':'am_mx',
+                'site_to_lang':'es'
             };
             break;
         case url.indexOf('amazon.co.uk') > 0:
@@ -33,6 +39,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '2',
                 'post_code': 'SW17%209NT',
                 'site_code': 'UK',
+                'site_plat':'am_uk',
+                'site_to_lang':'en'
             };
             break;
 
@@ -42,6 +50,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '3',
                 'post_code': '89233',
                 'site_code': 'DE',
+                'site_plat':'am_de',
+                'site_to_lang':'de'
             };
             break;
         case url.indexOf('amazon.es') > 0:
@@ -50,6 +60,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '9',
                 'post_code': '30560',
                 'site_code': 'ES',
+                'site_plat':'am_es',
+                'site_to_lang':'es'
             };
             break;
 
@@ -59,15 +71,19 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '4',
                 'post_code': '30560',
                 'site_code': 'FR',
+                'site_plat':'am_fr',
+                'site_to_lang':'fr'
             };
             break;
-
+            
         case url.indexOf('amazon.it') > 0:
             json_data = {
                 'marketplaceID': 'APJ6JRA9NG5V4',
                 'keepa_market_id': '8',
                 'post_code': '55049',
                 'site_code': 'IT',
+                'site_plat':'am_it',
+                'site_to_lang':'it'
             };
             break;
         case url.indexOf('amazon.co.jp') > 0:
@@ -76,6 +92,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '5',
                 'post_code': '197-0408',
                 'site_code': 'JP',
+                'site_plat':'am_jp',
+                'site_to_lang':'jo'
             };
             break;
         case url.indexOf('amazon.com.au') > 0:
@@ -84,6 +102,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '13',
                 'post_code': '0200-0299',
                 'site_code': 'AU',
+                'site_plat':'am_au',
+                'site_to_lang':'en'
             };
             break;
         default:
@@ -92,6 +112,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': 'null',
                 'post_code': 'null',
                 'site_code': 'null',
+                'site_plat':'null',
+                'site_to_lang':'null'
             };
             break;
     }
@@ -105,6 +127,17 @@ function set_amazon_postcode() {
     }
 }
 
+// 判断亚马逊当前的页面类型
+function get_amazon_page_type(type) {
+    switch (true) {
+        case type == 'search':
+            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/s?`) > -1))
+        case type == 'listing':
+            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1))
+        case type == 'amazon':
+            return (location.href.indexOf(`www.amazon`) > -1)
+    }
+}
 // 发送网络请求
 function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
@@ -462,7 +495,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 marketplaceId = get_amazon_conifg(location.href).marketplaceID;
                 keepa_market_id = get_amazon_conifg(location.href).keepa_market_id;
                 console.log('marketplaceId -> ' + marketplaceId);
-                switch (location.href.indexOf(`www.amazon`) > -1) {
+                switch (get_amazon_page_type('amazon')) {
                     case get_query_variable('mod') == 'check_index':
                         document.title = `亚马逊关键词首页收录查询`;
                         document.body.outerHTML = get_template_html('template/amazon_check_rank_index.html', mode = 'body');
@@ -493,101 +526,46 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         break;
                 }
 
+
+
+
+                if (get_amazon_page_type('amazon')) {
+                    var page_menu = get_template_html('template/amazon_page_menu.html', mode = 'body');
+                    document.getElementById('a-page').insertAdjacentHTML('afterBegin', page_menu);
+                    // mod=asin_compare 竞品比对监控
+                    // mod=comp_rank ASIN 定位广告排名查询
+                    // mod=keyword_search 关键词搜索量趋势调研
+                    // mod=search&plat= 翻译搜索
+                    // https://www.sellersprite.com/favicon.ico?reverse-asin/` + document.domain.slice(-0x2).replace('om', 'US').toUpperCase() + '/' + asin + `" target="_blank`;
+
+                    //asin = (location.href.indexOf(`/dp/`) > -0x1 ? location.href.split(`/dp/`)[0x1].split('/')[0x0].split('#')[0x0].split('?')[0x0] : location.href.split(`/gp/product/`)[0x1].split('/')[0x0]).split('#')[0x0].split('?')[0x0];
+                    //asin_sale_link = `https://` + document.domain + `/favicon.ico?mod=asin_sale&asin=` + asin + `" target="_blank`;
+                    //open_helium10_link = `https://` + document.domain + `/favicon.ico?mod=asin_keepa&asins=` + asin + `" target="_blank`;
+                    //open_keepa_link = `https://keepa.com/iframe_addon.html#` + keepa_market_id + `-0-` + asin + `" target="_blank`;
+                    //source_1688_link = `https://kj.1688.com/pdt_tongkuan.html?productUrl=https%3A%2F%2F` + document.domain + `%2Fdp%2F` + asin + `" target="_blank`;
+                    //positive_link = `https://translate.google.cn/favicon.ico?mod=trans_positive&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
+                    //negative_link = `https://translate.google.cn/favicon.ico?mod=trans_negative&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
+                    //function_name_a = [`切换当地邮编`, `主流量词`, `预估销量`, `Helium10价格排名走势`, `打开Keepa`, `导出变体`, `标题描述翻译`, `前6页差评翻译`, `前6页好评翻译`];
+                    //function_a = [trans_postcode_link, reverse_asin_link, asin_sale_link, open_helium10_link, open_keepa_link, export_var_link, title_desc_trans_link, negative_link, positive_link];
+                }
+
                 // 判断是不是在亚马逊的Listing页面
-                if (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/s?`) > -0x1 || location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1)) {
+                if (get_amazon_page_type('listing')) {
+                    // 用红色字体显示评星评级
+                    if (document.body.innerHTML.indexOf(`id="acrPopover"`) > -1) {
+                        document.getElementById(`acrPopover`).insertAdjacentHTML(`afterend`, `<font color="red">` + document.getElementById(`acrPopover`).title + `</font>`);
+                    }
+                    // 获取当前页面的 Asin
+                    if (document.body.innerHTML.indexOf(`id="ASIN"`) > -1) {
+                        asin = document.getElementById(`ASIN`).value;
+                    } else {
+                        asin = document.body.innerHTML.split(`data-asin="`)[1].split('"')[0];
+                    }
+                    // 在当前页面的五行生成销量表格
+                    json_data = get_helium10_json(asin, marketplaceId);
+                    display_code = get_template_html('template/prodDetails.html');
+                    document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
                     document.getElementById('a-page').insertAdjacentHTML('afterBegin', get_template_html('template/amazon_page_menu.html', mode = 'body'));
-
-
-                    // if (new Date().getTime() >= new Date(exd)) {} else {
-                    //         open_stat_link = encodeURI('');
-                    //         trans_postcode_link = 'javascript';
-                    //         export_var_link = 'javascript';
-                    //         title_desc_trans_link = 'javascript';
-                    //         open_stat_link_7 = `javascript:` + open_stat_link + `open_stat(7)`;
-                    //         open_stat_link_30 = `javascript:` + open_stat_link + `open_stat(30)`;
-                    //         open_stat_link_90 = `javascript:` + open_stat_link + `open_stat(90)`;
-                    //         open_stat_link_180 = `javascript:` + open_stat_link + `open_stat(180)`;
-                    //         open_stat_link_365 = `javascript:` + open_stat_link + `open_stat(365)`;
-                    //         manu_nav_code = `
-                    //     <td>
-                    //         <a href="https://` + document.domain + `/favicon.ico?mod=keyword_rank" style="text-decoration:none;" target="_blank">关键词排名查询</a>
-                    //     </td>
-                    //     <td>
-                    //         <a href="https://` + document.domain + `/favicon.ico?mod=rank_index" style="text-decoration:none;" target="_blank">首页排名收录查询</a>
-                    //     </td>
-                    //     <td>
-                    //         <a href="https://` + document.domain + `/favicon.ico?mod=asin_compare" style="text-decoration:none;" target="_blank">竞品比对监控</a>
-                    //     </td>
-                    //     <td>
-                    //         <a href="https://` + document.domain + `/favicon.ico?mod=comp_rank" style="text-decoration:none;" target="_blank">ASIN定位广告排名查询</a>
-                    //     </td>
-                    //     <td>
-                    //         <a href="https://` + document.domain + `/favicon.ico?mod=keyword_search" style="text-decoration:none;" target="_blank">关键词搜索量趋势调研</a>
-                    //     </td>
-                    //     </tr>`;
-                    //         plat = document.domain == `www.amazon.com` ? `am_us` : document.domain == `www.amazon.ca` ? `am_ca` : document.domain == `www.amazon.com.mx` ? `am_mx` : document.domain == `www.amazon.co.uk` ? `am_uk` : document.domain == `www.amazon.de` ? `am_de` : document.domain == `www.amazon.es` ? `am_es` : document.domain == `www.amazon.fr` ? `am_fr` : document.domain == `www.amazon.it` ? `am_it` : document.domain == `www.amazon.co.jp` ? `am_jp` : document.domain == `www.amazon.com.au` ? `am_au` : '';
-                    //         query_link = `javascript:open('https://translate.google.cn/favicon.ico?mod=search&plat=` + plat + `&q='+document.getElementById('search_keyword').value);void(0);`;
-                    //         manu_nav_code = `<tr><td><input id="search_keyword" size=100 style="font-size:14px; width:200px; height:25px; border:1px solid #378888;"> <a style="text-decoration:none;" href="` + query_link + `"><input type="button" value="翻译搜索" style="font-size:14px; width:70px; height:25px; border:1px solid #00FFFF; vertical-align: middle;"></a></td>` + manu_nav_code;
-                    //         if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/dp/`) > -0x1 || location.href.indexOf(`/gp/product/`) > -0x1)) {
-                    //             if (new Date().getTime() >= new Date(exd)) {} else {
-                    //                 asin = (location.href.indexOf(`/dp/`) > -0x1 ? location.href.split(`/dp/`)[0x1].split('/')[0x0].split('#')[0x0].split('?')[0x0] : location.href.split(`/gp/product/`)[0x1].split('/')[0x0]).split('#')[0x0].split('?')[0x0];
-                    //                 reverse_asin_link = `https://www.sellersprite.com/favicon.ico?reverse-asin/` + document.domain.slice(-0x2).replace('om', 'US').toUpperCase() + '/' + asin + `" target="_blank`;
-                    //                 asin_sale_link = `https://` + document.domain + `/favicon.ico?mod=asin_sale&asin=` + asin + `" target="_blank`;
-                    //                 open_helium10_link = `https://` + document.domain + `/favicon.ico?mod=asin_keepa&asins=` + asin + `" target="_blank`;
-                    //                 open_keepa_link = `https://keepa.com/iframe_addon.html#` + keepa_market_id + `-0-` + asin + `" target="_blank`;
-                    //                 source_1688_link = `https://kj.1688.com/pdt_tongkuan.html?productUrl=https%3A%2F%2F` + document.domain + `%2Fdp%2F` + asin + `" target="_blank`;
-                    //                 positive_link = `https://translate.google.cn/favicon.ico?mod=trans_positive&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
-                    //                 negative_link = `https://translate.google.cn/favicon.ico?mod=trans_negative&plat=am_` + document.domain.slice(-0x2).replace('om', 'us') + `&page=3&asin=` + asin + `" target="_blank`;
-                    //                 function_name_a = [`切换当地邮编`, `主流量词`, `预估销量`, `Helium10价格排名走势`, `打开Keepa`, `导出变体`, `标题描述翻译`, `前6页差评翻译`, `前6页好评翻译`];
-                    //                 function_a = [trans_postcode_link, reverse_asin_link, asin_sale_link, open_helium10_link, open_keepa_link, export_var_link, title_desc_trans_link, negative_link, positive_link];
-                    //                 anchor_name_a = [`Back to top`, `关联广告`, `A+描述`, `详细描述`, `重要信息`, `排名信息`, `比较相似产品`, 'QA', '评论'];
-                    //                 anchor_a = ['dp', `sp_detail-none`, `aplus`, `productDescription`, `importantInformation`, `prodDetails`, `HLCXComparisonWidget_feature_div`, `Ask`, `customerReviews`];
-                    //                 nav_code = '';
-                    //                 for (i = 0x0; i < anchor_a.length; i++) {
-                    //                     if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
-                    //                         nav_code = nav_code + `<td><a href="javascript:void(0);" onclick="document.getElementById('` + (anchor_a[i] + `_nav`).replace(`dp_nav`, `nav-top`) + `').scrollIntoView();" style="text-decoration:none;">` + anchor_name_a[i] + `</a></td>`;
-                    //                     }
-                    //                 }
-                    //                 nav_code = nav_code + `</tr><tr>`;
-                    //                 for (i = 0x0; i < function_a.length; i++) {
-                    //                     nav_code = nav_code + `<td><a href="` + function_a[i] + `" style="text-decoration:none;">` + function_name_a[i] + `</a></td>`;
-                    //                 }
-                    //                 for (i = 0x0; i < anchor_a.length; i++) {
-                    //                     if (document.body.innerHTML.replace(`id="detailBullets_feature_div"`, `id="prodDetails"`).replace(`id="productDetails"`, `id="prodDetails"`).replace(`id="detail-bullets"`, `id="prodDetails"`).indexOf(`id="` + anchor_a[i] + '"') > -0x1) {
-                    //                         change_id = anchor_name_a[i] != `排名信息` ? anchor_a[i] : document.body.innerHTML.indexOf(`id="prodDetails"`) > -0x1 ? `prodDetails` : document.body.innerHTML.indexOf(`id="detailBullets_feature_div"`) > -0x1 ? `detailBullets_feature_div` : document.body.innerHTML.indexOf(`id="productDetails"`) > -0x1 ? `productDetails` : `detail-bullets`;
-                    //                         document.getElementById(change_id).insertAdjacentHTML(`beforebegin`, `<div><table id="` + anchor_a[i] + `_nav" style="font-size:14px; background:#FAEBD7;"><tr>` + nav_code + `</tr>` + (i == 0x0 ? manu_nav_code : '') + `</table></div>`);
-                    //                     }
-                    //                 }
-                    //                 document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                    //             }
-                    //         } else {
-                    //             if (location.href.indexOf(`www.amazon`) > -0x1 && (location.href.indexOf(`/s?`) > -0x1 || location.href.indexOf(`gp/bestsellers`) > -0x1 || location.href.indexOf(`/zgbs/`) > -0x1 || location.href.indexOf(`/new-releases/`) > -0x1 || location.href.indexOf(`/movers-and-shakers/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1 || location.href.indexOf(`/most-wished-for/`) > -0x1)) {
-                    //                 if (location.href.indexOf(`/s?`) > -0x1) {
-                    //                     nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a> <select id="pageNo"><option value ="1">1</option><option value ="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option></select>页</td>`;
-                    //                     document.getElementById(`search`).outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById(`search`).outerHTML;
-                    //                     document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                    //                 } else {
-                    //                     nav_code = `<td><a href="` + trans_postcode_link + `" style="text-decoration:none;">切换当地邮编</a></td><td>打开页面统计Keepa <a href="` + open_stat_link_7 + `" style="text-decoration:none;">7天</a> <a href="` + open_stat_link_30 + `" style="text-decoration:none;">30天</a> <a href="` + open_stat_link_90 + `" style="text-decoration:none;">90天</a> <a href="` + open_stat_link_180 + `" style="text-decoration:none;">180天</a> <a href="` + open_stat_link_365 + `" style="text-decoration:none;">365天</a></td>`;
-                    //                     document.getElementById('zg').outerHTML = `<div><table id="search_nav" style="background:#FAEBD7; font-size:14px;"><tr>` + nav_code + `</tr>` + manu_nav_code + `</table></div>` + document.getElementById('zg').outerHTML;
-                    //                     document.getElementById(`navBackToTop`).outerHTML = document.getElementById(`navBackToTop`).outerHTML + sc_code;
-                    //                 }
-                    //             }
-                    //         }
-                    //         // 用红色字体显示评星评级
-                    //         if (document.body.innerHTML.indexOf(`id="acrPopover"`) > -1) {
-                    //             document.getElementById(`acrPopover`).insertAdjacentHTML(`afterend`, `<font color="red">` + document.getElementById(`acrPopover`).title + `</font>`);
-                    //         }
-                    //         // 获取当前页面的 Asin
-                    //         if (document.body.innerHTML.indexOf(`id="ASIN"`) > -1) {
-                    //             asin = document.getElementById(`ASIN`).value;
-                    //         } else {
-                    //             asin = document.body.innerHTML.split(`data-asin="`)[1].split('"')[0];
-                    //         }
-                    //         // 在当前页面的五行生成销量表格
-                    //         json_data = get_helium10_json(asin, marketplaceId);
-                    //         display_code = get_template_html('template/prodDetails.html');
-                    //         document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
-                    // }
                 }
 
                 // 判断是不是在亚马逊的反查流量词页面

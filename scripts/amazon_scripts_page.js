@@ -71,16 +71,22 @@ function openDownloadDialog(url, saveName) {
 
 // 获取 URL 参数
 function get_query_variable(variable) {
-    query = window.location.search.substring(1);
-    query = decodeURIComponent(query).replace('%0A', ',').replace('%20', ' ');
-    vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] == variable) {
-            return decodeURIComponent(pair[1]);
+    try {
+        query = window.location.search.substring(1);
+        query = decodeURIComponent(query).replace('%0A', ',').replace('%20', ' ');
+        vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var pair = vars[i].split("=");
+            if (pair[0] == variable) {
+                return decodeURIComponent(pair[1]);
+            }
         }
+        return (false);
+    } catch (error) {
+        console.log(error);
+        return (false);
     }
-    return (false);
+
 }
 
 // 获取亚马逊站点的配置信息 
@@ -92,6 +98,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '1',
                 'post_code': '10002',
                 'site_code': 'US',
+                'site_plat':'am_us',
+                'site_to_lang':'en'
             };
             break;
         case url.indexOf('amazon.ca') > 0:
@@ -100,6 +108,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '6',
                 'post_code': 'A1B 2C3',
                 'site_code': 'CA',
+                'site_plat':'am_ca',
+                'site_to_lang':'en'
             };
             break;
         case url.indexOf('amazon.com.mx') > 0:
@@ -108,6 +118,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '11',
                 'post_code': '77580',
                 'site_code': 'MX',
+                'site_plat':'am_mx',
+                'site_to_lang':'es'
             };
             break;
         case url.indexOf('amazon.co.uk') > 0:
@@ -116,6 +128,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '2',
                 'post_code': 'SW17%209NT',
                 'site_code': 'UK',
+                'site_plat':'am_uk',
+                'site_to_lang':'en'
             };
             break;
 
@@ -125,6 +139,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '3',
                 'post_code': '89233',
                 'site_code': 'DE',
+                'site_plat':'am_de',
+                'site_to_lang':'de'
             };
             break;
         case url.indexOf('amazon.es') > 0:
@@ -133,6 +149,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '9',
                 'post_code': '30560',
                 'site_code': 'ES',
+                'site_plat':'am_es',
+                'site_to_lang':'es'
             };
             break;
 
@@ -142,15 +160,19 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '4',
                 'post_code': '30560',
                 'site_code': 'FR',
+                'site_plat':'am_fr',
+                'site_to_lang':'fr'
             };
             break;
-
+            
         case url.indexOf('amazon.it') > 0:
             json_data = {
                 'marketplaceID': 'APJ6JRA9NG5V4',
                 'keepa_market_id': '8',
                 'post_code': '55049',
                 'site_code': 'IT',
+                'site_plat':'am_it',
+                'site_to_lang':'it'
             };
             break;
         case url.indexOf('amazon.co.jp') > 0:
@@ -159,6 +181,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '5',
                 'post_code': '197-0408',
                 'site_code': 'JP',
+                'site_plat':'am_jp',
+                'site_to_lang':'jo'
             };
             break;
         case url.indexOf('amazon.com.au') > 0:
@@ -167,6 +191,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '13',
                 'post_code': '0200-0299',
                 'site_code': 'AU',
+                'site_plat':'am_au',
+                'site_to_lang':'en'
             };
             break;
         default:
@@ -175,6 +201,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': 'null',
                 'post_code': 'null',
                 'site_code': 'null',
+                'site_plat':'null',
+                'site_to_lang':'null'
             };
             break;
     }
@@ -581,6 +609,7 @@ function get_amazon_search_page_keepa() {
     console.log(table_code_data);
 }
 
+// 判断亚马逊当前的页面类型
 function get_amazon_page_type(type) {
     switch (true) {
         case type == 'search':
@@ -588,4 +617,9 @@ function get_amazon_page_type(type) {
         case type == 'listing':
             return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1))
     }
+}
+
+function get_translation(sting, lang) {
+    var url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-Hans&tl=${lang}&dt=t&q=${sting}`
+    return JSON.parse(get_content(url, '', 'GET'))[0][0][0]
 }

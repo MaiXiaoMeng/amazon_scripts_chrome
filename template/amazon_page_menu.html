@@ -9,18 +9,42 @@
 
 <body>
     <div id="vue">
+        <!-- 导航条 -->
         <template>
+
             <div style="text-align: center;">
                 <a-menu mode="horizontal">
+                    <a-menu-item>
+                        <a-input-search style="padding-top: 7px;" v-model:value="search_value" placeholder="请输入要关键词"
+                            enter-button="翻译搜索" @search="on_search" />
+                    </a-menu-item>
+                    <a-sub-menu>
+                        <template v-slot:title>
+
+                        </template>
+
+                    </a-sub-menu>
+
                     <a-sub-menu>
                         <template v-if="get_amazon_page_type('search')" v-slot:title>打开页面统计</template>
                         <a-menu-item>
                             <a @click="get_amazon_search_page_keepa()">统计当前页面</a>
                         </a-menu-item>
                     </a-sub-menu>
+                    <a-sub-menu>
+                        <template v-slot:title>打开查询页面</template>
+                        <a-menu-item>
+                            <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊首页排名收录查询页面</a>
+                        </a-menu-item>
+                        <a-menu-item>
+                            <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊关键词排名查询页面</a>
+                        </a-menu-item>
+                    </a-sub-menu>
                 </a-menu>
             </div>
         </template>
+
+        <!-- 亚马逊统计页面 -->
         <template>
             <a-drawer title="亚马逊页面统计Keepa" width="100%" placement="right" :visible="visible" @close="on_close">
                 <div id="display_code">
@@ -97,7 +121,11 @@
             </a-drawer>
         </template>
 
-
+        <!-- 临时框架页面 -->
+        <template v-for="(item,index) in temp_frame">
+            <iframe :id="'temp_frame_'+ index " name="temp_frame" style="border:1px solid;" height="300" width="100%"
+                :src="item"></iframe>
+        </template>
     </div>
 </body>
 <!-- body end -->
@@ -119,7 +147,9 @@
         data() {
             return {
                 visible: false,
+                temp_frame: [],
                 table_code_data: [],
+                search_value: '',
                 pathname: location.pathname,
                 domain: document.domain,
             }
@@ -135,6 +165,11 @@
             },
             get_amazon_page_type(type) {
                 return get_amazon_page_type(type)
+            },
+            on_search(value) {
+                var lang = get_amazon_conifg(location.href).site_to_lang;
+                var result = get_translation(value, lang);
+                window.location.href = 'https://' + vue.domain + '/s?k=' + result
             },
             on_close() {
                 this.visible = false;

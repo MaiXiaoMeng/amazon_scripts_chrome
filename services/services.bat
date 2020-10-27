@@ -1,0 +1,1 @@
+python services.py stop && python services.py --startup auto install && python services.py start

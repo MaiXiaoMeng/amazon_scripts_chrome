@@ -165,7 +165,11 @@
             get_amazon_page_type(type) {
                 return get_amazon_page_type(type)
             },
-
+            on_search(value) {
+                var lang = get_amazon_conifg(location.href).site_to_lang;
+                var result = get_translation(value, lang);
+                window.location.href = 'https://' + vue.domain + '/s?k=' + result
+            },
             on_close() {
                 this.visible = false;
             }

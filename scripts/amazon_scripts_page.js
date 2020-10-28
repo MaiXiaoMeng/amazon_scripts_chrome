@@ -34,10 +34,7 @@ function sheet_to_blob(sheet, sheetName) {
         type: 'binary'
     };
     var wbout = XLSX.write(workbook, wopts);
-    var blob = new Blob([s2ab(wbout)], {
-        type: "application/octet-stream"
-    });
-
+    var blob = new Blob([s2ab(wbout)], { type: "application/octet-stream" });
     function s2ab(s) {
         var buf = new ArrayBuffer(s.length);
         var view = new Uint8Array(buf);
@@ -47,18 +44,13 @@ function sheet_to_blob(sheet, sheetName) {
     return blob;
 }
 
-/**
- * 通用的打开下载对话框方法，没有测试过具体兼容性
- * @param url 下载地址，也可以是一个blob对象，必选
- * @param saveName 保存文件名，可选
- */
 function openDownloadDialog(url, saveName) {
     if (typeof url == 'object' && url instanceof Blob) {
-        url = URL.createObjectURL(url); // 创建blob地址
+        url = URL.createObjectURL(url); 
     }
     var aLink = document.createElement('a');
     aLink.href = url;
-    aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
+    aLink.download = saveName || ''; 
     var event;
     if (window.MouseEvent) event = new MouseEvent('click');
     else {
@@ -98,8 +90,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '1',
                 'post_code': '10002',
                 'site_code': 'US',
-                'site_plat':'am_us',
-                'site_to_lang':'en'
+                'site_plat': 'am_us',
+                'site_to_lang': 'en'
             };
             break;
         case url.indexOf('amazon.ca') > 0:
@@ -108,8 +100,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '6',
                 'post_code': 'A1B 2C3',
                 'site_code': 'CA',
-                'site_plat':'am_ca',
-                'site_to_lang':'en'
+                'site_plat': 'am_ca',
+                'site_to_lang': 'en'
             };
             break;
         case url.indexOf('amazon.com.mx') > 0:
@@ -118,8 +110,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '11',
                 'post_code': '77580',
                 'site_code': 'MX',
-                'site_plat':'am_mx',
-                'site_to_lang':'es'
+                'site_plat': 'am_mx',
+                'site_to_lang': 'es'
             };
             break;
         case url.indexOf('amazon.co.uk') > 0:
@@ -128,8 +120,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '2',
                 'post_code': 'SW17%209NT',
                 'site_code': 'UK',
-                'site_plat':'am_uk',
-                'site_to_lang':'en'
+                'site_plat': 'am_uk',
+                'site_to_lang': 'en'
             };
             break;
 
@@ -139,8 +131,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '3',
                 'post_code': '89233',
                 'site_code': 'DE',
-                'site_plat':'am_de',
-                'site_to_lang':'de'
+                'site_plat': 'am_de',
+                'site_to_lang': 'de'
             };
             break;
         case url.indexOf('amazon.es') > 0:
@@ -149,8 +141,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '9',
                 'post_code': '30560',
                 'site_code': 'ES',
-                'site_plat':'am_es',
-                'site_to_lang':'es'
+                'site_plat': 'am_es',
+                'site_to_lang': 'es'
             };
             break;
 
@@ -160,19 +152,19 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '4',
                 'post_code': '30560',
                 'site_code': 'FR',
-                'site_plat':'am_fr',
-                'site_to_lang':'fr'
+                'site_plat': 'am_fr',
+                'site_to_lang': 'fr'
             };
             break;
-            
+
         case url.indexOf('amazon.it') > 0:
             json_data = {
                 'marketplaceID': 'APJ6JRA9NG5V4',
                 'keepa_market_id': '8',
                 'post_code': '55049',
                 'site_code': 'IT',
-                'site_plat':'am_it',
-                'site_to_lang':'it'
+                'site_plat': 'am_it',
+                'site_to_lang': 'it'
             };
             break;
         case url.indexOf('amazon.co.jp') > 0:
@@ -181,8 +173,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '5',
                 'post_code': '197-0408',
                 'site_code': 'JP',
-                'site_plat':'am_jp',
-                'site_to_lang':'jo'
+                'site_plat': 'am_jp',
+                'site_to_lang': 'jo'
             };
             break;
         case url.indexOf('amazon.com.au') > 0:
@@ -191,8 +183,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': '13',
                 'post_code': '0200-0299',
                 'site_code': 'AU',
-                'site_plat':'am_au',
-                'site_to_lang':'en'
+                'site_plat': 'am_au',
+                'site_to_lang': 'en'
             };
             break;
         default:
@@ -201,8 +193,8 @@ function get_amazon_conifg(url) {
                 'keepa_market_id': 'null',
                 'post_code': 'null',
                 'site_code': 'null',
-                'site_plat':'null',
-                'site_to_lang':'null'
+                'site_plat': 'null',
+                'site_to_lang': 'null'
             };
             break;
     }
@@ -585,7 +577,7 @@ function get_amazon_keyword_ranking(download_excel) {
             table_code_rink_list.push(Object.keys(code_data).map(key => code_data[key]));
         }
         vue.table_code_rink_list_data = table_code_rink_data;
-        $("#iframe_list").remove();
+
         if (download_excel) {
             var table_code_list_sheet = XLSX.utils.aoa_to_sheet(table_code_list);
             var table_code_rink_list_sheet = XLSX.utils.aoa_to_sheet(table_code_rink_list);

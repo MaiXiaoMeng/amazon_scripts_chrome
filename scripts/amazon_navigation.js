@@ -54,7 +54,7 @@ function inject_custom(path, label_name) {
     await inject_custom('https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js', 'js');
     await inject_custom('https://cdn.jsdelivr.net/npm/ant-design-vue@1.6.5/dist/antd.min.js', 'js');
     await inject_custom('https://cdn.jsdelivr.net/npm/echarts@4.9.0/dist/echarts.min.js', 'js');
-    await inject_custom('https://cdn.jsdelivr.net/npm/xlsx@0.16.8/dist/xlsx.js', 'js');
+    await inject_custom('https://cdn.jsdelivr.net/npm/xlsx@0.16.8/dist/xlsx.full.min.js', 'js');
     // 引入插件内部的JS文件
     await inject_custom('scripts/amazon_scripts_page.js', 'js');
 

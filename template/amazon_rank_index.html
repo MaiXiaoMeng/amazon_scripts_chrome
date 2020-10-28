@@ -96,8 +96,11 @@
                     .validate()
                     .then(() => {
                         url = location.pathname + '?mod=check_rank&' +
-                            parseParam(JSON.parse(JSON.stringify(this.$refs[form_name].model)));
-                        console.log(url);
+                            get_parse_param(
+                                JSON.parse(
+                                    newline_for_comma(JSON.stringify(this.$refs[form_name].model))
+                                )
+                            );
                         window.open(url);
                     })
                     .catch(error => {
@@ -108,8 +111,15 @@
                 this.$refs[form_name]
                     .validate()
                     .then(() => {
+      
+       
+
                         url = location.pathname + '?mod=check_index&' +
-                            parseParam(JSON.parse(JSON.stringify(this.$refs[form_name].model)));
+                            get_parse_param(
+                                JSON.parse(
+                                    newline_for_comma(JSON.stringify(this.$refs[form_name].model))
+                                )
+                            );
                         window.open(url);
                     })
                     .catch(error => {

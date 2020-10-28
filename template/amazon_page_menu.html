@@ -11,37 +11,35 @@
     <div id="vue">
         <!-- 导航条 -->
         <template>
-
-            <div style="text-align: center;">
-                <a-menu mode="horizontal">
-                    <a-menu-item>
-                        <a-input-search style="padding-top: 7px;" v-model:value="search_value" placeholder="请输入要关键词"
-                            enter-button="翻译搜索" @search="on_search" />
-                    </a-menu-item>
-                    <a-sub-menu>
-                        <template v-slot:title>
-
-                        </template>
-
-                    </a-sub-menu>
-
-                    <a-sub-menu>
-                        <template v-if="get_amazon_page_type('search')" v-slot:title>打开页面统计</template>
+            <a-affix :offset-top="0">
+                <div style="text-align: center;">
+                    <a-menu mode="horizontal">
                         <a-menu-item>
-                            <a @click="get_amazon_search_page_keepa()">统计当前页面</a>
+                            <a-input-search :class="{translation_search_top:!get_amazon_page_type('expand')}"
+                                v-model:value="search_value" placeholder="请输入要关键词" enter-button="翻译搜索"
+                                @search="on_search" />
                         </a-menu-item>
-                    </a-sub-menu>
-                    <a-sub-menu>
-                        <template v-slot:title>打开查询页面</template>
-                        <a-menu-item>
-                            <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊首页排名收录查询页面</a>
+                        <a-sub-menu>
+                            <template v-if="get_amazon_page_type('search')" v-slot:title>打开页面统计</template>
+                            <a-menu-item>
+                                <a @click="get_amazon_search_page_keepa()">统计当前页面</a>
+                            </a-menu-item>
+                        </a-sub-menu>
+                        <a-sub-menu>
+                            <template v-slot:title>打开查询页面</template>
+                            <a-menu-item>
+                                <a :href="'https://'+ domain +'/favicon.ico?mod=rank_index'">亚马逊首页排名收录查询页面</a>
+                            </a-menu-item>
+                            <a-menu-item>
+                                <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊关键词排名查询页面</a>
+                            </a-menu-item>
+                        </a-sub-menu>
+                        <a-menu-item v-if="get_amazon_page_type('listing')"> 
+                            <a :href="'https://'+ domain +'/favicon.ico?mod=asin_sale&asin=' + $('#page_asin').text()">查看预计销量</a>
                         </a-menu-item>
-                        <a-menu-item>
-                            <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊关键词排名查询页面</a>
-                        </a-menu-item>
-                    </a-sub-menu>
-                </a-menu>
-            </div>
+                    </a-menu>
+                </div>
+            </a-affix>
         </template>
 
         <!-- 亚马逊统计页面 -->
@@ -81,6 +79,7 @@
                                                 <span>
                                                     (<span :id="item.asin + '_rating'">{{item.rating}}</span>)
                                                 </span>
+                                                <br/>
                                                 <span>
                                                     price:
                                                 </span>
@@ -166,11 +165,7 @@
             get_amazon_page_type(type) {
                 return get_amazon_page_type(type)
             },
-            on_search(value) {
-                var lang = get_amazon_conifg(location.href).site_to_lang;
-                var result = get_translation(value, lang);
-                window.location.href = 'https://' + vue.domain + '/s?k=' + result
-            },
+
             on_close() {
                 this.visible = false;
             }

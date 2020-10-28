@@ -1,123 +1,24 @@
 ﻿/* jshint esversion: 6 */
 
-// 获取亚马逊站点的配置信息 
-function get_amazon_conifg(url) {
-    switch (true) {
-        case url.indexOf('amazon.com/') > 0:
-            json_data = {
-                'marketplaceID': 'ATVPDKIKX0DER',
-                'keepa_market_id': '1',
-                'post_code': '10002',
-                'site_code': 'US',
-                'site_plat':'am_us',
-                'site_to_lang':'en'
-            };
-            break;
-        case url.indexOf('amazon.ca') > 0:
-            json_data = {
-                'marketplaceID': 'A2EUQ1WTGCTBG2',
-                'keepa_market_id': '6',
-                'post_code': 'A1B 2C3',
-                'site_code': 'CA',
-                'site_plat':'am_ca',
-                'site_to_lang':'en'
-            };
-            break;
-        case url.indexOf('amazon.com.mx') > 0:
-            json_data = {
-                'marketplaceID': 'A1AM78C64UM0Y8',
-                'keepa_market_id': '11',
-                'post_code': '77580',
-                'site_code': 'MX',
-                'site_plat':'am_mx',
-                'site_to_lang':'es'
-            };
-            break;
-        case url.indexOf('amazon.co.uk') > 0:
-            json_data = {
-                'marketplaceID': 'A1F83G8C2ARO7P',
-                'keepa_market_id': '2',
-                'post_code': 'SW17%209NT',
-                'site_code': 'UK',
-                'site_plat':'am_uk',
-                'site_to_lang':'en'
-            };
-            break;
+// 加载 额外的 Java Script 模块
+function inject_custom_main(path, label_name) {
+    return new Promise(function (resolve, reject) {
+        if (label_name == 'js') {
+            var chrome_url = path.indexOf('http') > -1 ? path : chrome.extension.getURL(path);
+            if (path.indexOf('http') > -1) {
+                eval(get_content(chrome_url, type = 'html'))
+            } else {
+                var scripts_text = get_content(chrome_url, type = 'html');
+                eval(/\/\/ 公用函数开始(.*?)\/\/ 公用函数结束/s.exec(scripts_text)[1]);
+            }
+            resolve();
+        }
+    });
+}
 
-        case url.indexOf('amazon.de') > 0:
-            json_data = {
-                'marketplaceID': 'A1PA6795UKMFR9',
-                'keepa_market_id': '3',
-                'post_code': '89233',
-                'site_code': 'DE',
-                'site_plat':'am_de',
-                'site_to_lang':'de'
-            };
-            break;
-        case url.indexOf('amazon.es') > 0:
-            json_data = {
-                'marketplaceID': 'A1RKKUPIHCS9HS',
-                'keepa_market_id': '9',
-                'post_code': '30560',
-                'site_code': 'ES',
-                'site_plat':'am_es',
-                'site_to_lang':'es'
-            };
-            break;
-
-        case url.indexOf('amazon.fr') > 0:
-            json_data = {
-                'marketplaceID': 'A13V1IB3VIYZZH',
-                'keepa_market_id': '4',
-                'post_code': '30560',
-                'site_code': 'FR',
-                'site_plat':'am_fr',
-                'site_to_lang':'fr'
-            };
-            break;
-            
-        case url.indexOf('amazon.it') > 0:
-            json_data = {
-                'marketplaceID': 'APJ6JRA9NG5V4',
-                'keepa_market_id': '8',
-                'post_code': '55049',
-                'site_code': 'IT',
-                'site_plat':'am_it',
-                'site_to_lang':'it'
-            };
-            break;
-        case url.indexOf('amazon.co.jp') > 0:
-            json_data = {
-                'marketplaceID': 'A1VC38T7YXB528',
-                'keepa_market_id': '5',
-                'post_code': '197-0408',
-                'site_code': 'JP',
-                'site_plat':'am_jp',
-                'site_to_lang':'jo'
-            };
-            break;
-        case url.indexOf('amazon.com.au') > 0:
-            json_data = {
-                'marketplaceID': 'A39IBJ37TRP1C6',
-                'keepa_market_id': '13',
-                'post_code': '0200-0299',
-                'site_code': 'AU',
-                'site_plat':'am_au',
-                'site_to_lang':'en'
-            };
-            break;
-        default:
-            json_data = {
-                'marketplaceID': 'null',
-                'keepa_market_id': 'null',
-                'post_code': 'null',
-                'site_code': 'null',
-                'site_plat':'null',
-                'site_to_lang':'null'
-            };
-            break;
-    }
-    return json_data;
+// 加载 额外的 Java Script 模块
+async function get_java_script_navigation() {
+    await inject_custom_main('https://cdn.jsdelivr.net/npm/momentjs@1.1.17/moment.js', 'js');
 }
 // 设置 亚马逊的 区号
 function set_amazon_postcode() {
@@ -127,18 +28,7 @@ function set_amazon_postcode() {
     }
 }
 
-// 判断亚马逊当前的页面类型
-function get_amazon_page_type(type) {
-    switch (true) {
-        case type == 'search':
-            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/s?`) > -1))
-        case type == 'listing':
-            return (location.href.indexOf(`www.amazon`) > -1 && (location.href.indexOf(`/dp/`) > -1 || location.href.indexOf(`/gp/product/`) > -1))
-        case type == 'amazon':
-            return (location.href.indexOf(`www.amazon`) > -1)
-    }
-}
-// 发送网络请求
+// 发送 网络请求
 function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
     console.log(`-> get_content data:${data}`);
@@ -148,17 +38,10 @@ function get_content(url, data = '', mode = 'GET', type = 'html') {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     } else {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
     }
     xmlHttpRequest.send(data);
     console.log('-> get_content -> 获取数据成功');
     return xmlHttpRequest.responseText;
-}
-
-//代替eval方法计算表达式的值
-function evil(fn) {
-    var Fn = Function; //一个变量指向Function，防止有些前端编译工具报错
-    return new Fn('return ' + fn)();
 }
 
 // 获取 HTML 模板
@@ -168,56 +51,13 @@ function get_template_html(url, mode = '') {
     response = typeof response == 'undefined' ? JSON.stringify({}) : response;
     template_html = template_html.replace("var vue_debug = true;", "var vue_debug = false;");
     template_html = template_html.replace("response = `${response}`", "response = ${response}");
-    template_html = evil('`' + template_html + '`');
+    template_html = eval('`' + template_html + '`');
     if (mode === 'body') {
         body_html = /<body>([\s\S]*?)<\/body>/.exec(template_html)[0];
         script_html = /<script id="initialize">([\s\S]*?)<\/script>/.exec(template_html)[0];
         template_html = body_html + script_html;
     }
     return template_html;
-}
-// 获取 URL 参数
-function get_query_variable(variable) {
-    query = window.location.search.substring(1);
-    query = decodeURIComponent(query).replace('%0A', ',').replace('%20', ' ');
-    vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] == variable) {
-            return decodeURIComponent(pair[1]);
-        }
-    }
-    return (false);
-}
-// 获取指定格式的日期
-function get_date(fmt, date) {
-    let ret;
-    const opt = {
-        "Y+": date.getFullYear().toString(), // 年
-        "m+": (date.getMonth() + 1).toString(), // 月
-        "d+": date.getDate().toString(), // 日
-        "H+": date.getHours().toString(), // 时
-        "M+": date.getMinutes().toString(), // 分
-        "S+": date.getSeconds().toString() // 秒
-        // 有其他格式化字符需求可以继续添加，必须转化成字符串
-    };
-    for (let k in opt) {
-        ret = new RegExp("(" + k + ")").exec(fmt);
-        if (ret) {
-            fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")));
-        }
-    }
-    return fmt;
-}
-// 获取 列表里面的字典最大的数
-function get_list_max(array) {
-    var max = 0;
-    for (let index = 0; index < array.length; index++) {
-        if (array[index].sales > max) {
-            max = array[index].sales;
-        }
-    }
-    return max;
 }
 
 function add_element_div(id, html) {
@@ -271,7 +111,7 @@ function get_helium10_json(asin, marketplaceId) {
         }
 
         // 解析大类类目名称和排名
-        if (htm_json.product.SalesRankings.length > 0) {
+        if (htm_json.product.SalesRankings.SalesRank.length > 0) {
             big_cat = htm_json.product.SalesRankings.SalesRank[0].ProductCategoryId.split('_')[0];
             big_bsr = htm_json.product.SalesRankings.SalesRank[0].Rank;
             console.log(`-> big_cat:${big_cat} big_bsr:${big_bsr}`);
@@ -298,42 +138,42 @@ function get_helium10_json(asin, marketplaceId) {
 
         // ASIN 的信息
         information = [{
-                "key": "ASIN:",
-                "value": typeof asin == 'undefined' ? 'null' : asin,
-            },
-            {
-                "key": "品牌名:",
-                "value": typeof brand_name == 'undefined' ? 'null' : brand_name,
-            },
-            {
-                "key": "大类:",
-                "value": typeof big_cat == 'undefined' ? 'null' : big_cat,
-            },
-            {
-                "key": "大类BSR:",
-                "value": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
-            },
-            {
-                "key": "小类:",
-                "value": typeof small_cat == 'undefined' ? 'null' : small_cat,
-            },
+            "key": "ASIN:",
+            "value": typeof asin == 'undefined' ? 'null' : asin,
+        },
+        {
+            "key": "品牌名:",
+            "value": typeof brand_name == 'undefined' ? 'null' : brand_name,
+        },
+        {
+            "key": "大类:",
+            "value": typeof big_cat == 'undefined' ? 'null' : big_cat,
+        },
+        {
+            "key": "大类BSR:",
+            "value": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
+        },
+        {
+            "key": "小类:",
+            "value": typeof small_cat == 'undefined' ? 'null' : small_cat,
+        },
 
-            {
-                "key": "小类BSR:",
-                "value": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
-            },
-            {
-                "key": "包装尺寸(inch):",
-                "value": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
-            },
-            {
-                "key": "重量(lbs):",
-                "value": typeof package_weight == 'undefined' ? item_weight == typeof 'undefined' ? 'null' : item_weight : package_weight,
-            },
-            {
-                "key": "FBA费用:",
-                "value": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
-            },
+        {
+            "key": "小类BSR:",
+            "value": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
+        },
+        {
+            "key": "包装尺寸(inch):",
+            "value": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
+        },
+        {
+            "key": "重量(lbs):",
+            "value": typeof package_weight == 'undefined' ? item_weight == typeof 'undefined' ? 'null' : item_weight : package_weight,
+        },
+        {
+            "key": "FBA费用:",
+            "value": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
+        },
 
         ];
 
@@ -354,9 +194,9 @@ function get_helium10_json(asin, marketplaceId) {
             w4_sale = 0;
             h24_sale = Number(htm_json.sales[htm_json.sales.length - 1].y);
             for (var sales_index in htm_json.sales) {
-                monthly = get_date("YYYY-mm", new Date(htm_json.sales[sales_index].x));
-                day_1 = get_date("YYYY-mm-dd", new Date(htm_json.sales[sales_index].x));
-                day_2 = get_date("YYYY-mm-dd", new Date());
+                monthly = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM');
+                day_1 = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM-DD');
+                day_2 = moment(new Date()).format('YYYY-MM');
                 sales = htm_json.sales[sales_index].y;
                 monthly_sales[monthly] == undefined ? monthly_sales[monthly] = sales : monthly_sales[monthly] += sales;
                 day_sales[day_1] = sales;
@@ -435,6 +275,11 @@ chrome.runtime.sendMessage({
     'ecomtool': location.href
 });
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    // 获取公用函数
+    var chrome_url = chrome.extension.getURL('scripts/amazon_scripts_page.js');
+    var scripts_text = get_content(chrome_url, type = 'html');
+    eval(/\/\/ 公用函数开始(.*?)\/\/ 公用函数结束/s.exec(scripts_text)[1]);
+
     if (request.hasOwnProperty(`ecomtool_response`)) {
         try {
             if (request.ust == 2) {
@@ -490,7 +335,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 update_info = `此功能需联系作者开通使用 作者QQ: 369593212`;
 
                 sc_code = '';
-
+                get_java_script_navigation();
                 // 获取 Amazon 站点的 marketplaceId
                 marketplaceId = get_amazon_conifg(location.href).marketplaceID;
                 keepa_market_id = get_amazon_conifg(location.href).keepa_market_id;
@@ -526,12 +371,11 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         break;
                 }
 
-
-
-
                 if (get_amazon_page_type('amazon')) {
                     var page_menu = get_template_html('template/amazon_page_menu.html', mode = 'body');
-                    document.getElementById('a-page').insertAdjacentHTML('afterBegin', page_menu);
+                    if (document.body.innerHTML.indexOf('a-page') > -1) {
+                        document.getElementById('a-page').insertAdjacentHTML('afterBegin', page_menu);
+                    }
                     // mod=asin_compare 竞品比对监控
                     // mod=comp_rank ASIN 定位广告排名查询
                     // mod=keyword_search 关键词搜索量趋势调研
@@ -565,7 +409,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     json_data = get_helium10_json(asin, marketplaceId);
                     display_code = get_template_html('template/prodDetails.html');
                     document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
-                    document.getElementById('a-page').insertAdjacentHTML('afterBegin', get_template_html('template/amazon_page_menu.html', mode = 'body'));
                 }
 
                 // 判断是不是在亚马逊的反查流量词页面

@@ -1,0 +1,194 @@
+{
+  "#compact": "是否启用把代码压缩成一行输出",
+  "?compact": "Type: boolean Default: true",
+  "compact": true,
+
+  "#controlFlowFlattening": "是否启用打乱代码的执行顺序, 注意:会降低 1.5 倍的性能",
+  "?controlFlowFlattening": "Type: boolean Default: false",
+  "controlFlowFlattening": true,
+
+  "#controlFlowFlatteningThreshold": "controlFlowFlattening 转换将应用于任何给定节点的概率",
+  "?controlFlowFlatteningThreshold": "Type: number Default: 0.75 Min: 0 Max: 1",
+  "controlFlowFlatteningThreshold": 1,
+
+  "#deadCodeInjection": "是否增加了混淆代码的大小（最多200%）",
+  "?deadCodeInjection": "Type: boolean Default: false",
+  "deadCodeInjection": false,
+
+  "#deadCodeInjectionThreshold": "允许设置将受 deadCodeInjection 影响的节点的百分比",
+  "?deadCodeInjectionThreshold": "Type: number Default: 0.4 Min: 0 Max: 1",
+  "deadCodeInjectionThreshold": 1,
+
+  "#debugProtection": "是否禁止打开浏览器的开发者工具",
+  "?debugProtection": "Type: boolean Default: false",
+  "debugProtection": false,
+
+  "#debugProtectionInterval": "是否禁止打开浏览器的调试功能",
+  "?debugProtectionInterval": "Type: boolean Default: false",
+  "debugProtectionInterval": false,
+
+  "#disableConsoleOutput": "是否禁用浏览器的 Console 输出功能",
+  "?disableConsoleOutput": "Type: boolean Default: false",
+  "disableConsoleOutput": false,
+
+  "#domainLock": "仅允许在特定网站和/或子网站上运行混淆的代码",
+  "?domainLock": "Type: string[] Default: []",
+  "domainLock": [],
+
+  "#exclude": "需要从混淆处理中排除的文件的文件名或全局变量",
+  "?exclude": "Type: string[] Default: []",
+  "exclude": ["amazon_scripts_page.js"],
+
+  "#forceTransformStrings": "需要把字符串文字的强制转换，这些文字将与传递的RegExp模式匹配",
+  "?forceTransformStrings": "Type: string[] Default: []",
+  "forceTransformStrings": [],
+
+  "#identifierNamesGenerator": "设置变量名称的生成器",
+  "?identifierNamesGenerator": "Type: string Default: hexadecimal",
+  "@identifierNamesGenerator": {
+    "dictionary": "变量名称来着 identifiersDictionary 选项",
+    "mangled": "简短的标识符名称，例如 a,b,c ",
+    "mangled-shuffled": "和 mangled 模式一样，但打乱了字母表"
+  },
+  "identifierNamesGenerator": "hexadecimal",
+
+  "#identifiersDictionary": "设置 identifierNamesGenerator 字典选项的变量名称字典,数量应该和源代码中的变量一样",
+  "?identifiersDictionary": "Type: string[] Default: []",
+  "identifiersDictionary": [],
+
+  "#identifiersPrefix": "设置所有全局标识符的前缀,此选项有助于避免这些文件的全局标识符之间的冲突。每个文件的前缀应不同",
+  "?identifiersPrefix": "Type: string Default: ''",
+  "identifiersPrefix": "",
+
+  "#inputFileName": "允许使用源代码设置输入文件的名称,此名称将在内部用于生成源地图",
+  "?inputFileName": "Type: string Default: ''",
+  "inputFileName": "",
+
+  "#log": "启用将信息输出到控制台",
+  "?log": "Type: boolean Default: false",
+  "log": false,
+
+  "#numbersToExpressions": "启用数字到表达式的转换",
+  "?numbersToExpressions": "Type: boolean Default: false",
+  "numbersToExpressions": true,
+
+  "#optionsPreset": "所有附加选项都将与所选选项预设合并",
+  "?optionsPreset": "Type: string Default: default",
+  "@optionsPreset": [
+    "default",
+    "low-obfuscation",
+    "medium-obfuscation",
+    "high-obfuscation"
+  ],
+  "optionsPreset": "default",
+
+  "#renameGlobals": "是否启用对全局变量和函数名称的混淆,此选项将破坏您的代码",
+  "?renameGlobals": "Type: boolean Default: false",
+  "renameGlobals": false,
+
+  "#renameProperties": "是否启用属性名称的重命名,所有内置的DOM属性和核心JavaScript类中的属性都将被忽略,此选项将破坏您的代码",
+  "?renameProperties": "Type: boolean Default: false",
+  "renameProperties": false,
+
+  "#reservedNames": "禁用指定变量标识符的混淆生成,这些标识符与通过的RegExp模式匹配",
+  "?reservedNames": "Type: string[] Default: []",
+  "reservedNames": [],
+
+  "#reservedStrings": "禁用指定字符串文字的混淆生成，该转换与传递的RegEx模式匹配",
+  "?reservedStrings": "Type: string[] Default: []",
+  "reservedStrings": [],
+
+  "#rotateStringArray": "是否将 stringArray 数组移动固定和随机（在代码混淆中生成）的位置",
+  "?rotateStringArray": "Type: boolean Default: true",
+  "rotateStringArray": true,
+
+  "#seed": "设置随机生成器种子,这对于创建可重复的结果很有用",
+  "?seed": "Type: string|number Default: 0",
+  "seed": 0,
+
+  "#selfDefending": "是否启用防止代码格式化",
+  "?selfDefending": "Type: boolean Default: false",
+  "selfDefending": true,
+
+  "#shuffleStringArray": "是否启用随机更改 stringArray 数组项",
+  "?shuffleStringArray": "Type: boolean Default: true",
+  "shuffleStringArray": true,
+
+  "#simplify": "是否启用通过简化其他代码混淆",
+  "?simplify": "Type: boolean Default: true",
+  "simplify": true,
+
+  "#sourceMap": "是否启用混淆代码的源映射生成",
+  "?sourceMap": "Type: boolean Default: false",
+  "sourceMap": false,
+
+  "#sourceMapBaseUrl": "当 sourceMapMode:'separate' 时,将基本URL设置为源映射导入URL",
+  "?sourceMapBaseUrl": "Type: string Default: ``",
+  "sourceMapBaseUrl": "",
+
+  "#sourceMapFileName": "当 sourceMapMode:'separate' 时,设置输出源映射的文件名",
+  "?sourceMapFileName": "Type: string Default: ``",
+  "sourceMapFileName": "",
+
+  "#sourceMapMode": "指定源映射生成模式",
+  "?sourceMapMode": "Type: string Default: separate",
+  "@sourceMapMode": {
+    "inline": "生成一个带有源映射的文件,而不是有一个单独的文件",
+    "separate": "生成带有源映射的相应 .map 文件"
+  },
+  "sourceMapMode": "separate",
+
+  "#splitStrings": "是否将文字字符串拆分为具有 splitStringsChunkLength 选项值长度的块",
+  "?splitStrings": "Type: boolean Default: false",
+  "splitStrings": true,
+
+  "#splitStringsChunkLength": "设置 splitStrings 选项的块长度",
+  "?splitStringsChunkLength": "Type: number Default: 10",
+  "splitStringsChunkLength": 10,
+
+  "#stringArray": "是否删除字符串文字并将其放置在特殊数组中",
+  "?stringArray": "Type: boolean Default: true",
+  "stringArray": true,
+
+  "#stringArrayEncoding": "使用 base64 或 rc4 对 stringArray 的所有字符串文字进行编码,并插入用于在运行时对其进行解码的特殊代码",
+  "?stringArrayEncoding": "Type: string[] Default: []",
+  "@stringArrayEncoding": {
+    "none": "(boolean) 不编码 stringArray 值",
+    "base64": "(string) 使用 base64 编码 stringArray 值",
+    "rc4": "(string) 使用 rc4 编码 stringArray 值, 比 base64 慢 30-50%，但更难获得初始值"
+  },
+  "stringArrayEncoding": ["rc4"],
+
+  "#stringArrayWrappersCount": "设置每个根或函数作用域内的字符串数组的包装数,每个范围内包装程序的实际数量受此范围内文字节点数量的限制",
+  "?stringArrayWrappersCount": "Type: number Default: 1",
+  "stringArrayWrappersCount": 1,
+
+  "#stringArrayWrappersChainedCalls": "是否启用字符串数组包装器之间的链接调用",
+  "?stringArrayWrappersChainedCalls": "Type: boolean Default: true",
+  "stringArrayWrappersChainedCalls": true,
+
+  "#stringArrayWrappersType": "允许选择由stringArray 和 WrappersCount选项附加的包装器类型",
+  "?stringArrayWrappersType": "Type: string Default: variable",
+  "@stringArrayWrappersType": {
+    "variable": "追加变量包装器,快速的性能",
+    "function": "附加函数包装。 与使用变量相比，性能较慢，但允许额外移动 stringArray 索引"
+  },
+  "stringArrayWrappersType": "variable",
+
+  "#stringArrayThreshold": "设置字符串文字插入到 stringArray 中的可能性",
+  "?stringArrayThreshold": "Type: number Default: 0.8 Min: 0 Max: 1",
+  "stringArrayThreshold": 0.75,
+
+  "#target": "当前浏览器和节点目标的输出代码是相同的，但是某些特定于浏览器的选项不允许与节点目标一起使用",
+  "?target": "Type: string Default: browser",
+  "@target": ["browser", "browser-no-eval", "node"],
+  "target": "browser",
+
+  "#transformObjectKeys": "是否启用对象键的转换",
+  "?transformObjectKeys": "Type: boolean Default: false",
+  "transformObjectKeys": false,
+
+  "#unicodeEscapeSequence": "是否允许启用/禁用字符串转换为 Unicode 转义序列",
+  "?unicodeEscapeSequence": "Type: boolean Default: false",
+  "unicodeEscapeSequence": true
+}

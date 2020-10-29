@@ -23,12 +23,8 @@ jobs:
       - name: Install npm package
         run: |
           cd ..
-          echo "${{secrets.GOOGLE_EXTEND_PEM}}" > amazon_scripts_chrome.pem
           npm install crx3
-          npm install uglify-es
-          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_navigation.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_navigation.js
-          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_scripts_page.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_scripts_page.js
-          npx uglifyjs ./amazon_scripts_chrome/scripts/amazon_scripts.js -c -m -o ./amazon_scripts_chrome/scripts/amazon_scripts.js
+          npm install javascript-obfuscator
 
       - name: Get latest release
         uses: actions/github-script@v3.0.0
@@ -48,9 +44,12 @@ jobs:
                 }
             }
 
-      - name: Run pack zip&&crx
+      - name: Run shell command
         run: |
-          cd .. && npx crx3 amazon_scripts_chrome --zip amazon_scripts_chrome.zip  --crx amazon_scripts_chrome.crx --key amazon_scripts_chrome.pem
+          cd .. 
+          echo "${{secrets.GOOGLE_EXTEND_PEM}}" > amazon_scripts_chrome.pem
+          npx javascript-obfuscator amazon_scripts_chrome/scripts  --output amazon_scripts_chrome/scripts  --config amazon_scripts_chrome/obfuscating/config_custom.json
+          npx crx3 amazon_scripts_chrome --zip amazon_scripts_chrome.zip  --crx amazon_scripts_chrome.crx --key amazon_scripts_chrome.pem
 
       - name: Create Release
         id: create_release

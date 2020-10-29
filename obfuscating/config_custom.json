@@ -108,7 +108,7 @@
 
   "#selfDefending": "是否启用防止代码格式化",
   "?selfDefending": "Type: boolean Default: false",
-  "selfDefending": true,
+  "selfDefending": false,
 
   "#shuffleStringArray": "是否启用随机更改 stringArray 数组项",
   "?shuffleStringArray": "Type: boolean Default: true",
@@ -190,5 +190,5 @@
 
   "#unicodeEscapeSequence": "是否允许启用/禁用字符串转换为 Unicode 转义序列",
   "?unicodeEscapeSequence": "Type: boolean Default: false",
-  "unicodeEscapeSequence": true
+  "unicodeEscapeSequence": false
 }

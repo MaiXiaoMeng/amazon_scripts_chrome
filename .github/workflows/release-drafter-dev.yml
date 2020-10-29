@@ -49,6 +49,11 @@ jobs:
           cd .. 
           echo "${{secrets.GOOGLE_EXTEND_PEM}}" > amazon_scripts_chrome.pem
           npx javascript-obfuscator amazon_scripts_chrome/scripts  --output amazon_scripts_chrome/scripts  --config amazon_scripts_chrome/obfuscating/config_custom.json
+          rm -rf amazon_scripts_chrome/.git
+          rm -rf amazon_scripts_chrome/.github
+          rm -rf amazon_scripts_chrome/.gitignore
+          rm -rf amazon_scripts_chrome/obfuscating
+          rm -rf amazon_scripts_chrome/README.MD
           npx crx3 amazon_scripts_chrome --zip amazon_scripts_chrome.zip  --crx amazon_scripts_chrome.crx --key amazon_scripts_chrome.pem
 
       - name: Create Release

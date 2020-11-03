@@ -37,7 +37,7 @@
 
   "#exclude": "需要从混淆处理中排除的文件的文件名或全局变量",
   "?exclude": "Type: string[] Default: []",
-  "exclude": ["amazon_scripts_page.js"],
+  "exclude": [],
 
   "#forceTransformStrings": "需要把字符串文字的强制转换，这些文字将与传递的RegExp模式匹配",
   "?forceTransformStrings": "Type: string[] Default: []",

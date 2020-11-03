@@ -34,8 +34,9 @@
                                 <a :href="'https://'+ domain +'/favicon.ico?mod=keyword_rank'">亚马逊关键词排名查询页面</a>
                             </a-menu-item>
                         </a-sub-menu>
-                        <a-menu-item v-if="get_amazon_page_type('listing')"> 
-                            <a :href="'https://'+ domain +'/favicon.ico?mod=asin_sale&asin=' + $('#page_asin').text()">查看预计销量</a>
+                        <a-menu-item v-if="get_amazon_page_type('listing')">
+                            <a
+                                :href="'https://'+ domain +'/favicon.ico?mod=asin_sale&asin=' + $('#page_asin').text()">查看预计销量</a>
                         </a-menu-item>
                     </a-menu>
                 </div>
@@ -79,7 +80,7 @@
                                                 <span>
                                                     (<span :id="item.asin + '_rating'">{{item.rating}}</span>)
                                                 </span>
-                                                <br/>
+                                                <br />
                                                 <span>
                                                     price:
                                                 </span>
@@ -120,6 +121,15 @@
             </a-drawer>
         </template>
 
+        <!-- 亚马逊 listing 翻译页面 -->
+        <template>
+            <a-drawer title="亚马逊页面统计Keepa" width="60%" placement="right" @close="on_close"
+                :visible="translation_page_visible">
+
+
+            </a-drawer>
+        </template>
+
         <!-- 临时框架页面 -->
         <template v-for="(item,index) in temp_frame">
             <iframe :id="'temp_frame_'+ index " name="temp_frame" style="border:1px solid;" height="300" width="100%"
@@ -146,6 +156,7 @@
         data() {
             return {
                 visible: false,
+                translation_page_visible: false,
                 temp_frame: [],
                 table_code_data: [],
                 search_value: '',
@@ -166,12 +177,14 @@
                 return get_amazon_page_type(type)
             },
             on_search(value) {
-                var lang = get_amazon_conifg(location.href).site_to_lang;
+                var lang = get_amazon_config(location.href).site_to_lang;
                 var result = get_translation(value, lang);
                 window.location.href = 'https://' + vue.domain + '/s?k=' + result
             },
-            on_close() {
-                this.visible = false;
+            on_close(e) {
+                console.log(e);
+                this.visible = false,
+                this.translation_page_visible = false
             }
         }
     });

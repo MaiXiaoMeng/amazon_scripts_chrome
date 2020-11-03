@@ -1,4 +1,4 @@
-﻿/* jshint esversion: 6 */
+/* jshint esversion: 6 */
 
 // 加载 额外的 Java Script 模块
 function inject_custom_main(path, label_name) {
@@ -137,44 +137,43 @@ function get_helium10_json(asin, marketplaceId) {
         }
 
         // ASIN 的信息
-        information = [{
-            "key": "ASIN:",
-            "value": typeof asin == 'undefined' ? 'null' : asin,
-        },
-        {
-            "key": "品牌名:",
-            "value": typeof brand_name == 'undefined' ? 'null' : brand_name,
-        },
-        {
-            "key": "大类:",
-            "value": typeof big_cat == 'undefined' ? 'null' : big_cat,
-        },
-        {
-            "key": "大类BSR:",
-            "value": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
-        },
-        {
-            "key": "小类:",
-            "value": typeof small_cat == 'undefined' ? 'null' : small_cat,
-        },
-
-        {
-            "key": "小类BSR:",
-            "value": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
-        },
-        {
-            "key": "包装尺寸(inch):",
-            "value": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
-        },
-        {
-            "key": "重量(lbs):",
-            "value": typeof package_weight == 'undefined' ? item_weight == typeof 'undefined' ? 'null' : item_weight : package_weight,
-        },
-        {
-            "key": "FBA费用:",
-            "value": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
-        },
-
+        information = [
+            {
+                "key": "ASIN:",
+                "value": typeof asin == 'undefined' ? 'null' : asin,
+            },
+            {
+                "key": "品牌名:",
+                "value": typeof brand_name == 'undefined' ? 'null' : brand_name,
+            },
+            {
+                "key": "大类:",
+                "value": typeof big_cat == 'undefined' ? 'null' : big_cat,
+            },
+            {
+                "key": "大类BSR:",
+                "value": typeof big_bsr == 'undefined' ? 'null' : big_bsr,
+            },
+            {
+                "key": "小类:",
+                "value": typeof small_cat == 'undefined' ? 'null' : small_cat,
+            },
+            {
+                "key": "小类BSR:",
+                "value": typeof small_bsr == 'undefined' ? 'null' : small_bsr,
+            },
+            {
+                "key": "包装尺寸(inch):",
+                "value": typeof package_dim == 'undefined' ? typeof item_dim == 'undefined' ? 'null' : item_dim : package_dim,
+            },
+            {
+                "key": "重量(lbs):",
+                "value": typeof package_weight == 'undefined' ? typeof item_weight == 'undefined' ? 'null' : item_weight : package_weight,
+            },
+            {
+                "key": "FBA费用:",
+                "value": typeof fba_fee == 'undefined' ? 'null' : fba_fee,
+            }
         ];
 
         // 解析销量

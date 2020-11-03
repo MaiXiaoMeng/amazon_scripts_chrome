@@ -1,25 +1,22 @@
-/* jshint esversion: 6 */
+﻿/* jshint esversion: 6 */
 
 // 加载 额外的 Java Script 模块
 function inject_custom_main(path, label_name) {
     return new Promise(function (resolve, reject) {
         if (label_name == 'js') {
-            var chrome_url = path.indexOf('http') > -1 ? path : chrome.extension.getURL(path);
-            if (path.indexOf('http') > -1) {
-                eval(get_content(chrome_url, type = 'html'))
-            } else {
-                var scripts_text = get_content(chrome_url, type = 'html');
-                eval(/\/\/ 公用函数开始(.*?)\/\/ 公用函数结束/s.exec(scripts_text)[1]);
-            }
+            eval(get_content(chrome_url, type = 'html'))
             resolve();
+        } else {
+            reject();
         }
     });
 }
 
 // 加载 额外的 Java Script 模块
-async function get_java_script_navigation() {
+(async () => {
     await inject_custom_main('https://cdn.jsdelivr.net/npm/momentjs@1.1.17/moment.js', 'js');
-}
+})()
+
 // 设置 亚马逊的 区号
 function set_amazon_postcode() {
     if (get_query_variable('postcode')) {
@@ -27,7 +24,6 @@ function set_amazon_postcode() {
         htm_code = get_content(`https://${document.domain}/gp/delivery/ajax/address-change.html?actionSource=glow&deviceType=web&locationType=LOCATION_INPUT&pageType=Gateway&storeContext=generic&zipCode=${post_code}`);
     }
 }
-
 // 发送 网络请求
 function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
@@ -58,13 +54,6 @@ function get_template_html(url, mode = '') {
         template_html = body_html + script_html;
     }
     return template_html;
-}
-
-function add_element_div(id, html) {
-    var div = document.createElement("div");
-    div.setAttribute("id", id);
-    div.innerHTML = html;
-    return div;
 }
 
 // 解析 helium10 的 JSON 数据
@@ -270,14 +259,14 @@ function get_helium10_json(asin, marketplaceId) {
     return json_data;
 }
 
+// 向 background.js 发送消息
 chrome.runtime.sendMessage({
     'ecomtool': location.href
 });
+
+// 监听 background.js 发来的消息
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    // 获取公用函数
-    var chrome_url = chrome.extension.getURL('scripts/amazon_scripts_page.js');
-    var scripts_text = get_content(chrome_url, type = 'html');
-    eval(/\/\/ 公用函数开始(.*?)\/\/ 公用函数结束/s.exec(scripts_text)[1]);
+
 
     if (request.hasOwnProperty(`ecomtool_response`)) {
         try {
@@ -331,13 +320,13 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                 // 使用授权日期信息
                 exd = `2020-11-01`;
-                update_info = `此功能需联系作者开通使用 作者QQ: 369593212`;
+                update_info = ``;
 
                 sc_code = '';
-                get_java_script_navigation();
+
                 // 获取 Amazon 站点的 marketplaceId
-                marketplaceId = get_amazon_conifg(location.href).marketplaceID;
-                keepa_market_id = get_amazon_conifg(location.href).keepa_market_id;
+                marketplaceId = get_amazon_config(location.href).marketplaceID;
+                keepa_market_id = get_amazon_config(location.href).keepa_market_id;
                 console.log('marketplaceId -> ' + marketplaceId);
                 switch (get_amazon_page_type('amazon')) {
                     case get_query_variable('mod') == 'check_index':
@@ -1015,47 +1004,30 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                         }
                     }
                 }
+
                 if (location.href.indexOf(`translate.google.cn/favicon.ico?mod=search&plat=am_`) > -0x1) {
-                    if (new Date().getTime() >= new Date(exd)) {
-                        alert(update_info);
-                    } else {
-                        document.title = `亚马逊翻译搜索`;
-                        keyword = '';
-                        if (location.href.indexOf('q=') > -0x1) {
-                            keyword = location.href.split(`&q=`)[0x1];
-                            plat = location.href.split(`plat=`)[0x1].split('&')[0x0];
-                            if (keyword != '') {
-                                to_lang = plat == `am_us` || plat == `am_ca` || plat == `am_uk` ? 'en' : plat == `am_de` ? 'de' : plat == `am_es` || plat == `am_mx` ? 'es' : plat == `am_fr` ? 'fr' : plat == `am_it` ? 'it' : plat == `am_jp` ? 'jo' : '';
-                                search_link = plat == `am_us` ? `https://www.amazon.com/s?k=` : plat == `am_ca` ? `https://www.amazon.ca/s?k=` : plat == `am_mx` ? `https://www.amazon.com.mx/s?k=` : plat == `am_uk` ? `https://www.amazon.co.uk/s?k=` : plat == `am_de` ? `https://www.amazon.de/s?k=` : plat == `am_es` ? `https://www.amazon.es/s?k=` : plat == `am_fr` ? `https://www.amazon.fr/s?k=` : plat == `am_it` ? `https://www.amazon.it/s?k=` : plat == `am_jp` ? `https://www.amazon.co.jp/s?k=` : '';
-                                keyword = _0x2c27fe(keyword, to_lang);
-                                location.href = search_link + keyword;
-                                void 0x0;
-                            }
-                        }
-                        if (keyword == '') {
-                            plat = location.href.split(`plat=`)[0x1].split('&')[0x0];
-                            tr_code = '';
-                            for (i = 0x1; i < 0x14; i++) {
-                                tr_code = tr_code + `<tr><td></td></tr>`;
-                            }
-                            search_frame_code = `<div align=center vertical-align=middle style="font-size:20px;"><table style="font-size:13px;">` + tr_code + `<tr><td><form action="favicon.ico" method="get"><input name="mod" value="search" type="hidden" /><input name="plat" value="` + plat + `" type="hidden" /><img src="https://www.amazon.com/favicon.ico" height=30> <input name="q" size="500" style="font-size:20px; width:500px; height:60px; border:1.5px solid #378888" /> <input type="submit" value="` + plat.substring(0x3, 0x5).toUpperCase() + `翻译搜索" style="font-size:20px; width:160px;height:55px; border:1px solid #00FFFF" /></form>`;
-                            document.body.outerHTML = `<body bgcolor="black">` + search_frame_code + sc_code + `</body>`;
-                            void 0x0;
-                        }
-                    }
+
                 } else {
                     if (location.href.indexOf(`translate.google.cn/favicon.ico?mod=product_trans`) > -0x1) {
-                        if (new Date().getTime() >= new Date(exd)) {
-                            alert(update_info);
-                        } else {
-                            document.title = `ASIN标题描述翻译`;
-                            title = location.href.split(`title=`)[0x1].split(`&bullet=`)[0x0];
-                            bullet = location.href.split(`bullet=`)[0x1].split(`&aplus=`)[0x0];
-                            aplus = location.href.split(`aplus=`)[0x1].replace(/(%0A){1,}/g, `%0A`).split(`&productDescription=`)[0x0];
-                            productDescription = location.href.split(`productDescription=`)[0x1].replace(/(%0A){1,}/g, `%0A`);
-                            display_code = `<table style="font-size:13px;" border="1" cellpadding="5" cellspacing="0" width="98%" bgcolor="#EEEEEE" bordercolordark="#FFFFFF" bordercolorlight="#999999">`;
-                            document.body.outerHTML = `<body>` + display_code + `<tr><td>标题</td><td>` + decodeURIComponent(title) + `</td><td>` + _0x2c27fe(title, `zh-CN`) + `</td></tr><tr><td>五点描述</td><td>` + (bullet == '' ? '' : `<li>` + decodeURIComponent(bullet.replace(/%0A/g, `<br><li>`))) + `</td><td>` + (bullet == '' ? '' : `<li>` + _0x2c27fe(bullet, `zh-CN`).replace(/<br>/g, `<br><li>`)) + `</td></tr><tr><td>A+描述</td><td>` + decodeURIComponent(aplus.replace(/%0A/g, `<br>`)) + `</td><td>` + (aplus == '' ? '' : _0x2c27fe(aplus, `zh-CN`)) + `</td></tr><tr><td>详细描述</td><td>` + decodeURIComponent(productDescription.replace(/%0A/g, `<br>`)) + `</td><td>` + (productDescription == '' ? '' : _0x2c27fe(productDescription, `zh-CN`)) + `</td></tr></table>` + sc_code + `</body>`;
-                        }
+                        document.title = `ASIN标题描述翻译`;
+                        title = location.href.split(`title=`)[0x1].split(`&bullet=`)[0x0];
+                        bullet = location.href.split(`bullet=`)[0x1].split(`&aplus=`)[0x0];
+                        aplus = location.href.split(`aplus=`)[0x1].replace(/(%0A){1,}/g, `%0A`).split(`&productDescription=`)[0x0];
+                        productDescription = location.href.split(`productDescription=`)[0x1].replace(/(%0A){1,}/g, `%0A`);
+                        display_code = `<table style="font-size:13px;" border="1" cellpadding="5" cellspacing="0" width="98%" bgcolor="#EEEEEE" bordercolordark="#FFFFFF" bordercolorlight="#999999">`;
+                        document.body.outerHTML = `<body>` + display_code + `<tr>
+                        <td>标题</td>
+                        <td>` + decodeURIComponent(title) + `</td>
+                        <td>` + _0x2c27fe(title, `zh-CN`) + `</td></tr>
+                        <tr><td>五点描述</td>
+                        <td>` + (bullet == '' ? '' : `<li>` + decodeURIComponent(bullet.replace(/%0A/g, `<br><li>`))) + `</td>
+                        <td>` + (bullet == '' ? '' : `<li>` + _0x2c27fe(bullet, `zh-CN`).replace(/<br>/g, `<br><li>`)) + `</td><
+                        /tr><tr><td>A+描述</td><td>` + decodeURIComponent(aplus.replace(/%0A/g, `<br>`)) + `</td>
+                        <td>` + (aplus == '' ? '' : _0x2c27fe(aplus, `zh-CN`)) + `</td></tr><tr>
+                        <td>详细描述</td><td>` + decodeURIComponent(productDescription.replace(/%0A/g, `<br>`)) + `</td>
+                        <td>` + (productDescription == '' ? '' : _0x2c27fe(productDescription, `zh-CN`)) + `</td></tr></table>` + sc_code + `
+                        </body>`;
+                        f
                     } else {
                         if (location.href.indexOf(`translate.google.cn/favicon.ico?mod=trans_`) > -0x1) {
                             if (new Date().getTime() >= new Date(exd)) {

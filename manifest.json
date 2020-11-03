@@ -117,7 +117,11 @@
         "*://js.amazonwords.cn/*"
       ],
       // 多个JS按顺序注入
-      "js": ["scripts/amazon_navigation.js", "scripts/amazon_scripts.js"],
+      "js": [
+        "scripts/amazon_navigation.js", 
+        "scripts/amazon_scripts_module.js",
+        "scripts/amazon_scripts.js"
+      ],
       // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
       // "css": ["css/custom.css"],
       // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle

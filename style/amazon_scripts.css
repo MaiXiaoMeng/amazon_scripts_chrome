@@ -1,16 +1,13 @@
+/* 强制替换浏览器的默认的背景图 */
+body {
+    background-image: initial;
+}
+
 .a-main {
     padding-left: 20%;
     padding-right: 20%;
     padding-top: 10%;
 
-}
-
-.el-main div h1 {
-    text-align: center;
-}
-
-.el-button {
-    width: 100%;
 }
 
 .ant-card-small>.ant-card-body {
@@ -24,6 +21,7 @@ p {
 .translation_search_top{
     padding-top: 7px
 }
+
 
 /* 我们需要更紧凑的表格布局 */
 .ant-table-small>.ant-table-content>.ant-table-body>table>.ant-table-tbody>tr>td,

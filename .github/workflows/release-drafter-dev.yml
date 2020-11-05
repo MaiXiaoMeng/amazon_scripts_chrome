@@ -56,6 +56,34 @@ jobs:
           rm -rf amazon_scripts_chrome/README.MD
           npx crx3 amazon_scripts_chrome --zip amazon_scripts_chrome.zip  --crx amazon_scripts_chrome.crx --key amazon_scripts_chrome.pem
 
+      # 另外一种火狐插件签名的步奏
+      # - name: Run firefox sign
+      # uses: cardinalby/webext-buildtools-firefox-sign-xpi-action@v1
+      # with:
+      #   zipFilePath: './../amazon_scripts_chrome.zip'
+      #   xpiFilePath: './../amazon_scripts_chrome.xpi'
+      #   jwtIssuer: ${{ secrets.FF_JWT_ISSUER }}
+      #   jwtSecret: ${{ secrets.FF_JWT_SECRET }}
+
+      - name: "Run firefox build"
+        id: web-ext-build
+        uses: kewisch/action-web-ext@v1
+        with:
+          cmd: build
+          source: ./
+
+      # 火狐浏览的插件签名审核的时长比较旧，暂停此签名步奏
+      # - name: "Run firefox sign"
+      #   id: web-ext-sign
+      #   uses: kewisch/action-web-ext@v1
+      #   with:
+      #     cmd: sign
+      #     source: ${{ steps.web-ext-build.outputs.target }}
+      #     channel: unlisted
+      #     apiKey: ${{ secrets.FF_JWT_ISSUER }}
+      #     apiSecret: ${{ secrets.FF_JWT_SECRET }}
+      #     timeout: 900000
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@latest
@@ -88,4 +116,17 @@ jobs:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./../amazon_scripts_chrome.crx
           asset_name: amazon_scripts_chrome.crx
+          asset_content_type: application/x-zip-compressed
+
+      - name: Upload XPI
+        if: steps.create_release.outcome == 'success'
+        uses: actions/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          # asset_path: ./../amazon_scripts_chrome.xpi
+          asset_path: ${{ steps.web-ext-build.outputs.target }}
+          # asset_path:  ${{ steps.web-ext-sign.outputs.target }}
+          asset_name: amazon_scripts_firefox_no_sign.xpi
           asset_content_type: application/x-zip-compressed

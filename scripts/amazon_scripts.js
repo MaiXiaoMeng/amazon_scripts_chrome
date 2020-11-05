@@ -4,7 +4,7 @@
 function inject_custom_main(path, label_name) {
     return new Promise(function (resolve, reject) {
         if (label_name == 'js') {
-            eval(get_content(chrome_url, type = 'html'))
+            eval(get_content(path, type = 'html'))
             resolve();
         } else {
             reject();

@@ -4,12 +4,19 @@
   // 插件的名称
   "name": "Amazon Scripts",
   // 插件的版本
-  "version": "0.0.2",
+  "version": "0.0.4",
   // 插件描述
   "description": "Amazon Scripts",
   // 最低浏览器版本 
   "minimum_chrome_version": "1.0.0",
-  // 图标，一般偷懒全部用一个尺寸的也没问题
+  // 兼容火狐浏览器的配置
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{716f3ce7-006e-47d5-86e6-a1c4989cb386}",
+      "strict_min_version": "42.0"
+    }
+  },
+    // 图标，一般偷懒全部用一个尺寸的也没问题
   "icons": {
     "48": "icons/amazon_scripts_chrome_48.png"
   },
@@ -32,12 +39,12 @@
     "default_icon": "icons/amazon_scripts_chrome_48.png"
   },
   // 当某些特定页面打开才显示的图标
-  /*"page_action":
-	{
-		"default_icon": "img/icon.png",
-		"default_title": "我是pageAction",
-		"default_popup": "popup.html"
-	},*/
+  // "page_action":
+  // {
+  // 	"default_icon": "img/icon.png",
+  // 	"default_title": "我是pageAction",
+  // 	"default_popup": "popup.html"
+  // },
   // 权限申请
   "permissions": [
     // "contextMenus", // 右键菜单
@@ -70,62 +77,60 @@
     "style/*"
   ],
   // 需要直接注入页面的JS
-  "content_scripts": [
-    {
-      //"matches": ["http://*/*", "https://*/*"],
-      // "<all_urls>" 表示匹配所有地址
-      "matches": [
-        "*://sellersprite.com/favicon.ico*",
-        "*://www.sellersprite.com/favicon.ico*",
-        "*://www.sellersprite.com/v2/keyword/history-trend-month*",
-        "*://members.helium10.com/favicon.ico*",
-        "*://www.amazon.com/empty*",
-        "*://www.amazon.ca/empty*",
-        "*://www.amazon.com.mx/empty*",
-        "*://www.amazon.co.uk/empty*",
-        "*://www.amazon.de/empty*",
-        "*://www.amazon.es/empty*",
-        "*://www.amazon.fr/empty*",
-        "*://www.amazon.it/empty*",
-        "*://www.amazon.co.jp/empty*",
-        "*://www.amazon.com.au/empty*",
-        "*://www.amazon.com/favicon.ico*",
-        "*://www.amazon.ca/favicon.ico*",
-        "*://www.amazon.com.mx/favicon.ico*",
-        "*://www.amazon.co.uk/favicon.ico*",
-        "*://www.amazon.de/favicon.ico*",
-        "*://www.amazon.es/favicon.ico*",
-        "*://www.amazon.fr/favicon.ico*",
-        "*://www.amazon.it/favicon.ico*",
-        "*://www.amazon.co.jp/favicon.ico*",
-        "*://www.amazon.com.au/favicon.ico*",
-        "*://www.amazon.com/*",
-        "*://www.amazon.ca/*",
-        "*://www.amazon.com.mx/*",
-        "*://www.amazon.co.uk/*",
-        "*://www.amazon.de/*",
-        "*://www.amazon.es/*",
-        "*://www.amazon.fr/*",
-        "*://www.amazon.it/*",
-        "*://www.amazon.co.jp/*",
-        "*://www.amazon.com.au/*",
-        "*://completion.amazon.com/*",
-        "*://completion.amazon.co.uk/*",
-        "*://completion.amazon.co.jp/*",
-        "*://www.google.com/favicon.ico*",
-        "*://translate.google.cn/favicon.ico*",
-        "*://js.amazonwords.cn/*"
-      ],
-      // 多个JS按顺序注入
-      "js": [
-        "scripts/amazon_navigation.js", 
-        "scripts/amazon_scripts_module.js",
-        "scripts/amazon_scripts.js"
-      ],
-      // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
-      // "css": ["css/custom.css"],
-      // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
-      "run_at": "document_end"
-    }
-  ]
+  "content_scripts": [{
+    //"matches": ["http://*/*", "https://*/*"],
+    // "<all_urls>" 表示匹配所有地址
+    "matches": [
+      "*://sellersprite.com/favicon.ico*",
+      "*://www.sellersprite.com/favicon.ico*",
+      "*://www.sellersprite.com/v2/keyword/history-trend-month*",
+      "*://members.helium10.com/favicon.ico*",
+      "*://www.amazon.com/empty*",
+      "*://www.amazon.ca/empty*",
+      "*://www.amazon.com.mx/empty*",
+      "*://www.amazon.co.uk/empty*",
+      "*://www.amazon.de/empty*",
+      "*://www.amazon.es/empty*",
+      "*://www.amazon.fr/empty*",
+      "*://www.amazon.it/empty*",
+      "*://www.amazon.co.jp/empty*",
+      "*://www.amazon.com.au/empty*",
+      "*://www.amazon.com/favicon.ico*",
+      "*://www.amazon.ca/favicon.ico*",
+      "*://www.amazon.com.mx/favicon.ico*",
+      "*://www.amazon.co.uk/favicon.ico*",
+      "*://www.amazon.de/favicon.ico*",
+      "*://www.amazon.es/favicon.ico*",
+      "*://www.amazon.fr/favicon.ico*",
+      "*://www.amazon.it/favicon.ico*",
+      "*://www.amazon.co.jp/favicon.ico*",
+      "*://www.amazon.com.au/favicon.ico*",
+      "*://www.amazon.com/*",
+      "*://www.amazon.ca/*",
+      "*://www.amazon.com.mx/*",
+      "*://www.amazon.co.uk/*",
+      "*://www.amazon.de/*",
+      "*://www.amazon.es/*",
+      "*://www.amazon.fr/*",
+      "*://www.amazon.it/*",
+      "*://www.amazon.co.jp/*",
+      "*://www.amazon.com.au/*",
+      "*://completion.amazon.com/*",
+      "*://completion.amazon.co.uk/*",
+      "*://completion.amazon.co.jp/*",
+      "*://www.google.com/favicon.ico*",
+      "*://translate.google.cn/favicon.ico*",
+      "*://js.amazonwords.cn/*"
+    ],
+    // 多个JS按顺序注入
+    "js": [
+      "scripts/amazon_navigation.js",
+      "scripts/amazon_scripts_module.js",
+      "scripts/amazon_scripts.js"
+    ],
+    // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
+    // "css": ["css/custom.css"],
+    // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle
+    "run_at": "document_end"
+  }]
 }

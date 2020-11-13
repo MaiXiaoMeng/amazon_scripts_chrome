@@ -1,3 +1,10 @@
+'''
+Author: MaiXiaoMeng
+Date: 2020-10-26 10:40:28
+LastEditors: MaiXiaoMeng
+LastEditTime: 2020-11-10 17:32:09
+FilePath: \amazon_scripts_chrome\services\services.py
+'''
 import inspect
 import logging
 import os

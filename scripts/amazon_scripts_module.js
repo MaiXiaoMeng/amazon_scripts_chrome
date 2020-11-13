@@ -227,3 +227,22 @@ function get_translation(sting, lang) {
     var url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-Hans&tl=${lang}&dt=t&q=${sting}`
     return JSON.parse(get_content(url, '', 'GET'))[0][0][0]
 }
+
+// 初始化 serializeObject
+function initSerializeObject() {
+    $.fn.serializeObject = function () {
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function () {
+            if (o[this.name]) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+}

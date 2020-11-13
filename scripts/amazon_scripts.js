@@ -15,6 +15,7 @@ function inject_custom_main(path, label_name) {
 // 加载 额外的 Java Script 模块
 (async () => {
     await inject_custom_main('https://cdn.jsdelivr.net/npm/momentjs@1.1.17/moment.js', 'js');
+    await inject_custom_main('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js', 'js');
 })()
 
 // 设置 亚马逊的 区号
@@ -27,7 +28,6 @@ function set_amazon_postcode() {
 // 发送 网络请求
 function get_content(url, data = '', mode = 'GET', type = 'html') {
     console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
-    console.log(`-> get_content data:${data}`);
     xmlHttpRequest = new XMLHttpRequest();
     xmlHttpRequest.open(mode, url, false);
     if (type == 'json') {
@@ -36,6 +36,7 @@ function get_content(url, data = '', mode = 'GET', type = 'html') {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     }
     xmlHttpRequest.send(data);
+    console.log(xmlHttpRequest);
     console.log('-> get_content -> 获取数据成功');
     return xmlHttpRequest.responseText;
 }
@@ -167,64 +168,67 @@ function get_helium10_json(asin, marketplaceId) {
 
         // 解析销量
         htm_code = get_content(`https://members.helium10.com/black-box/sales-chart?days=0&asin=${asin}&marketplace=${marketplaceId}`, type = 'html');
-        json_code = /var data = (.*?);/.exec(htm_code)[1];
-        htm_json = JSON.parse(json_code);
-        console.log(htm_json);
-        if (htm_json.status != "success") {
-            console.log('-> get_helium10_json -> 请先登录 helium10');
-        } else {
-            monthly_sales = {};
-            day_sales = {};
+        json_code = /var data = (.*?);/.exec(htm_code);
+        if (json_code != null) {
+            htm_json = JSON.parse(json_code[1]);
+            console.log(htm_json);
+            if (htm_json.status != "success") {
+                console.log('-> get_helium10_json -> 请先登录 helium10');
+            } else {
+                monthly_sales = {};
+                day_sales = {};
 
-            w1_sale = 0;
-            w2_sale = 0;
-            w3_sale = 0;
-            w4_sale = 0;
-            h24_sale = Number(htm_json.sales[htm_json.sales.length - 1].y);
-            for (var sales_index in htm_json.sales) {
-                monthly = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM');
-                day_1 = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM-DD');
-                day_2 = moment(new Date()).format('YYYY-MM');
-                sales = htm_json.sales[sales_index].y;
-                monthly_sales[monthly] == undefined ? monthly_sales[monthly] = sales : monthly_sales[monthly] += sales;
-                day_sales[day_1] = sales;
+                w1_sale = 0;
+                w2_sale = 0;
+                w3_sale = 0;
+                w4_sale = 0;
+                h24_sale = Number(htm_json.sales[htm_json.sales.length - 1].y);
+                for (var sales_index in htm_json.sales) {
+                    monthly = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM');
+                    day_1 = moment(new Date(htm_json.sales[sales_index].x)).format('YYYY-MM-DD');
+                    day_2 = moment(new Date()).format('YYYY-MM');
+                    sales = htm_json.sales[sales_index].y;
+                    monthly_sales[monthly] == undefined ? monthly_sales[monthly] = sales : monthly_sales[monthly] += sales;
+                    day_sales[day_1] = sales;
 
-                d1 = new Date().setTime(Number(htm_json.sales[sales_index].x));
-                d2 = new Date(new Date().getFullYear() + '-' + Number(new Date().getMonth() + 1) + '-' + new Date().getDate()).getTime();
-                day_s = Number((d2 - d1) / 1000 / 60 / 60 / 24).toFixed(2);
-                switch (true) {
-                    case day_s < 6.5:
-                        w1_sale += Number(htm_json.sales[sales_index].y);
-                        continue;
-                    case day_s < 13.5:
-                        w2_sale += Number(htm_json.sales[sales_index].y);
-                        continue;
-                    case day_s < 20.5:
-                        w3_sale += Number(htm_json.sales[sales_index].y);
-                        continue;
-                    case day_s < 27.5:
-                        w4_sale += Number(htm_json.sales[sales_index].y);
-                        continue;
+                    d1 = new Date().setTime(Number(htm_json.sales[sales_index].x));
+                    d2 = new Date(new Date().getFullYear() + '-' + Number(new Date().getMonth() + 1) + '-' + new Date().getDate()).getTime();
+                    day_s = Number((d2 - d1) / 1000 / 60 / 60 / 24).toFixed(2);
+                    switch (true) {
+                        case day_s < 6.5:
+                            w1_sale += Number(htm_json.sales[sales_index].y);
+                            continue;
+                        case day_s < 13.5:
+                            w2_sale += Number(htm_json.sales[sales_index].y);
+                            continue;
+                        case day_s < 20.5:
+                            w3_sale += Number(htm_json.sales[sales_index].y);
+                            continue;
+                        case day_s < 27.5:
+                            w4_sale += Number(htm_json.sales[sales_index].y);
+                            continue;
+                    }
+                }
+                h24_sale = w1_sale == 0 ? 0 : h24_sale;
+                sales_days = (new Date().setTime(Number(htm_json.sales[htm_json.sales.length - 1].x) - new Date().setTime(Number(htm_json.sales[0].x))) / 1000 / 60 / 60 / 24);
+
+                monthly_sales_length = Object.keys(monthly_sales).length;
+                monthly_sales_value = Object.keys(monthly_sales).map(key => monthly_sales[key]);
+                day_sales_length = Object.keys(day_sales).length;
+                day_sales_value = Object.keys(day_sales).map(key => day_sales[key]);
+                if (monthly_sales_length > 30) {
+                    monthly_sales_max = Math.max.apply(null, monthly_sales_value.slice(monthly_sales_length - 30));
+                } else {
+                    monthly_sales_max = Math.max.apply(null, monthly_sales_value);
+                }
+                if (day_sales_length > 30) {
+                    day_sales_max = Math.max.apply(null, day_sales_value.slice(day_sales_length - 30));
+                } else {
+                    day_sales_max = Math.max.apply(null, day_sales_value);
                 }
             }
-            h24_sale = w1_sale == 0 ? 0 : h24_sale;
-            sales_days = (new Date().setTime(Number(htm_json.sales[htm_json.sales.length - 1].x) - new Date().setTime(Number(htm_json.sales[0].x))) / 1000 / 60 / 60 / 24);
-
-            monthly_sales_length = Object.keys(monthly_sales).length;
-            monthly_sales_value = Object.keys(monthly_sales).map(key => monthly_sales[key]);
-            day_sales_length = Object.keys(day_sales).length;
-            day_sales_value = Object.keys(day_sales).map(key => day_sales[key]);
-            if (monthly_sales_length > 30) {
-                monthly_sales_max = Math.max.apply(null, monthly_sales_value.slice(monthly_sales_length - 30));
-            } else {
-                monthly_sales_max = Math.max.apply(null, monthly_sales_value);
-            }
-            if (day_sales_length > 30) {
-                day_sales_max = Math.max.apply(null, day_sales_value.slice(day_sales_length - 30));
-            } else {
-                day_sales_max = Math.max.apply(null, day_sales_value);
-            }
         }
+
 
         json_data = {
             'asin': typeof asin == 'undefined' ? 'null' : asin,
@@ -244,7 +248,7 @@ function get_helium10_json(asin, marketplaceId) {
             "w2_sale": typeof w2_sale == 'undefined' ? 'null' : w2_sale.toFixed(1),
             "w3_sale": typeof w3_sale == 'undefined' ? 'null' : w3_sale.toFixed(1),
             "w4_sale": typeof w4_sale == 'undefined' ? 'null' : w4_sale.toFixed(1),
-            "w4eek_sum_sale": Number(w1_sale + w2_sale + w3_sale + w4_sale).toFixed(1),
+            "w4eek_sum_sale": typeof w1_sale == 'undefined' ? 'null' : Number(w1_sale + w2_sale + w3_sale + w4_sale).toFixed(1),
             "sales_days": typeof sales_days == 'undefined' ? 'null' : sales_days.toFixed(1),
             "monthly_sales": typeof monthly_sales == 'undefined' ? 'null' : monthly_sales,
             "monthly_sales_length": typeof monthly_sales_length == 'undefined' ? 'null' : monthly_sales_length,
@@ -321,7 +325,6 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                 // 使用授权日期信息
                 exd = `2020-11-01`;
                 update_info = ``;
-
                 sc_code = '';
 
                 // 获取 Amazon 站点的 marketplaceId
@@ -397,6 +400,19 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     json_data = get_helium10_json(asin, marketplaceId);
                     display_code = get_template_html('template/prodDetails.html');
                     document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
+                    // 添加购物车库存-可能会被限制
+                    initSerializeObject();
+                    let nav_cart_url = $('#nav-cart').attr('href');
+                    let add_to_cart_from_url = $('#addToCart').attr('action');
+                    let add_to_cart_from = $('#addToCart').serializeObject();
+                    add_to_cart_from.quantity = 1110;
+                    $.post(add_to_cart_from_url, add_to_cart_from, (data) => {
+                        $.get(nav_cart_url, (html_code) => {
+                            let quantity_box = $(html_code).find('input[name="quantityBox"]').val();
+                            $("#selectQuantity").parent().append(`<font color="red">剩余库存:${quantity_box}(仅参考))</font>`)
+                            console.log(quantity_box);
+                        })
+                    });
                 }
 
                 // 判断是不是在亚马逊的反查流量词页面

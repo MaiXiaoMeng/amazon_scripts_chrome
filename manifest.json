@@ -1,10 +1,11 @@
 ﻿{
+  // 火狐浏览器插件中文开发文档 https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions 
   // 插件清单文件的版本，这个必须写，而且必须是2
   "manifest_version": 2,
   // 插件的名称
   "name": "Amazon Scripts",
   // 插件的版本
-  "version": "0.0.4",
+  "version": "0.0.5",
   // 插件描述
   "description": "Amazon Scripts",
   // 最低浏览器版本 
@@ -16,7 +17,7 @@
       "strict_min_version": "42.0"
     }
   },
-    // 图标，一般偷懒全部用一个尺寸的也没问题
+  // 图标，一般偷懒全部用一个尺寸的也没问题
   "icons": {
     "48": "icons/amazon_scripts_chrome_48.png"
   },
@@ -68,7 +69,8 @@
     "*://members.helium10.com/*",
     "*://*.aliexpress.com/*",
     "*://*.ecomtool.net/*",
-    "*://translate.google.cn/*"
+    "*://translate.google.cn/*",
+    "*://127.0.0.1/*"
   ],
   // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   "web_accessible_resources": [

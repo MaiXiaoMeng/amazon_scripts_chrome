@@ -1,11 +1,6 @@
 /* jshint esversion: 6 */
 
 eval($('#initialize').text());
-vue.$notification.open({
-    message: `亚马逊插件JS加载完成`,
-    description: ``,
-    placement: 'bottomRight',
-});
 
 // 发送网络请求[前端专用]
 function get_content(url, data = '', mode = 'GET', type = 'html') {
@@ -17,7 +12,6 @@ function get_content(url, data = '', mode = 'GET', type = 'html') {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
     } else {
         xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    
     }
     xmlHttpRequest.send(data);
     console.log('-> get_content[前端专用] -> 获取数据成功');

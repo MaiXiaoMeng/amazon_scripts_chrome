@@ -401,18 +401,17 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     display_code = get_template_html('template/prodDetails.html');
                     document.getElementById(`feature-bullets`).insertAdjacentHTML(`beforebegin`, display_code);
                     // 添加购物车库存-可能会被限制
-                    initSerializeObject();
-                    let nav_cart_url = $('#nav-cart').attr('href');
-                    let add_to_cart_from_url = $('#addToCart').attr('action');
-                    let add_to_cart_from = $('#addToCart').serializeObject();
-                    add_to_cart_from.quantity = 1110;
-                    $.post(add_to_cart_from_url, add_to_cart_from, (data) => {
-                        $.get(nav_cart_url, (html_code) => {
-                            let quantity_box = $(html_code).find('input[name="quantityBox"]').val();
-                            $("#selectQuantity").parent().append(`<font color="red">剩余库存:${quantity_box}(仅参考))</font>`)
-                            console.log(quantity_box);
-                        })
-                    });
+                    // initSerializeObject();
+                    // let nav_cart_url = $('#nav-cart').attr('href');
+                    // let add_to_cart_from_url = $('#addToCart').attr('action');
+                    // let add_to_cart_from = $('#addToCart').serializeObject();
+                    // add_to_cart_from.quantity = 1110;
+                    // $.post(add_to_cart_from_url, add_to_cart_from, (data) => {
+                    //     $.get(nav_cart_url, (html_code) => {
+                    //         let quantity_box = $(html_code).find('input[name="quantityBox"]').val();
+                    //         $("#selectQuantity").parent().append(`<font color="red">剩余库存:${quantity_box}(仅参考)</font>`)
+                    //     })
+                    // });
                 }
 
                 // 判断是不是在亚马逊的反查流量词页面

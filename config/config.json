@@ -1,0 +1,10 @@
+{
+    "request_headers": [{
+        "url": "https://www.asinseed.com/cn/*",
+        "type": "xmlhttprequest",
+        "headers": [{
+            "name": "Accept",
+            "value": "https://www.amz123.com/"
+        }]
+    }]
+}

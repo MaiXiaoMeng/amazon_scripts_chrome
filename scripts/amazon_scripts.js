@@ -1,44 +1,11 @@
 ﻿/* jshint esversion: 6 */
 
-// 加载 额外的 Java Script 模块
-function inject_custom_main(path, label_name) {
-    return new Promise(function (resolve, reject) {
-        if (label_name == 'js') {
-            eval(get_content(path, type = 'html'))
-            resolve();
-        } else {
-            reject();
-        }
-    });
-}
-
-// 加载 额外的 Java Script 模块
-(async () => {
-    await inject_custom_main('https://cdn.jsdelivr.net/npm/momentjs@1.1.17/moment.js', 'js');
-    await inject_custom_main('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js', 'js');
-})()
-
 // 设置 亚马逊的 区号
 function set_amazon_postcode() {
     if (get_query_variable('postcode')) {
         post_code = get_query_variable('postcode');
         htm_code = get_content(`https://${document.domain}/gp/delivery/ajax/address-change.html?actionSource=glow&deviceType=web&locationType=LOCATION_INPUT&pageType=Gateway&storeContext=generic&zipCode=${post_code}`);
     }
-}
-// 发送 网络请求
-function get_content(url, data = '', mode = 'GET', type = 'html') {
-    console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
-    xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open(mode, url, false);
-    if (type == 'json') {
-        xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    } else {
-        xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    }
-    xmlHttpRequest.send(data);
-    console.log(xmlHttpRequest);
-    console.log('-> get_content -> 获取数据成功');
-    return xmlHttpRequest.responseText;
 }
 
 // 获取 HTML 模板
@@ -270,8 +237,6 @@ chrome.runtime.sendMessage({
 
 // 监听 background.js 发来的消息
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-
-
     if (request.hasOwnProperty(`ecomtool_response`)) {
         try {
             if (request.ust == 2) {
@@ -413,6 +378,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
                     //     })
                     // });
                 }
+
 
                 // 判断是不是在亚马逊的反查流量词页面
                 if (location.href.indexOf(`sellersprite.com/favicon.ico?reverse-asin`) > -0x1) {

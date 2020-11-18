@@ -1,5 +1,8 @@
 ﻿{
   // 火狐浏览器插件中文开发文档 https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions 
+  // 谷歌浏览器插件中文开发文档 http://chrome.cenchy.com/match_patterns.html 
+  // Chrome扩展及应用开发（首发版） https://www.ituring.com.cn/book/1421
+
   // 插件清单文件的版本，这个必须写，而且必须是2
   "manifest_version": 2,
   // 插件的名称
@@ -27,7 +30,10 @@
   "background": {
     // 2种指定方式，如果指定JS，那么会自动生成一个背景页
     // "page": "background.html"
-    "scripts": ["scripts/background.js"]
+    "scripts": [
+      "scripts/amazon_scripts_module.js",
+      "scripts/background.js"
+    ]
   },
   // 浏览器右上角图标设置，browser_action、page_action、app必须三选一
   "browser_action": {
@@ -46,13 +52,15 @@
   // 	"default_title": "我是pageAction",
   // 	"default_popup": "popup.html"
   // },
+  //  允许绕过 CSP 策略
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   // 权限申请
   "permissions": [
     // "contextMenus", // 右键菜单
     // "tabs", // 标签
     // "notifications", // 通知
     "webRequest", // web请求
-    "webRequestBlocking",
+    "webRequestBlocking", // 阻塞式web请求
     // "storage", // 插件本地存储
     // "http://*/*", 可以通过executeScript或者insertCSS访问的网站
     // "https://*/*", // 可以通过executeScript或者insertCSS访问的网站
@@ -76,6 +84,7 @@
   "web_accessible_resources": [
     "template/*",
     "scripts/*",
+    "config/*",
     "style/*"
   ],
   // 需要直接注入页面的JS
@@ -122,7 +131,8 @@
       "*://completion.amazon.co.jp/*",
       "*://www.google.com/favicon.ico*",
       "*://translate.google.cn/favicon.ico*",
-      "*://js.amazonwords.cn/*"
+      "*://js.amazonwords.cn/*",
+      "*://www.asinseed.com/*"
     ],
     // 多个JS按顺序注入
     "js": [

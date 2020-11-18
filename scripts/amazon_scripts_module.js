@@ -228,6 +228,38 @@ function get_translation(sting, lang) {
     return JSON.parse(get_content(url, '', 'GET'))[0][0][0]
 }
 
+// URL 路径算法
+function get_matching(reg, input) {
+    var reg_split = reg.split('*');
+    for (let index = 0; index < input.length; index++) {
+        if (index == reg_split.length) {
+            return reg.charAt(reg.length - 1) == '*' ? true : false
+        }
+        let _reg_split = reg_split[index++];
+        let index_of = input.indexOf(_reg_split);
+        if (index_of == -1) {
+            return false;
+        } else {
+            input = input.substring(index_of + _reg_split.length);
+        }
+    }
+    return true;
+}
+
+// 发送 网络请求
+function get_content(url, data = '', mode = 'GET', type = 'html') {
+    console.log(`-> get_content mode:${mode} type:${type} url:${url}`);
+    xmlHttpRequest = new XMLHttpRequest();
+    xmlHttpRequest.open(mode, url, false);
+    if (type == 'json') {
+        xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+    } else {
+        xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    }
+    xmlHttpRequest.send(data);
+    return xmlHttpRequest.responseText;
+}
+
 // 初始化 serializeObject
 function initSerializeObject() {
     $.fn.serializeObject = function () {
@@ -246,3 +278,28 @@ function initSerializeObject() {
         return o;
     };
 }
+
+// 获取 Config 配置
+function get_config(url = '/config/config.json') {
+    let chrome_url = chrome.extension.getURL(url);
+    let config_json = get_content(chrome_url);
+    return JSON.parse(config_json);
+}
+
+// 加载 额外的 Java Script 模块
+function inject_custom_main(path, label_name) {
+    return new Promise(function (resolve, reject) {
+        if (label_name == 'js') {
+            eval(get_content(path, type = 'html'))
+            resolve();
+        } else {
+            reject();
+        }
+    });
+}
+
+// 加载 额外的 Java Script 模块
+(async () => {
+    await inject_custom_main('https://cdn.jsdelivr.net/npm/momentjs@1.1.17/moment.js', 'js');
+    await inject_custom_main('https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js', 'js');
+})()

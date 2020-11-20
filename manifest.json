@@ -1,20 +1,17 @@
 ﻿{
-  // 火狐浏览器插件中文开发文档 https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions 
-  // 谷歌浏览器插件中文开发文档 http://chrome.cenchy.com/match_patterns.html 
+  // 火狐浏览器插件中文开发文档 https://developer.mozilla.org/zh-CN/docs/Mozilla/Add-ons/WebExtensions
+  // 谷歌浏览器插件中文开发文档 http://chrome.cenchy.com/match_patterns.html
   // Chrome扩展及应用开发（首发版） https://www.ituring.com.cn/book/1421
+  // chrome启动参数英文版 https://peter.sh/experiments/chromium-command-line-switches/
+  // chrome启动参数中文版 https://www.cnblogs.com/xiaoxiao-niao/p/7765627.html
 
-  // 插件清单文件的版本，这个必须写，而且必须是2
-  "manifest_version": 2,
-  // 插件的名称
-  "name": "Amazon Scripts",
-  // 插件的版本
-  "version": "0.0.5",
-  // 插件描述
-  "description": "Amazon Scripts",
-  // 最低浏览器版本 
-  "minimum_chrome_version": "1.0.0",
-  // 兼容火狐浏览器的配置
+  "manifest_version": 2, // 插件清单文件的版本，这个必须写，而且必须是2
+  "name": "Amazon Scripts", // 插件的名称
+  "version": "0.0.5", // 插件的版本
+  "description": "Amazon Scripts", // 插件描述
+  "minimum_chrome_version": "1.0.0", // 最低浏览器版本
   "browser_specific_settings": {
+    // 兼容火狐浏览器的配置
     "gecko": {
       "id": "{716f3ce7-006e-47d5-86e6-a1c4989cb386}",
       "strict_min_version": "42.0"
@@ -24,16 +21,12 @@
   "icons": {
     "48": "icons/amazon_scripts_chrome_48.png"
   },
-  // 插件主页，这个很重要，不要浪费了这个免费广告位
-  "homepage_url": "https://github.com/MaiXiaoMeng/amazon_scripts_chrome",
-  // 会一直常驻的后台JS或后台页面
+  "homepage_url": "https://github.com/MaiXiaoMeng/amazon_scripts_chrome", // 插件主页，这个很重要，不要浪费了这个免费广告位
   "background": {
+    // 会一直常驻的后台JS或后台页面
     // 2种指定方式，如果指定JS，那么会自动生成一个背景页
     // "page": "background.html"
-    "scripts": [
-      "scripts/amazon_scripts_module.js",
-      "scripts/background.js"
-    ]
+    "scripts": ["scripts/amazon_scripts_module.js", "scripts/background.js"]
   },
   // 浏览器右上角图标设置，browser_action、page_action、app必须三选一
   "browser_action": {
@@ -62,60 +55,13 @@
     "webRequest", // web请求
     "webRequestBlocking", // 阻塞式web请求
     // "storage", // 插件本地存储
-    // "http://*/*", 可以通过executeScript或者insertCSS访问的网站
-    // "https://*/*", // 可以通过executeScript或者insertCSS访问的网站
-    "*://www.amazon.com/*",
-    "*://www.amazon.ca/*",
-    "*://www.amazon.com.mx/*",
-    "*://www.amazon.co.uk/*",
-    "*://www.amazon.de/*",
-    "*://www.amazon.es/*",
-    "*://www.amazon.fr/*",
-    "*://www.amazon.it/*",
-    "*://www.amazon.co.jp/*",
-    "*://www.amazon.com.au/*",
-    "*://members.helium10.com/*",
-    "*://*.aliexpress.com/*",
-    "*://*.ecomtool.net/*",
-    "*://translate.google.cn/*",
-    "*://127.0.0.1/*"
+    "<all_urls>" // 全部URL
   ],
-  // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
-  "web_accessible_resources": [
-    "template/*",
-    "scripts/*",
-    "config/*",
-    "style/*"
-  ],
+  "web_accessible_resources": ["*"], // 普通页面能够直接访问的插件资源列表，如果不设置是无法直接访问的
   // 需要直接注入页面的JS
   "content_scripts": [{
-    //"matches": ["http://*/*", "https://*/*"],
     // "<all_urls>" 表示匹配所有地址
     "matches": [
-      "*://sellersprite.com/favicon.ico*",
-      "*://www.sellersprite.com/favicon.ico*",
-      "*://www.sellersprite.com/v2/keyword/history-trend-month*",
-      "*://members.helium10.com/favicon.ico*",
-      "*://www.amazon.com/empty*",
-      "*://www.amazon.ca/empty*",
-      "*://www.amazon.com.mx/empty*",
-      "*://www.amazon.co.uk/empty*",
-      "*://www.amazon.de/empty*",
-      "*://www.amazon.es/empty*",
-      "*://www.amazon.fr/empty*",
-      "*://www.amazon.it/empty*",
-      "*://www.amazon.co.jp/empty*",
-      "*://www.amazon.com.au/empty*",
-      "*://www.amazon.com/favicon.ico*",
-      "*://www.amazon.ca/favicon.ico*",
-      "*://www.amazon.com.mx/favicon.ico*",
-      "*://www.amazon.co.uk/favicon.ico*",
-      "*://www.amazon.de/favicon.ico*",
-      "*://www.amazon.es/favicon.ico*",
-      "*://www.amazon.fr/favicon.ico*",
-      "*://www.amazon.it/favicon.ico*",
-      "*://www.amazon.co.jp/favicon.ico*",
-      "*://www.amazon.com.au/favicon.ico*",
       "*://www.amazon.com/*",
       "*://www.amazon.ca/*",
       "*://www.amazon.com.mx/*",
@@ -128,18 +74,10 @@
       "*://www.amazon.com.au/*",
       "*://completion.amazon.com/*",
       "*://completion.amazon.co.uk/*",
-      "*://completion.amazon.co.jp/*",
-      "*://www.google.com/favicon.ico*",
-      "*://translate.google.cn/favicon.ico*",
-      "*://js.amazonwords.cn/*",
-      "*://www.asinseed.com/*"
+      "*://completion.amazon.co.jp/*"
     ],
     // 多个JS按顺序注入
-    "js": [
-      "scripts/amazon_navigation.js",
-      "scripts/amazon_scripts_module.js",
-      "scripts/amazon_scripts.js"
-    ],
+    "js": ["scripts/amazon_navigation.js", "scripts/amazon_scripts_module.js", "scripts/amazon_scripts.js"],
     // JS的注入可以随便一点，但是CSS的注意就要千万小心了，因为一不小心就可能影响全局样式
     // "css": ["css/custom.css"],
     // 代码注入的时间，可选值： "document_start", "document_end", or "document_idle"，最后一个表示页面空闲时，默认document_idle

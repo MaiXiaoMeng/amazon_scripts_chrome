@@ -2,28 +2,6 @@
 
 eval($('#initialize').text());
 
-// 发送网络请求[前端专用]
-function get_content(url, data = '', mode = 'GET', type = 'html') {
-    console.log(`-> get_content[前端专用] mode:${mode} type:${type} url:${url}`);
-    console.log(`-> get_content[前端专用] data:${data}`);
-    xmlHttpRequest = new XMLHttpRequest();
-    xmlHttpRequest.open(mode, url, false);
-    if (type == 'json') {
-        xmlHttpRequest.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
-    } else {
-        xmlHttpRequest.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    }
-    xmlHttpRequest.send(data);
-    console.log('-> get_content[前端专用] -> 获取数据成功');
-    return xmlHttpRequest.responseText;
-}
-
-// 获取HTML模板[前端专用]
-function get_template_html(chrome_url) {
-    template_html = eval('`' + get_content(chrome_url, type = 'html') + '`');
-    return template_html;
-}
-
 // 判断框架页面是否加载完毕
 function get_frame_loading_finished(frame_page) {
     for (current_page = 1; current_page <= frame_page; current_page++) {
@@ -262,5 +240,15 @@ function get_amazon_search_page_keepa() {
     search_count_code = $(document.body.innerHTML).find("div[data-component-type='s-search-result']").length;
     get_amazon_search_page_result([document.body.innerHTML]);
     vue.table_code_data = table_code_data;
-    console.log(table_code_data);
 }
+
+(() => {
+    if (get_amazon_page_type('listing')) { // 判断是不是在亚马逊的Listing页面
+        let asin = $('#ASIN').attr('value'); // 获取当前页面的 ASIN
+        $("#acrPopover").after(`<font color="red">${$("#acrPopover").text()}</font>`); // 用红色字体显示评星评级
+        $.get(`https://192.168.101.14:3307/get_asinseed_keywords?site=US&asin=${asin}`, (result) => {
+            $('#feature-bullets').before(`<textarea textarea rows = "5" cols = "20" >${result}</textarea>`) // 在当前页面的五行生成关键词数据
+        })
+        // get_cart_inventory() // 获取购物车库存
+    }
+})()

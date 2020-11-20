@@ -1,10 +1,18 @@
 {
-    "request_headers": [{
-        "url": "https://www.asinseed.com/cn/*",
-        "type": "xmlhttprequest",
-        "headers": [{
-            "name": "Accept",
-            "value": "https://www.amz123.com/"
-        }]
-    }]
+  "request_headers": [
+    {
+      "url": "https://www.asinseed.com/cn/*",
+      "type": ["main_frame", "xmlhttprequest"],
+      "headers": [
+        {
+          "name": "Sec-Fetch-Site",
+          "value": "same-origin"
+        },
+        {
+          "name": "Referer",
+          "value": "https://www.amz123.com/"
+        }
+      ]
+    }
+  ]
 }

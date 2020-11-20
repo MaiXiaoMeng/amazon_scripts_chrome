@@ -2,9 +2,10 @@
 Author: MaiXiaoMeng
 Date: 2020-10-26 10:40:28
 LastEditors: MaiXiaoMeng
-LastEditTime: 2020-11-10 17:32:09
+LastEditTime: 2020-11-20 10:30:36
 FilePath: \amazon_scripts_chrome\services\services.py
 '''
+# https://blog.csdn.net/yannanxiu/article/details/70672744
 import inspect
 import logging
 import os
@@ -60,12 +61,21 @@ class windowsService (win32serviceutil.ServiceFramework):
         return logger
 
     def main(self):
-        app.run(host="0.0.0.0", port=3307)
+
+        app.run(host="0.0.0.0", port=3307, ssl_context=(
+            r'D:\Pycharm\root\MaiXiaoMeng\amazon_scripts_chrome\services\keys\server-cert.pem',
+            r'D:\Pycharm\root\MaiXiaoMeng\amazon_scripts_chrome\services\keys\server-key.pem'
+        )
+        )
 
 
 if __name__ == '__main__':
     if len(sys.argv) == 1:
-        app.run(host="0.0.0.0", port=3308)
+        app.run(host="0.0.0.0", port=3308, ssl_context=(
+            r'D:\Pycharm\root\MaiXiaoMeng\amazon_scripts_chrome\services\keys\server-cert.pem',
+            r'D:\Pycharm\root\MaiXiaoMeng\amazon_scripts_chrome\services\keys\server-key.pem'
+        )
+        )
         servicemanager.Initialize()
         servicemanager.PrepareToHostSingle(windowsService)
         servicemanager.StartServiceCtrlDispatcher()

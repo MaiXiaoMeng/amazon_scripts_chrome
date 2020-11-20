@@ -279,6 +279,21 @@ function initSerializeObject() {
     };
 }
 
+// 查询购物车库存
+function get_cart_inventory() {
+    initSerializeObject();
+    let nav_cart_url = $('#nav-cart').attr('href');
+    let add_to_cart_from_url = $('#addToCart').attr('action');
+    let add_to_cart_from = $('#addToCart').serializeObject();
+    add_to_cart_from.quantity = 1110;
+    $.post(add_to_cart_from_url, add_to_cart_from, () => {
+        $.get(nav_cart_url, (html_code) => {
+            let quantity_box = $(html_code).find('input[name="quantityBox"]').val();
+            $("#selectQuantity").after(`<font color="red">剩余库存:${quantity_box}(仅参考)</font>`)
+        })
+    });
+}
+
 // 获取 Config 配置
 function get_config(url = '/config/config.json') {
     let chrome_url = chrome.extension.getURL(url);

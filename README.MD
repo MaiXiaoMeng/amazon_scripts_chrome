@@ -2,7 +2,7 @@
  * @Author: MaiXiaoMeng
  * @Date: 2020-10-21 10:58:40
  * @LastEditors: MaiXiaoMeng
- * @LastEditTime: 2020-11-13 16:27:31
+ * @LastEditTime: 2020-11-20 14:32:46
  * @FilePath: \amazon_scripts_chrome\README.MD
 -->
 
@@ -51,3 +51,24 @@
    - 在地址栏输入 [chrome://flags/#force-empty-CORB-and-CORS-allowlist](chrome://flags/#force-empty-CORB-and-CORS-allowlist) 打开谷歌浏览器的配置页面，找到 "force empty CORB and CORS allowlist" 选项并且把右边的 Enabled 设置为 Disable。
 
    - 关闭页面并且重启谷歌浏览器即可
+
+### 访问亚马逊显示 “您的连接不是私密连接”
+
+1. 这个的原因是因为没有加载到证书的原因，当然也可以跳过，点击页面的高级，可以跳过验证直接进入
+
+### 访问亚马逊的时候地址栏显示 “您与此网站之间建立的连接不安全”
+
+1. 因为谷歌在 2020-07-02 发布了新的政策 [Deprecating Powerful Features on Insecure Origins](https://www.chromium.org/Home/chromium-security/deprecating-powerful-features-on-insecure-origins) 不允许 [HTTPS 协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE) 访问 [HTTP 协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE) 的资源，并且会强制对访问的资源启用 [HTTPS 协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE)
+
+2. 我们 Windows Service API 是使用 [HTTP 协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE) 而并非使用 [HTTPS 协议](https://zh.wikipedia.org/wiki/%E8%B6%85%E6%96%87%E6%9C%AC%E4%BC%A0%E8%BE%93%E5%AE%89%E5%85%A8%E5%8D%8F%E8%AE%AE) ，需要安装自己签名的 CA 证书
+
+   解决方法一 : 下载安装 80 版本以前的谷歌浏览器，当然这样谷歌浏览器是不能更新的。
+
+   解决方法二 : 下载使用公司信息签名的 [ca.p12](https://github.com/MaiXiaoMeng/amazon_scripts_chrome/raw/dev/services/keys/ca.p12) 证书，导入到自己电脑上的电脑上
+
+   1. 双击下载好的 [ca.p12](https://github.com/MaiXiaoMeng/amazon_scripts_chrome/raw/dev/services/keys/ca.p12) 证书打开证书导入窗口，一直点下一步到达 `为私钥键入密码` 窗口
+   2. 输入密码 `top4cus` 点下一步到达 `证书存储是保存证书的系统区域` 窗口
+   3. 选择 `将所有的证书放入下列存储` 点击右边的 `浏览` 按钮
+   4. 然后选择 `受信任的根证书颁发机构` 然后一直点下一步到完成
+
+   - 如果显示报错 [`由于存储区是只读的，存储区已满，或者存储区没有正确打开，所以导致失败`](https://blog.csdn.net/lovedingd/article/details/97615215) 这参考此导入教程
